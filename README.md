@@ -15,7 +15,7 @@ The library is to query biological assemblies from bucomp.fdb database, and form
 - **CrystalInterfaceLib**
 This is one of main library. It contains all source code to generate interfaces from crystal structures, including build 3x3x3 unit cells from PDB asymmetric unit files, compute interfaces by K-DOPs algorithm, calculate similarity scores and surface area values. 
 - **DataCollectorLib**
-The library is to generate all sequence and structural alignments at chain and Pfam domain levels, including FatCat structural alignments (http://fatcat.sanfordburnham.org/), HH alignments from HHsuite (https://github.com/soedinglab/hh-suite), and sequence alignments from PsiBlast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/).  
+The library is to generate all sequence and structural alignments at chain and Pfam domain levels, including [FatCat](http://fatcat.sanfordburnham.org/) structural alignments, HH alignments from [HHsuite](https://github.com/soedinglab/hh-suite), and sequence alignments from [PsiBlast](ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/).  
 - **DBLib**
 The library contains all operations on ProtCID databases, including database connection, table creation, and query/update/delete/insert data. 
 - **InterfaceClusterLib**
@@ -27,6 +27,6 @@ This library is to set and get all directory settings and parameter settings.
 - **ProtCidWebDataLib**
 This library is to generate meta data for ProtCID web site to speed up web queries.
 - **Main program**
-The main window form is for all settings, all functions to build ProtCID databases, and progress bar and progress window. However, it is not feasible just click menu items to rebuild ProtCID databases on the entire PDB database and many other data sources used to build ProtCID. ProtCID contains hundreds GBs databases and millions of interface files, cluster files and text files. That is why we provide a web site http://dunbrack2.fccc.edu/protcid, so users can query on our database. 
+The main window form is for all settings, all functions to build ProtCID databases, and progress bar and progress window. However, it is not feasible just click menu items to rebuild ProtCID databases on the entire PDB database and many other data sources used to build ProtCID. ProtCID contains hundreds GBs databases and millions of interface files, cluster files and text files. That is why we provide  [ProtCID](http://dunbrack2.fccc.edu/protcid) web site, so users can query on our database. 
 
 

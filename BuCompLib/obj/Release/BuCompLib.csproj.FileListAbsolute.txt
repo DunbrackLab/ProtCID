@@ -1,0 +1,10 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\BuCompLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\BuCompLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\AuxFuncLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\ProgressLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\XtalLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\bin\Release\BuQueryLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\obj\Release\BuCompLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuCompLib\obj\Release\BuCompLib.pdb

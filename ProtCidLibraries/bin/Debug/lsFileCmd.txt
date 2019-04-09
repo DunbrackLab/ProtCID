@@ -1,0 +1,2 @@
+cd /extra/pisces/hh/crcpdbHHout/crcHhrGlobal
+ls -lR --time-style=+"%Y-%m-%d %H:%M:%S" > /extra/pisces/hh/crcpdbHHout/crcls-seq.txt

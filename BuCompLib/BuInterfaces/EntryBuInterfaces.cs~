@@ -1,0 +1,1133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Xml.Serialization;
+using XtalLib.Settings;
+using XtalLib.Contacts;
+using XtalLib.KDops;
+using XtalLib.Crystal;
+using XtalLib.FileParser;
+using XtalLib.StructureComp;
+using DbLib;
+using AuxFuncLib;
+using ProgressLib;
+
+namespace BuCompLib.BuInterfaces
+{
+    public class EntryBuInterfaces
+    {
+        #region member variables
+        private DbQuery dbQuery = new DbQuery();
+        private DbInsert dbInsert = new DbInsert();
+        private InterfacesComp interfaceComp = new InterfacesComp();
+        private StreamWriter logWriter = null;
+        private BuDomainInterfaces buDomainInterfaces = new BuDomainInterfaces();
+        #endregion
+
+        #region interfaces from entries
+        /// <summary>
+        /// 
+        /// </summary>
+        public void GetBuInterfaces()
+        {
+#if DEBUG
+            logWriter = new StreamWriter("BuInterfaceRetrieverLog.txt");
+#endif
+            AppSettings.progressInfo.progStrQueue.Enqueue("Retrieve BU Interfaces.");
+            AppSettings.progressInfo.ResetCurrentProgressInfo();
+            AppSettings.progressInfo.currentOperationLabel = "BU Interfaces";
+            
+            string queryString = "Select Distinct PdbID From AsymUnit Where PolymerType = 'polypeptide';";
+            DataTable protEntryTable = dbQuery.Query(queryString);
+
+            AppSettings.progressInfo.totalOperationNum = protEntryTable.Rows.Count;
+            AppSettings.progressInfo.totalStepNum = protEntryTable.Rows.Count;
+
+            string pdbId = "";
+            foreach (DataRow entryRow in protEntryTable.Rows)
+            {
+                pdbId = entryRow["PdbID"].ToString();
+                RetrieveEntryBUInterfaces(pdbId);
+            }
+#if DEBUG
+            logWriter.Close();
+#endif
+            AppSettings.progressInfo.progStrQueue.Enqueue("Done");
+            AppSettings.progressInfo.threadFinished = true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbIds"></param>
+        public void UpdateBuInterfaces(string[] pdbIds)
+        {
+#if DEBUG
+            logWriter = new StreamWriter("BuInterfaceRetrieverLog.txt", true);
+            logWriter.WriteLine(DateTime.Today.ToShortDateString ());
+#endif
+            AppSettings.progressInfo.progStrQueue.Enqueue("Update BU Interfaces.");
+            AppSettings.progressInfo.ResetCurrentProgressInfo();
+            AppSettings.progressInfo.currentOperationLabel = "BU Interfaces";
+
+            AppSettings.progressInfo.totalOperationNum = pdbIds.Length;
+            AppSettings.progressInfo.totalStepNum = pdbIds.Length;
+
+    //        ClearObsoleteData(pdbIds);
+            foreach (string pdbId in pdbIds)
+            {
+                RetrieveEntryBUInterfaces(pdbId);
+            }
+#if DEBUG
+            logWriter.Close();
+#endif
+            AppSettings.progressInfo.progStrQueue.Enqueue("Done");
+            AppSettings.progressInfo.threadFinished = true;
+        }
+
+        /// <summary>
+        /// remove existing data for those updated entries
+        /// </summary>
+        /// <param name="pdbIds"></param>
+        private void ClearObsoleteData(string[] pdbIds)
+        {
+            string deleteString = "";
+            foreach (DataTable buCompTable in BuCompTables.buCompTables)
+            {
+                foreach (string pdbId in pdbIds)
+                {
+                    deleteString = string.Format("Delete From {0} Where PdbID = '{1}';", 
+                        buCompTable.TableName, pdbId);
+                    dbQuery.Query(deleteString);
+                }
+            }
+        }
+        /// <summary>
+        /// Retrieve interfaces from BUs of an entry
+        /// compare BUs
+        /// insert data into db
+        /// </summary>
+        /// <param name="pdbId"></param>
+        private void RetrieveEntryBUInterfaces(string pdbId)
+        {
+            AppSettings.progressInfo.currentFileName = pdbId;
+            AppSettings.progressInfo.currentOperationNum++;
+            AppSettings.progressInfo.currentStepNum++;
+
+            if (string.Compare(pdbId, "1e3m") <= 0)
+            {
+                return;
+            }
+
+            string[] nonMonomerBUs = null;
+            Hashtable buEntityContentHash = null;
+
+            if (BuInterfaceRetriever.BuType == "pdb")
+            {
+                string[] pdbBuIds = GetPdbDefinedBiolUnits(pdbId);
+
+                buEntityContentHash = GetPdbEntryBUEntityContent(pdbId, pdbBuIds);
+
+                nonMonomerBUs = GetNonMonomerBUs(buEntityContentHash);
+            }
+            else if (BuInterfaceRetriever.BuType == "pqs")
+            {
+                buEntityContentHash = GetPqsEntryBUEntityContent(pdbId);
+
+                nonMonomerBUs = GetNonMonomerBUs(buEntityContentHash);
+            }
+            else if (BuInterfaceRetriever.BuType == "pisa")
+            {
+                buEntityContentHash = GetPisaEntryBUEntityContent(pdbId);
+
+                nonMonomerBUs = GetNonMonomerBUs(buEntityContentHash);
+            }
+            if (nonMonomerBUs.Length == 0)
+            {
+#if DEBUG
+                logWriter.WriteLine(pdbId + " monomer.");
+#endif
+                return;
+            }
+
+            try
+            {
+                // 1. Retrieve interfaces from all non-monomer BUs, 
+                // 2. compare interfaces to get unique interfaces
+                Hashtable buInterfacesHash = GetBuInterfacesInEntry(pdbId, nonMonomerBUs);
+                // compare unique interfaces from each BU
+                CompareEntryBUs(pdbId, buInterfacesHash, buEntityContentHash);
+                // retrieve the domain-domain interactions in the interfaces
+                buDomainInterfaces.GetEntryBuDomainInterfaces(pdbId, buInterfacesHash);
+                // insert data into db
+                dbInsert.InsertDataIntoDBtables(BuInterfaceRetriever.buCompDbConnect, BuCompTables.buCompTables);
+                BuCompTables.ClearTables();
+            }
+            catch (Exception ex)
+            {
+                AppSettings.progressInfo.progStrQueue.Enqueue(pdbId + ": " + ex.Message);
+                logWriter.WriteLine("Retrieve " + pdbId + " BU interfaces errors: " + ex.Message);
+            }
+#if DEBUG
+            logWriter.WriteLine(pdbId);
+#endif
+        }
+        #endregion
+
+        #region non-monomer BUs
+        /// <summary>
+        /// the biological units defined by PDB
+        /// 1. Author_defined
+        /// 2. Author_and_Software_defined
+        /// 3. if only software_defined, pick the BUs
+        /// 4. all other non software_defined
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private string[] GetPdbDefinedBiolUnits(string pdbId)
+        {
+            Hashtable buOligomerHash = new Hashtable();
+
+            string queryString = string.Format("Select * From PdbBuStat Where PdbID = '{0}';", pdbId);
+            DataTable buStatTable = dbQuery.Query(queryString);
+            string details = "";
+            string buId = "";
+            string oligomer = "";
+            foreach (DataRow buStatRow in buStatTable.Rows)
+            {
+                details = buStatRow["Details"].ToString().TrimEnd();
+                buId = buStatRow["BiolUnitID"].ToString();
+                oligomer = buStatRow["Oligomeric_Details"].ToString().TrimEnd();
+                if (details.IndexOf("auhor_") > -1)
+                {
+                    buOligomerHash.Add(buId, oligomer);
+                }
+                else if (details == "software_defined_assembly")
+                {
+                    continue;
+                }
+                else
+                {
+                    buOligomerHash.Add(buId, oligomer);
+                }
+            }
+            if (buOligomerHash.Count == 0) // only software_defined_assembly
+            {
+                foreach (DataRow buStatRow in buStatTable.Rows)
+                {
+                    buId = buStatRow["BiolUnitID"].ToString();
+                    oligomer = buStatRow["Oligomeric_Details"].ToString().TrimEnd();
+                    buOligomerHash.Add(buId, oligomer);
+                }
+            }
+            // remove monomers
+            ArrayList buIdList = new ArrayList();
+            foreach (string keyBuId in buOligomerHash.Keys)
+            {
+                if ((string)buOligomerHash[keyBuId] == "monomeric")
+                {
+                    continue;
+                }
+                buIdList.Add(keyBuId);
+            }
+            string[] pdbBUs = new string[buIdList.Count];
+            buIdList.CopyTo(pdbBUs);
+            return pdbBUs;
+        }
+
+        /// <summary>
+        /// non-monomer BUs based on the entity and the number of copies 
+        /// </summary>
+        /// <param name="buEntityContentHash"></param>
+        /// <returns></returns>
+        private string[] GetNonMonomerBUs(Hashtable buEntityContentHash)
+        {
+            ArrayList nonMonomerBuList = new ArrayList();
+            foreach (string buId in buEntityContentHash.Keys)
+            {
+                Hashtable buEntityCountHash = (Hashtable)buEntityContentHash[buId];
+                if (! IsBuAMonomer(buEntityCountHash))
+                {
+                    nonMonomerBuList.Add(buId);
+                }
+            }
+            string[] nonMonomerBUs = new string[nonMonomerBuList.Count];
+            nonMonomerBuList.CopyTo(nonMonomerBUs);
+            return nonMonomerBUs;
+        }
+
+        /// <summary>
+        /// if the BU contains only one entity, it is a monomer
+        /// </summary>
+        /// <param name="buEntityCountHash"></param>
+        /// <returns></returns>
+        private bool IsBuAMonomer(Hashtable buEntityCountHash)
+        {
+            ArrayList entityIdList = new ArrayList (buEntityCountHash.Keys);
+            if (buEntityCountHash.Count == 1)
+            {
+                int count = (int)buEntityCountHash[entityIdList[0]];
+                if (count == 1)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region interfaces from each BU of an entry
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        public Hashtable GetBuInterfacesInEntry(string pdbId, string[] nonMonomerBUs)
+        {
+            Hashtable buInterfacesHash = new Hashtable();
+            Hashtable entryBiolUnits = GetEntryBiolUnits(pdbId, nonMonomerBUs);
+    //        GetEntityContentForEntryBUs(pdbId, entryBiolUnits);
+            foreach (string buId in entryBiolUnits.Keys)
+            {
+                Hashtable biolUnit = (Hashtable)entryBiolUnits[buId];
+                if (biolUnit.Count == 0)
+                {
+                    continue;
+                }
+                InterfaceChains[] uniqueInterfacesInBu = GetUniqueInterfacesInBiolUnit (pdbId, buId, biolUnit);
+                if (uniqueInterfacesInBu != null)
+                {
+                    buInterfacesHash.Add(buId, uniqueInterfacesInBu);
+                }
+            }
+            return buInterfacesHash;
+        }
+        #endregion
+
+        #region interfaces from BU
+        /// <summary>
+        /// get chain contacts (interfaces) in the biological unit
+        /// </summary>
+        /// <param name="biolUnit">key: chainid, value: atom list</param>
+        /// <returns></returns>
+        public InterfaceChains[] GetUniqueInterfacesInBiolUnit(string pdbId, string buId, Hashtable biolUnit)
+        {
+            if (biolUnit == null || biolUnit.Count < 2)
+            {
+                return null;
+            }
+            // build trees for the biological unit
+            Hashtable buChainTreesHash = BuildBVtreesForBiolUnit(biolUnit);
+
+            // calculate interfaces
+            ArrayList interChainsList = new ArrayList();
+            ArrayList keyList = new ArrayList(buChainTreesHash.Keys);
+            keyList.Sort();
+            int interChainId = 0;
+            for (int i = 0; i < keyList.Count - 1; i++)
+            {
+                for (int j = i + 1; j < keyList.Count; j++)
+                {
+                    ChainContact chainContact = new ChainContact(keyList[i].ToString(), keyList[j].ToString());
+                    ChainContactInfo contactInfo = chainContact.GetChainContactInfo((BVTree)buChainTreesHash[keyList[i]],
+                        (BVTree)buChainTreesHash[keyList[j]]);
+                    if (contactInfo != null)
+                    {
+                        interChainId++;
+
+                        InterfaceChains interfaceChains = new InterfaceChains(keyList[i].ToString(), keyList[j].ToString());
+                        // no need to change the tree node data
+                        // only assign the refereces
+                        interfaceChains.chain1 = ((BVTree)buChainTreesHash[keyList[i]]).Root.AtomList;
+                        interfaceChains.chain2 = ((BVTree)buChainTreesHash[keyList[j]]).Root.AtomList;
+                        interfaceChains.interfaceId = interChainId;
+                        interfaceChains.seqDistHash = contactInfo.GetDistHash();
+                        interfaceChains.seqContactHash = contactInfo.GetContactsHash();
+                        interChainsList.Add(interfaceChains);
+                        //chainContact = null;
+                    }
+                }
+            }
+            InterfaceChains[] interChainArray = new InterfaceChains[interChainsList.Count];
+            interChainsList.CopyTo(interChainArray);
+            InterfacePairInfo[] interfaceCompPairs = interfaceComp.CompareInterfacesWithinCrystal (ref interChainArray);
+            InterfaceChains[] uniqueInterfacesInBu = GetTheUniqueInterfaces(interChainArray, interfaceCompPairs);
+            InsertDataIntoTables(pdbId, buId, interfaceCompPairs, uniqueInterfacesInBu);
+            return uniqueInterfacesInBu;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="interfaceList"></param>
+        /// <param name="compPairs"></param>
+        /// <returns></returns>
+        private InterfaceChains[] GetTheUniqueInterfaces(InterfaceChains[] interfaceList, InterfacePairInfo[] compPairs)
+        {
+            ArrayList uniqueInterfaceIdList = new ArrayList();
+            foreach (InterfaceChains oneInterface in interfaceList)
+            {
+                uniqueInterfaceIdList.Add (oneInterface.interfaceId);
+            }
+            int interfaceId1 = -1;
+            int interfaceId2 = -1;
+            foreach (InterfacePairInfo compPair in compPairs)
+            {
+                interfaceId1 = compPair.interfaceInfo1.interfaceId;
+                interfaceId2 = compPair.interfaceInfo2.interfaceId;
+                if (compPair.qScore >= AppSettings.parameters.simInteractParam.uniqueInterfaceCutoff)
+                {
+                    uniqueInterfaceIdList.Remove(interfaceId2);
+                }
+            }
+            ArrayList uniqueInterfaceList = new ArrayList();
+            foreach (InterfaceChains oneInterface in interfaceList)
+            {
+                if (uniqueInterfaceIdList.Contains(oneInterface.interfaceId))
+                {
+                    uniqueInterfaceList.Add(oneInterface);
+                }
+            }
+            InterfaceChains[] uniqueInterfaces = new InterfaceChains[uniqueInterfaceList.Count];
+            uniqueInterfaceList.CopyTo(uniqueInterfaces);
+            return uniqueInterfaces;
+        }
+
+        /// <summary>
+        /// build BVtrees for chains in a biological unit
+        /// </summary>
+        /// <param name="biolUnit"></param>
+        /// <returns></returns>
+        private Hashtable BuildBVtreesForBiolUnit(Hashtable biolUnitHash)
+        {
+            Hashtable chainTreesHash = new Hashtable();
+            // for each chain in the biological unit
+            // build BVtree
+            foreach (object chainAndSymOp in biolUnitHash.Keys)
+            {
+                BVTree chainTree = new BVTree();
+                chainTree.BuildBVTree((AtomInfo[])biolUnitHash[chainAndSymOp],
+                    AppSettings.parameters.kDopsParam.bvTreeMethod, true);
+                chainTreesHash.Add(chainAndSymOp, chainTree);
+            }
+            return chainTreesHash;
+        }
+        #endregion
+
+        #region generate BUs
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetEntryBiolUnits(string pdbId, string[] nonMonomerBUs)
+        {
+            Hashtable entryBiolUnits = null;
+            switch (BuInterfaceRetriever.BuType)
+            {
+                case "pdb":
+                    entryBiolUnits = GetPdbBiolUnits(pdbId, nonMonomerBUs);
+                    break;
+
+                case "pqs":
+                    entryBiolUnits = GetPqsBiolUnits(pdbId, nonMonomerBUs);
+                    break;
+
+                case "pisa":
+                    entryBiolUnits = GetPisaBoilUnits(pdbId, nonMonomerBUs);
+                    break;
+
+                case "asu":
+                    entryBiolUnits = GetAsymUnit(pdbId); // use the same variable
+                    break;
+
+                default:
+                    break;
+            }
+            return entryBiolUnits;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetPdbBiolUnits(string pdbId, string[] nonMonomerBUs)
+        {
+            PdbBuGenerator pdbBuBuilder = new PdbBuGenerator();
+            string zippedXmlFile = Path.Combine(AppSettings.dirSettings.coordXmlPath, pdbId + ".xml.gz");
+            string xmlFile = ParseHelper.UnZipFile(zippedXmlFile, AppSettings.tempDir);
+            Hashtable pdbBiolUnits = pdbBuBuilder.BuildPdbBusFromCoordFile(xmlFile, nonMonomerBUs, "ALL");
+            File.Delete(xmlFile);
+            return pdbBiolUnits;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetPqsBiolUnits(string pdbId, string[] nonMonomerBUs)
+        {
+            Hashtable pqsBiolUnits = new Hashtable();
+            PqsBuFileParser pqsBuParser = new PqsBuFileParser();
+            string[] pqsBuFiles = Directory.GetFiles(AppSettings.dirSettings.pqsBuPath, pdbId + "*");
+            string pqsBuId = "";
+            foreach (string pqsBuFile in pqsBuFiles)
+            {
+                pqsBuId = GetBuIdFromPqsBuFileName(pqsBuFile);
+                if (pqsBiolUnits.ContainsKey(pqsBuId))
+                {
+                    continue;
+                }
+                if (Array.IndexOf(nonMonomerBUs, pqsBuId) > -1)
+                {
+                    string unzippedPqsFile = ParseHelper.UnZipFile(pqsBuFile, AppSettings.tempDir);
+                    Hashtable pqsBuChainsHash = pqsBuParser.ParsePqsFile(unzippedPqsFile, "ALL");
+                    pqsBiolUnits.Add(pqsBuId, pqsBuChainsHash);
+                    File.Delete(unzippedPqsFile);
+                }
+            }
+            return pqsBiolUnits;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pqsBuFileName"></param>
+        /// <returns></returns>
+        private string GetBuIdFromPqsBuFileName(string pqsBuFileName)
+        {
+            string buId = "";
+            int fileNameIndex = pqsBuFileName.LastIndexOf("\\");
+            string buFileName = pqsBuFileName.Substring(fileNameIndex + 1, pqsBuFileName.Length - fileNameIndex - 1);
+            int buIndex = buFileName.IndexOf("_");
+            if (buIndex > -1)
+            {
+                int exeIndex = buFileName.IndexOf (".");
+                buId = buFileName.Substring (buIndex + 1, exeIndex - buIndex - 1);
+            }
+            else
+            {
+                buId = "1";
+            }
+            return buId;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetPisaBoilUnits(string pdbId, string[] nonMonomerBUs)
+        {
+            PisaBuGenerator pisaBuBuilder = new PisaBuGenerator();
+            string coordXmlFile = Path.Combine(AppSettings.dirSettings.coordXmlPath, pdbId + ".xml.gz");
+            string unzippedXmlFile = ParseHelper.UnZipFile(coordXmlFile, AppSettings.tempDir);
+            Hashtable pisaBiolUnits = pisaBuBuilder.BuildPisaAssemblies(pdbId, nonMonomerBUs);
+            File.Delete(unzippedXmlFile);
+            return pisaBiolUnits;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbid"></param>
+        /// <returns></returns>
+        private Hashtable GetAsymUnit(string pdbId)
+        {
+            string coordXmlFile = Path.Combine(AppSettings.dirSettings.coordXmlPath, pdbId + ".xml.gz");
+            string coordXml = ParseHelper.UnZipFile(coordXmlFile, AppSettings.tempDir);
+
+            Hashtable asuChainsHash = new Hashtable();
+            // read data from crystal xml file
+            EntryCrystal thisEntryCrystal;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(EntryCrystal));
+            FileStream xmlFileStream = new FileStream(coordXml, FileMode.Open);
+            thisEntryCrystal = (EntryCrystal)xmlSerializer.Deserialize(xmlFileStream);
+            xmlFileStream.Close();
+
+            ChainAtoms[] chainAtomsList = thisEntryCrystal.atomCat.ChainAtomList;
+            foreach (ChainAtoms chain in chainAtomsList)
+            {
+                if (chain.PolymerType == "polypeptide")
+                {
+                    if (!asuChainsHash.ContainsKey(chain.AsymChain + "_1_555"))
+                    {
+                        asuChainsHash.Add(chain.AsymChain + "_1_555", chain.CartnAtoms);
+                    }
+                }
+            }
+            // try to fit the format for biological units by setting biolunitid = "1";
+            Hashtable asymUnitHash = new Hashtable();
+            asymUnitHash.Add("1", asuChainsHash);
+            return asymUnitHash;
+        }
+        #endregion
+
+        #region insert data into tables
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="interfaceCompPairs"></param>
+        /// <param name="uniqueInterfaces"></param>
+        private void InsertDataIntoTables (string pdbId, string buId, InterfacePairInfo[] interfaceCompPairs, InterfaceChains[] uniqueInterfaces)
+        {
+            int uniqueInterfaceId = 0;
+            string authChain1 = "";
+            string authChain2 = "";
+            int entityId1 = -1;
+            int entityId2 = -1;
+            foreach (InterfaceChains theInterface in uniqueInterfaces)
+            {
+                uniqueInterfaceId++;
+                theInterface.interfaceId = uniqueInterfaceId;
+                // for itself
+                int numOfCopies = 1;
+                DataRow interfaceRow = BuCompTables.buCompTables[BuCompTables.BuInterfaces].NewRow();
+                interfaceRow["PdbID"] = pdbId;
+                interfaceRow["BuID"] = buId;
+                interfaceRow["InterfaceID"] = uniqueInterfaceId;
+                if (BuInterfaceRetriever.BuType == "pqs")
+                {
+                    interfaceRow["PqsChain1"] = theInterface.firstSymOpString;
+                    interfaceRow["PqsChain2"] = theInterface.secondSymOpString;
+                    interfaceRow["AsymChain1"] = FindPqsAsymChain(pdbId, buId, theInterface.firstSymOpString);
+                    interfaceRow["AsymChain2"] = FindPqsAsymChain(pdbId, buId, theInterface.secondSymOpString);
+                }
+                else // for PDB and PISA
+                {
+                    interfaceRow["AsymChain1"] = theInterface.firstSymOpString.Substring(0, theInterface.firstSymOpString.IndexOf("_"));
+                    interfaceRow["AsymChain2"] = theInterface.secondSymOpString.Substring(0, theInterface.secondSymOpString.IndexOf("_"));
+                }
+                FindAuthChainAndEntityIdFromAsymChain(pdbId, interfaceRow["AsymChain1"].ToString(),
+                    out authChain1, out entityId1);
+                FindAuthChainAndEntityIdFromAsymChain(pdbId, interfaceRow["AsymChain2"].ToString(),
+                    out authChain2, out entityId2);
+                interfaceRow["AuthChain1"] = authChain1;
+                interfaceRow["AuthChain2"] = authChain2;
+                interfaceRow["EntityID1"] = entityId1;
+                interfaceRow["EntityID2"] = entityId2;
+
+
+                // add data to same interfaces table
+                // add the first unique interface
+                DataRow sameInterfaceRow = BuCompTables.buCompTables[BuCompTables.BuSameInterfaces].NewRow();
+                sameInterfaceRow["PdbID"] = pdbId;
+                sameInterfaceRow["BuID"] = buId;
+                sameInterfaceRow["InterfaceID"] = uniqueInterfaceId;
+                sameInterfaceRow["SameInterfaceID"] = theInterface.interfaceId;
+                if (BuInterfaceRetriever.BuType == "pqs")
+                {
+                    sameInterfaceRow["Chain1"] = theInterface.firstSymOpString;
+                    sameInterfaceRow["SymmetryString1"] = FindPqsSymOpString(pdbId, buId, theInterface.firstSymOpString);
+                    sameInterfaceRow["Chain2"] = theInterface.secondSymOpString;
+                    sameInterfaceRow["SymmetryString2"] = FindPqsSymOpString(pdbId, buId, theInterface.secondSymOpString);
+                }
+                else
+                {
+                    string[] chainSymOpStrings = theInterface.firstSymOpString.Split('_');
+                    sameInterfaceRow["Chain1"] = chainSymOpStrings[0];
+                    if (chainSymOpStrings.Length == 3)
+                    {
+                        sameInterfaceRow["SymmetryString1"] = chainSymOpStrings[1] + "_" + chainSymOpStrings[2];
+                    }
+                    else if (chainSymOpStrings.Length == 2)
+                    {
+                        sameInterfaceRow["SymmetryString1"] = chainSymOpStrings[1];
+                    }
+                    chainSymOpStrings = theInterface.secondSymOpString.Split('_');
+                    sameInterfaceRow["Chain2"] = chainSymOpStrings[0];
+                    if (chainSymOpStrings.Length == 3)
+                    {
+                        sameInterfaceRow["SymmetryString2"] = chainSymOpStrings[1] + "_" + chainSymOpStrings[2];
+                    }
+                    else
+                    {
+                        sameInterfaceRow["SymmetryString2"] = chainSymOpStrings[1];
+                    }
+                }
+                sameInterfaceRow["QScore"] = 1;
+                BuCompTables.buCompTables[BuCompTables.BuSameInterfaces].Rows.Add(sameInterfaceRow);
+
+                // add same interfaces
+                foreach (InterfacePairInfo pairInfo in interfaceCompPairs)
+                {
+                    if (pairInfo.qScore >= AppSettings.parameters.simInteractParam.uniqueInterfaceCutoff)
+                    {
+                        if (pairInfo.interfaceInfo1 == (InterfaceInfo)theInterface)
+                        {
+                            numOfCopies++;
+                            sameInterfaceRow = BuCompTables.buCompTables[BuCompTables.BuSameInterfaces].NewRow();
+                            sameInterfaceRow["PdbID"] = pdbId;
+                            sameInterfaceRow["BuID"] = buId;
+                            sameInterfaceRow["InterfaceID"] = uniqueInterfaceId;
+                            sameInterfaceRow["SameInterfaceID"] = pairInfo.interfaceInfo2.interfaceId;
+                            if (BuInterfaceRetriever.BuType == "pqs")
+                            {
+                                sameInterfaceRow["Chain1"] = pairInfo.interfaceInfo2.firstSymOpString;
+                                sameInterfaceRow["SymmetryString1"] = FindPqsSymOpString(pdbId, buId, pairInfo.interfaceInfo2.firstSymOpString);
+                                sameInterfaceRow["Chain2"] = pairInfo.interfaceInfo2.secondSymOpString;
+                                sameInterfaceRow["SymmetryString2"] = FindPqsSymOpString(pdbId, buId, pairInfo.interfaceInfo2.secondSymOpString);
+                            }
+                            else
+                            {
+                                string[] chainSymOpStrings = pairInfo.interfaceInfo2.firstSymOpString.Split('_');
+                                sameInterfaceRow["Chain1"] = chainSymOpStrings[0];
+                                if (chainSymOpStrings.Length == 3)
+                                {
+                                    sameInterfaceRow["SymmetryString1"] = chainSymOpStrings[1] + "_" + chainSymOpStrings[2];
+                                }
+                                else if (chainSymOpStrings.Length == 2)
+                                {
+                                    sameInterfaceRow["SymmetryString1"] = chainSymOpStrings[1];
+                                }
+                                chainSymOpStrings = pairInfo.interfaceInfo2.secondSymOpString.Split('_');
+                                sameInterfaceRow["Chain2"] = chainSymOpStrings[0];
+                                if (chainSymOpStrings.Length == 3)
+                                {
+                                    sameInterfaceRow["SymmetryString2"] = chainSymOpStrings[1] + "_" + chainSymOpStrings[2];
+                                }
+                                else if (chainSymOpStrings.Length == 2)
+                                {
+                                    sameInterfaceRow["SymmetryString2"] = chainSymOpStrings[1];
+                                }
+                            }
+                            sameInterfaceRow["QScore"] = pairInfo.qScore;
+                            BuCompTables.buCompTables[BuCompTables.BuSameInterfaces].Rows.Add(sameInterfaceRow);
+                        }
+                    }
+                }
+                interfaceRow["NumOfCopy"] = numOfCopies;
+                // have to compute surface area later
+                interfaceRow["SurfaceArea"] = -1.0;
+                BuCompTables.buCompTables[BuCompTables.BuInterfaces].Rows.Add(interfaceRow);
+            }
+        }
+
+        /// <summary>
+        /// the author chain and entity id for the input entry and asymmetric chain id
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="asymChain"></param>
+        /// <param name="authorChain"></param>
+        /// <param name="entityId"></param>
+        private void FindAuthChainAndEntityIdFromAsymChain(string pdbId, string asymChain,
+           out string authorChain, out int entityId)
+        {
+            authorChain = "-";
+            entityId = -1;
+            string queryString = string.Format("Select AuthorChain, EntityID From AsymUnit " + 
+                " Where PdbID = '{0}' AND AsymID = '{1}';", pdbId, asymChain);
+            DataTable entityAuthChainInfoTable = dbQuery.Query(queryString);
+            if (entityAuthChainInfoTable.Rows.Count > 0)
+            {
+                authorChain = entityAuthChainInfoTable.Rows[0]["AuthorChain"].ToString().TrimEnd();
+                entityId = Convert.ToInt32 (entityAuthChainInfoTable.Rows[0]["EntityID"].ToString());
+            }
+        }
+
+        /// <summary>
+        /// the asymmetric chain for the input pqs chain
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buId"></param>
+        /// <param name="pqsChain"></param>
+        /// <param name="?"></param>
+        private string FindPqsAsymChain (string pdbId, string buId, string pqsChain)
+        {
+            string queryString = string.Format("Select PdbChainID From PqsPdbChainMap " + 
+                " Where PdbID = '{0}' AND PqsBiolUnitID = '{1}' AND PqsChainID = '{2}';", 
+                pdbId, buId, pqsChain);
+            DataTable chainSymOpTable = dbQuery.Query (queryString);
+            if (chainSymOpTable.Rows.Count > 0)
+            {
+                string pdbChain = chainSymOpTable.Rows[0]["PdbChainID"].ToString().TrimEnd();
+                string asymChain = FindAsymChainFromAuthChain(pdbId, pdbChain);
+                return asymChain;
+            }
+            return "-";
+        }
+
+        /// <summary>
+        /// The symmetry operator for the input pqs chain
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buId"></param>
+        /// <param name="pqsChain"></param>
+        /// <returns></returns>
+        private string FindPqsSymOpString(string pdbId, string buId, string pqsChain)
+        {
+            string queryString = string.Format("Select FullSymString From PqsPdbChainMap " + 
+                " Where PdbID = '{0}' AND PqsBiolUnitID = '{1}' AND PqsChainID = '{2}';", 
+                pdbId, buId, pqsChain);
+            DataTable symOpStringTable = dbQuery.Query(queryString);
+            if (symOpStringTable.Rows.Count > 0)
+            {
+                return symOpStringTable.Rows[0]["FullSymString"].ToString().TrimEnd();
+            }
+            return "-";
+        }
+
+        /// <summary>
+        /// The asymmetric chain for the input author chain
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="authorChain"></param>
+        /// <returns></returns>
+        private string FindAsymChainFromAuthChain(string pdbId, string authorChain)
+        {
+            string queryString = string.Format("Select AsymID From AsymUnit " + 
+                " Where PdbID = '{0}' AND AuthorChain = '{1}' AND PolymerType = 'polypeptide';", 
+                pdbId, authorChain);
+            DataTable asymChainTable = dbQuery.Query(queryString);
+            if (asymChainTable.Rows.Count > 0)
+            {
+                return asymChainTable.Rows[0]["AsymID"].ToString().TrimEnd();
+            }
+            return "-";
+        }
+        #endregion
+
+        #region compare BUs for an entry
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buInterfacesHash"></param>
+        public void CompareEntryBUs(string pdbId, Hashtable buInterfacesHash, Hashtable buEntityContentHash)
+        {
+            if (buInterfacesHash.Count < 2)
+            {
+                return;
+            }
+            ArrayList buIdList = new ArrayList(buInterfacesHash.Keys);
+            buIdList.Sort();
+            bool sameBUs = false;
+            for (int i = 0; i < buIdList.Count; i++)
+            {
+                InterfaceChains[] buInterfaces1 = (InterfaceChains[])buInterfacesHash[buIdList[i]];
+                int[] interfaceIdList1 = GetInterfaceIdList(buInterfaces1);
+                for (int j = i + 1; j < buIdList.Count; j++)
+                {
+                    InterfaceChains[] buInterfaces2 = (InterfaceChains[])buInterfacesHash[buIdList[j]];
+                    int[] interfaceIdList2 = GetInterfaceIdList(buInterfaces2);
+                    InterfacePairInfo[] compPairInfos = interfaceComp.CompareInterfacesBetweenCrystals(buInterfaces1, buInterfaces2);
+                    InsertBuCompDataToTable(pdbId, buIdList[i].ToString(), buIdList[j].ToString(), compPairInfos);
+                    sameBUs = AreEntryBUsSame(pdbId, interfaceIdList1, interfaceIdList2, compPairInfos);
+                    InsertBuCompDataToTable (pdbId, buIdList[i].ToString (), buIdList[j].ToString (), 
+                       interfaceIdList1.Count (), interfaceIdList2.Count (), sameBUs, buEntityContentHash);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buInterfaces"></param>
+        /// <returns></returns>
+        private int[] GetInterfaceIdList (InterfaceChains[] buInterfaces)
+        {
+            int[] interfaceIdList =  new int[buInterfaces.Length];
+            for (int i = 0; i < buInterfaces.Length; i++)
+            {
+                interfaceIdList[i] = buInterfaces[i].interfaceId;
+            }
+            return interfaceIdList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buId1"></param>
+        /// <param name="buId2"></param>
+        /// <param name="compPairInfos"></param>
+        private void InsertBuCompDataToTable(string pdbId, string buId1, string buId2, InterfacePairInfo[] compPairInfos)
+        {
+            foreach (InterfacePairInfo pairInfo in compPairInfos)
+            {
+                if (pairInfo.qScore >= AppSettings.parameters.contactParams.minQScore)
+                {
+                    DataRow dataRow = BuCompTables.buCompTables[BuCompTables.EntryBuInterfaceComp].NewRow();
+                    dataRow["PdbID"] = pdbId;
+                    dataRow["BuID1"] = buId1;
+                    dataRow["BuID2"] = buId2;
+                    dataRow["InterfaceID1"] = pairInfo.interfaceInfo1.interfaceId;
+                    dataRow["InterfaceID2"] = pairInfo.interfaceInfo2.interfaceId;
+                    dataRow["Qscore"] = pairInfo.qScore;
+                    BuCompTables.buCompTables[BuCompTables.EntryBuInterfaceComp].Rows.Add(dataRow);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buId1"></param>
+        /// <param name="buId2"></param>
+        /// <param name="numOfInterfaces1"></param>
+        /// <param name="numOfInterfaces2"></param>
+        /// <param name="sameBUs"></param>
+        private void InsertBuCompDataToTable(string pdbId, string buId1, string buId2,
+            int numOfInterfaces1, int numOfInterfaces2, bool sameBUs, Hashtable buEntityContentHash)
+        {
+            DataRow dataRow = BuCompTables.buCompTables[BuCompTables.EntryBuComp].NewRow();
+            dataRow["PdbID"] = pdbId;
+            dataRow["BuID1"] = buId1;
+            dataRow["BuID2"] = buId2;
+            dataRow["EntityFormat1"] = GetEntityFormat ((Hashtable)buEntityContentHash[buId1]);
+            dataRow["EntityFormat2"] = GetEntityFormat ((Hashtable)buEntityContentHash[buId2]);
+            dataRow["NumOfInterfaces1"] = numOfInterfaces1;
+            dataRow["NumOfInterfaces2"] = numOfInterfaces2;
+            if (sameBUs)
+            {
+                dataRow["SameBUs"] = '1';
+            }
+            else
+            {
+                dataRow["SameBUs"] = '0';
+            }
+            BuCompTables.buCompTables[BuCompTables.EntryBuComp].Rows.Add(dataRow);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buId1"></param>
+        /// <param name="buId2"></param>
+        /// <param name="compPairInfos"></param>
+        /// <returns></returns>
+        private bool AreEntryBUsSame(string pdbId, int[] buInterfaceIdList1, int[] buInterfaceIdList2, 
+            InterfacePairInfo[] compPairInfos)
+        {
+            ArrayList leftInterfaceIdList1 = new ArrayList(buInterfaceIdList1);
+            ArrayList leftInterfaceIdList2 = new ArrayList(buInterfaceIdList2);
+
+            foreach (InterfacePairInfo compPair in compPairInfos)
+            {
+                if (compPair.qScore >= AppSettings.parameters.simInteractParam.interfaceSimCutoff)
+                {
+                    leftInterfaceIdList1.Remove(compPair.interfaceInfo1.interfaceId);
+                    leftInterfaceIdList2.Remove(compPair.interfaceInfo2.interfaceId);
+                }
+            }
+
+            if (leftInterfaceIdList1.Count == 0 && leftInterfaceIdList2.Count == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region Entity content for a BU
+        /// <summary>
+        /// find the entity-format for BUs which are not monomers
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="nonMonomerBUs"></param>
+        /// <returns></returns>
+        private Hashtable GetPdbEntryBUEntityContent(string pdbId, string[] nonMonomerBUs)
+        {
+            string queryString = string.Format("Select BiolUnit.PdbID, BiolUnit.AsymID, BiolUnitID, NumOfAsymIDs" +
+                " From BiolUnit, AsymUnit " +
+                " Where BiolUnit.PdbID = '{0}' AND BiolUnit.PdbID = AsymUnit.PdbID " +
+                " AND BiolUnit.AsymID = AsymUnit.AsymID " +
+                " AND PolymerType = 'polypeptide';", pdbId);
+            DataTable entryBuTable = dbQuery.Query(queryString);
+            Hashtable buChainCountHash = new Hashtable();
+            string asymChain = "";
+            int numOfCopies = -1;
+            string buId = "";
+            foreach (DataRow buChainRow in entryBuTable.Rows)
+            {
+                buId = buChainRow["BiolUnitID"].ToString().TrimEnd();
+                if (Array.IndexOf(nonMonomerBUs, buId) < 0)
+                {
+                    continue;
+                }
+                asymChain = buChainRow["AsymID"].ToString().TrimEnd();
+                numOfCopies = Convert.ToInt32(buChainRow["NumOfAsymIDs"]);
+                if (buChainCountHash.ContainsKey(buId))
+                {
+                    Hashtable chainCountHash = (Hashtable)buChainCountHash[buId];
+                    chainCountHash.Add(asymChain, numOfCopies);
+                }
+                else
+                {
+                    Hashtable chainCountHash = new Hashtable();
+                    chainCountHash.Add(asymChain, numOfCopies);
+                    buChainCountHash.Add(buId, chainCountHash);
+                }
+            }
+
+            Hashtable buEntityContentHash = GetEntryBUEntityContent(pdbId, buChainCountHash);
+            return buEntityContentHash;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetPqsEntryBUEntityContent(string pdbId)
+        {
+            string queryString = string.Format("Select PqsPdbChainMap.*, AsymID " +
+                " From PqsPdbChainMap, AsymUnit " +
+                " Where PqsPdbChainMap.PdbID = '{0}' AND AsymUnit.PdbID = '{0}' " +
+                " AND PqsPdbChainMap.PdbID = AsymUnit.PdbID AND " +
+                " PdbChainID = AuthorChain AND PolymerType = 'polypeptide';", pdbId);
+            DataTable pqsChainTable = dbQuery.Query(queryString);
+
+            Hashtable buChainCountHash = new Hashtable();
+            string buId = "";
+            string asymChain = "";
+            foreach (DataRow pqsChainRow in pqsChainTable.Rows)
+            {
+                buId = pqsChainRow["PqsBiolUnitID"].ToString();
+                asymChain = pqsChainRow["AsymID"].ToString().TrimEnd();
+                if (buChainCountHash.ContainsKey(buId))
+                {
+                    Hashtable chainCountHash = (Hashtable)buChainCountHash[buId];
+                    if (chainCountHash.ContainsKey(asymChain))
+                    {
+                        int count = (int)chainCountHash[asymChain];
+                        count++;
+                        chainCountHash[asymChain] = count;
+                    }
+                    else
+                    {
+                        chainCountHash.Add(asymChain, 1);
+                    }
+                }
+                else
+                {
+                    Hashtable chainCountHash = new Hashtable();
+                    chainCountHash.Add(asymChain, 1);
+                    buChainCountHash.Add(buId, chainCountHash);
+                }
+            }
+            Hashtable buEntityContentHash = GetEntryBUEntityContent(pdbId, buChainCountHash);
+            return buEntityContentHash;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetPisaEntryBUEntityContent(string pdbId)
+        {
+            string queryString = string.Format("Select * From PisaBuMatrix Where PdbID = '{0}';", pdbId);
+            DataTable pisaBuTable = dbQuery.Query(queryString);
+
+            Hashtable buChainCountHash = new Hashtable();
+            string buId = "";
+            string asymChain = "";
+            foreach (DataRow buRow in pisaBuTable.Rows)
+            {
+                buId = buRow["AssemblySeqID"].ToString();
+                asymChain = buRow["AsymChain"].ToString().TrimEnd();
+                if (buChainCountHash.ContainsKey(buId))
+                {
+                    Hashtable chainCountHash = (Hashtable)buChainCountHash[buId];
+                    if (chainCountHash.ContainsKey(asymChain))
+                    {
+                        int count = (int)chainCountHash[asymChain];
+                        count++;
+                        chainCountHash[asymChain] = count;
+                    }
+                    else
+                    {
+                        chainCountHash.Add(asymChain, 1);
+                    }
+                }
+                else
+                {
+                    Hashtable chainCountHash = new Hashtable();
+                    chainCountHash.Add(asymChain, 1);
+                    buChainCountHash.Add(buId, chainCountHash);
+                }
+            }
+            Hashtable buEntityContentHash = GetEntryBUEntityContent(pdbId, buChainCountHash);
+            return buEntityContentHash;
+        }
+
+        /// <summary>
+        /// the entity format for BUs based on the asymmetric chains and their copies in the BUs
+        /// </summary>
+        /// <param name="buChainCountHash"></param>
+        /// <returns></returns>
+        private Hashtable GetEntryBUEntityContent(string pdbId, Hashtable buChainCountHash)
+        {
+            Hashtable buEntityContentHash = new Hashtable();
+            int entityId = -1;
+            foreach (string keyBuId in buChainCountHash.Keys)
+            {
+                Hashtable entityCountHash = new Hashtable();
+                Hashtable chainCountHash = (Hashtable)buChainCountHash[keyBuId];
+                foreach (string asymId in chainCountHash.Keys)
+                {
+                    entityId = GetEntityFromAsymChain(pdbId, asymId);
+                    if (entityId < 1)
+                    {
+                        continue;
+                    }
+                    int chainCount = (int)chainCountHash[asymId];
+                    if (entityCountHash.ContainsKey(entityId))
+                    {
+                        int count = (int)entityCountHash[entityId];
+                        count += chainCount;
+                        entityCountHash[entityId] = count;
+                    }
+                    else
+                    {
+                        entityCountHash.Add(entityId, chainCount);
+                    }
+                }
+                buEntityContentHash.Add(keyBuId, entityCountHash);
+            }
+            return buEntityContentHash;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entityCountHash"></param>
+        /// <returns></returns>
+        private string GetEntityFormat(Hashtable entityCountHash)
+        {
+            string entityFormat = "";
+            foreach (int keyEntityId in entityCountHash.Keys)
+            {
+                int count = (int)entityCountHash[keyEntityId];
+                entityFormat += ("(" + keyEntityId.ToString() + "." + count.ToString() + ")");
+            }
+            return entityFormat;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="asymChain"></param>
+        /// <returns></returns>
+        private int GetEntityFromAsymChain(string pdbId, string asymChain)
+        {
+            string queryString = string.Format("Select EntityID From AsymUnit " + 
+                " Where PdbID = '{0}' AND AsymID = '{1}' AND POlymerType = 'polypeptide';", pdbId, asymChain);
+            DataTable entityTable = dbQuery.Query(queryString);
+            if (entityTable.Rows.Count > 0)
+            {
+                return Convert.ToInt32(entityTable.Rows[0]["EntityID"].ToString ());
+            }
+            return -1;
+        }
+        #endregion
+    }
+}

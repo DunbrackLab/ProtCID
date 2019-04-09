@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FEA01FCA-B4D3-4883-A2D4-39FF40BC69EA}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>InterfaceClusterLib</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>InterfaceClusterLib</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AuxFuncLib">
+      <HintPath>..\AuxFuncLib\bin\Debug\AuxFuncLib.dll</HintPath>
+    </Reference>
+    <Reference Include="BuCompLib">
+      <HintPath>..\BuCompLib\bin\Debug\BuCompLib.dll</HintPath>
+    </Reference>
+    <Reference Include="BuQueryLib">
+      <HintPath>..\BuQueryLib\bin\Debug\BuQueryLib.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalInterfaceLib">
+      <HintPath>..\CrystalInterfaceLib\bin\Debug\CrystalInterfaceLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DataCollectorLib">
+      <HintPath>..\DataCollectorLib\bin\Debug\DataCollectorLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLib">
+      <HintPath>..\DbLib\bin\Debug\DbLib.dll</HintPath>
+    </Reference>
+    <Reference Include="PfamLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\PdbPfam\PfamLib\bin\Debug\PfamLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ProgressLib">
+      <HintPath>..\ProgressLib\bin\Debug\ProgressLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtCidSettingsLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ProtCidSettingsLib\bin\Debug\ProtCidSettingsLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Alignments\AlignmentBlosumScore.cs" />
+    <Compile Include="Alignments\EntryAlignment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Alignments\GroupEntryAlignments.cs" />
+    <Compile Include="Alignments\GroupEntryAlignmentsUpdate.cs" />
+    <Compile Include="Alignments\HHAlignments.cs" />
+    <Compile Include="Alignments\HomoEntryAlignInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AuxFuncs\ChainDomainUnpPfamArch.cs" />
+    <Compile Include="AuxFuncs\DownloadableFileName.cs" />
+    <Compile Include="AuxFuncs\EntryCrystForms.cs" />
+    <Compile Include="AuxFuncs\InterfaceSeqNumberConverter.cs" />
+    <Compile Include="AuxFuncs\PfamFileName.cs" />
+    <Compile Include="AuxFuncs\UpdateEntriesDifVersionPfams.cs" />
+    <Compile Include="Clustering\Clustering.cs" />
+    <Compile Include="CrystBuInterfaceComp\EntryCrystBuInterfaceComp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Clustering\InterfaceCluster.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Clustering\NonredundantCfGroups.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Clustering\RedundantCrystalForms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTables\CrystInterfaceTables.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTables\DbTableNames.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTables\HomoGroupTables.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainClassifier\DomainClassifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainClassifier\DomainInterfaceSA.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainClassifier\DomainInterfaceTables.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainClassifier\FamilyDomainAlign.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainCluster\DomainClusterStat.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceBuComp\CrystBuDomainInterfaceComp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainCluster\DomainInterfaceCluster.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceComp\ClanDomainInterfaceComp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceComp\PfamDomainInterfaceComp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\DomainAtomsReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\DomainInterfaceImageGen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\DomainInterfaceRetriever.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\DomainInterfaceWithinProtein.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\DomainInterfaceWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\PfamClusterFilesCompress.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceIO\PfamDomainFileCompress.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainCluster\DomainInterfaceStatInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainCluster\DomainSeqFasta.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterfaceComp\DomainSeqIdentity.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\LigandComPfamHmm.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamDnaRnaFileCompress.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamDnaRnaInteractions.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\LigandComAtomsPfam.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamLigandClusterHmm.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamLigandClusters.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamLigandFileCompress.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamLigandInteractionBuilder.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamLigandInteractions.cs" />
+    <Compile Include="DomainInterfaces\PfamLigand\PfamLigandTableNames.cs" />
+    <Compile Include="DomainInterfaces\PfamNetwork\PfamRelNetwork.cs" />
+    <Compile Include="DomainInterfaces\PfamNetwork\UnpInteractionStr.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PepClusterInterfaceCompress.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PeptideChainInterfaceRmsd.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PeptideInterfaceCluster.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PeptideInterfaceClusterStat.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PeptideInterfaceRmsd.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamChainInterfaceHmmSites.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamHmmSites.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamInterfaceRmsd.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamPepInterfaceFileCompress.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamPepInterfaceStatInfo.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamPepInterfaceWriter.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamPepSeqFasta.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamPeptideInterfaceBuilder.cs" />
+    <Compile Include="DomainInterfaces\PfamPeptide\PfamPeptideInterfaces.cs" />
+    <Compile Include="EntryInterfaces\CrystInterfaceBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AuxFuncs\DbBuilderHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntryInterfaces\EntryGroupInterfaceSimilarity.cs" />
+    <Compile Include="EntryInterfaces\HomoEntryClassifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntryInterfaces\ObsoleteDataRemover.cs" />
+    <Compile Include="EntryInterfaces\EntryInterfaceBuilder.cs" />
+    <Compile Include="PymolScript\InterfaceAlignPymolScript.cs" />
+    <Compile Include="PymolScript\DomainAlignPymolScript.cs" />
+    <Compile Include="AuxFuncs\FileCompress.cs" />
+    <Compile Include="PymolScript\InterfaceImagePymolScript.cs" />
+    <Compile Include="InterfaceImage\InterfaceImageGen.cs" />
+    <Compile Include="CrystBuInterfaceComp\CrystEntryInterfaceComp.cs" />
+    <Compile Include="InterfaceProcess\CrystInterfaceProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InterfaceProcess\CrystInterfaceRetriever.cs" />
+    <Compile Include="InterfaceProcess\GroupInterfacesRetriever.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InterfaceProcess\HomoGroupInterfacesFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InterfaceProcess\InterfaceRetriever.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InterfaceProcess\InterfaceChainOrder.cs" />
+    <Compile Include="EntryInterfaces\PfamEntryClassifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pkinase\PkinaseInterfaceClusters.cs" />
+    <Compile Include="Pkinase\PkinaseInterfaceInfo.cs" />
+    <Compile Include="Pkinase\PkinasePeptideInterfaces.cs" />
+    <Compile Include="ProtCid\EntryListProtCidInfo.cs" />
+    <Compile Include="AuxFuncs\RowSorter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PymolScript\PymolScriptUpdater.cs" />
+    <Compile Include="stat\ClusterStat.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="stat\InterfaceStatData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProtCid\BiolUnitSumInfo.cs" />
+    <Compile Include="ClanDomainInterfaces\ClanDomainClusterFilesCompress.cs" />
+    <Compile Include="ClanDomainInterfaces\ClanDomainInterfaceBuilder.cs" />
+    <Compile Include="ClanDomainInterfaces\ClanDomainInterfaceCluster.cs" />
+    <Compile Include="ClanDomainInterfaces\ClanDomainInterfaceComp.cs" />
+    <Compile Include="ChainInterfaces\InterfaceFilesReverser.cs" />
+    <Compile Include="ChainInterfaces\InterfaceSymmetry.cs" />
+    <Compile Include="ChainInterfaces\SeqFastaGenerator.cs" />
+    <Compile Include="ChainInterfaces\ChainClusterCompress.cs" />
+    <Compile Include="ChainInterfaces\ChainClusterStat.cs" />
+    <Compile Include="ChainInterfaces\ChainInterfaceBuilder.cs" />
+    <Compile Include="ChainInterfaces\ChainInterfaceCluster.cs" />
+    <Compile Include="ChainInterfaces\ChainGroupRepEntryComp.cs" />
+    <Compile Include="ChainInterfaces\ChainGroupsClassifier.cs" />
+    <Compile Include="AuxFuncs\UnitCellInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserGroupInterfaces\CommonInterfacesFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserGroupInterfaces\UserSuperGroupInterfaceBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

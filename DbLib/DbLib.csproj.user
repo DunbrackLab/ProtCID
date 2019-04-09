@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <LastOpenVersion>7.10.3077</LastOpenVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ReferencePath>C:\ProtBuDProject\XtalProject_20060403\DbLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060403\ProgressLib\bin\Debug\;L:\XtalProject_20060403\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060405\ProgressLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060405\ProgressLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060407\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060407\ProgressLib\bin\Debug\;C:\ProtBuDProject\oldprojects\XtalProject_20060425\ProgressLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060425\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060717\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060808\ProgressLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060816\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060908\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060911\ProgressLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060913\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060921\ProgressLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060928\ProgressLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\Xtal\XtalProject_20061012\ProgressLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061016\ProgressLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061118\ProgressLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_Scop\ProgressLib\bin\Debug\</ReferencePath>
+    <CopyProjectDestinationFolder>
+    </CopyProjectDestinationFolder>
+    <CopyProjectUncPath>
+    </CopyProjectUncPath>
+    <CopyProjectOption>0</CopyProjectOption>
+    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectTrust>0</ProjectTrust>
+    <PublishUrlHistory />
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <EnableASPDebugging>false</EnableASPDebugging>
+    <EnableASPXDebugging>false</EnableASPXDebugging>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
+    <StartAction>Project</StartAction>
+    <StartArguments>
+    </StartArguments>
+    <StartPage>
+    </StartPage>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>
+    </StartURL>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartWithIE>false</StartWithIE>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <EnableASPDebugging>false</EnableASPDebugging>
+    <EnableASPXDebugging>false</EnableASPXDebugging>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
+    <StartAction>Project</StartAction>
+    <StartArguments>
+    </StartArguments>
+    <StartPage>
+    </StartPage>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>
+    </StartURL>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartWithIE>false</StartWithIE>
+  </PropertyGroup>
+</Project>

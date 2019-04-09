@@ -1,0 +1,301 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Data;
+using HomoSeqCrystalLib.DomainInterfaces;
+using DbLib;
+using AuxFuncLib;
+using XtalLib.Crystal;
+
+namespace BuCompLib
+{
+    public class BuDomainInterfaceRetriever
+    {
+        public struct DomainInterfaceComponent
+        {
+            public int chainInterfaceId;
+            public string chainSymOpString1;
+            public string chainSymOpString2;
+            public int domainId1;
+            public int domainId2;
+            public Range domainRange1;
+            public Range domainRange2;
+        }
+
+        #region member variables
+        private BiolUnitRetriever buRetriever = new BiolUnitRetriever();
+        private DbQuery dbQuery = new DbQuery();
+        #endregion
+
+        /// <summary>
+        /// domain-domain interactions in every BU with the input relation
+        /// </summary>
+        /// <param name="relSeqId">family-family relation ID</param>
+        /// <param name="pdbId"></param>
+        /// <returns>every bu and its domain-domain interfaces</returns>
+        public Hashtable RetrieveDomainInterfaces(int relSeqId, string pdbId)
+        {
+            Hashtable buDomainInterfacesHash = GetDomainInterfaceContents(relSeqId, pdbId);
+            ArrayList buIdList = new ArrayList(buDomainInterfacesHash.Keys);
+            string[] relBuIds = new string[buIdList.Count];
+            buIdList.CopyTo(relBuIds);
+            Hashtable biolUnitsHash = buRetriever.GetEntryBiolUnits(pdbId, relBuIds);
+            foreach (string buId in buDomainInterfacesHash.Keys)
+            {
+                Hashtable domainInterfacesHash = (Hashtable)buDomainInterfacesHash[buId];
+                Hashtable biolUnitHash = (Hashtable)biolUnitsHash[buId];
+                DomainInterface[] buDomainInterfaces = GetDomainInterfaces(domainInterfacesHash, biolUnitHash);
+                buDomainInterfacesHash.Add(buId, buDomainInterfaces);
+            }
+            return buDomainInterfacesHash;
+        }
+
+        #region domain interfaces 
+        /// <summary>
+        /// domain-domain interactions with the relation in the BU
+        /// </summary>
+        /// <param name="domainInterfacesHash">domain interfaces for the BU</param>
+        /// <param name="biolUnitHash">the chains and atoms for the BU</param>
+        /// <returns>the domain-domain interfaces in the BU</returns>
+        private DomainInterface[] GetDomainInterfaces(Hashtable domainInterfacesHash, Hashtable biolUnitHash)
+        {
+            ArrayList domainInterfaceList = new ArrayList();
+
+            foreach (int domainInterfaceId in domainInterfacesHash.Keys)
+            {
+                DomainInterfaceComponent component = (DomainInterfaceComponent)domainInterfacesHash[domainInterfaceId];
+                AtomInfo[] domainAtoms1 = null;
+                AtomInfo[] domainAtoms2 = null;
+                foreach (string chainSymOpString in biolUnitHash.Keys)
+                {
+                    if (component.chainSymOpString1 == chainSymOpString)
+                    {
+                        domainAtoms1 = GetDomainAtoms((AtomInfo[])biolUnitHash[chainSymOpString],
+                            component.domainRange1);
+                    }
+                    if (component.chainSymOpString2 == chainSymOpString)
+                    {
+                        domainAtoms2 = GetDomainAtoms((AtomInfo[])biolUnitHash[chainSymOpString],
+                           component.domainRange2);
+
+                    }
+                }
+                DomainInterface domainInterface = new DomainInterface();
+                domainInterface.domainInterfaceId = domainInterfaceId;
+                domainInterface.interfaceId = component.chainInterfaceId;
+                domainInterface.chain1 = domainAtoms1;
+                domainInterface.chain2 = domainAtoms2;
+                domainInterface.firstSymOpString = component.chainSymOpString1;
+                domainInterface.secondSymOpString = component.chainSymOpString2;
+                domainInterface.domainId1 = component.domainId1;
+                domainInterface.domainId2 = component.domainId2;
+                domainInterface.GetInterfaceResidueDist();
+                domainInterfaceList.Add(domainInterface);
+            }
+            DomainInterface[] domainInterfaces = new DomainInterface[domainInterfaceList.Count];
+            domainInterfaceList.CopyTo(domainInterfaces);
+            return domainInterfaces;
+        }
+
+        /// <summary>
+        /// the atoms of the domain
+        /// </summary>
+        /// <param name="chainAtoms">atomic coordinate for the chain</param>
+        /// <param name="domainRange">domain range</param>
+        /// <returns>all atomic coordinates for the domain</returns>
+        private AtomInfo[] GetDomainAtoms(AtomInfo[] chainAtoms, Range domainRange)
+        {
+            ArrayList domainAtomList = new ArrayList();
+            int atomSeqId = -1;
+            foreach (AtomInfo atom in chainAtoms)
+            {
+                atomSeqId = ParseHelper.ConvertSeqToInt(atom.seqId);
+                if (atomSeqId <= domainRange.endPos && atomSeqId >= domainRange.startPos)
+                {
+                    domainAtomList.Add(atom);
+                }
+            }
+            AtomInfo[] domainAtoms = new AtomInfo[domainAtomList.Count];
+            domainAtomList.CopyTo(domainAtoms);
+            return domainAtoms;
+        }
+        #endregion
+
+        #region the contents for domain interfaces
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="relSeqId"></param>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private Hashtable GetDomainInterfaceContents(int relSeqId, string pdbId)
+        {
+            string queryString = string.Format("Select * From {0}PfamBuDomainInterfaces " + 
+                " Where RelSeqId = {1} AND PdbID = '{2}';", BuInterfaceRetriever.BuType, relSeqId, pdbId);
+            DataTable domainInterfaceTable = dbQuery.Query(BuInterfaceRetriever.buCompDbConnect, queryString);
+
+            Hashtable buDomainInterfaceHash = new Hashtable();
+            string buId = "";
+            int domainInterfaceId = -1;
+            int chainInterfaceId = -1;
+            Hashtable domainRangeHash = new Hashtable ();
+            foreach (DataRow domainInterfaceRow in domainInterfaceTable.Rows)
+            {
+                buId = domainInterfaceRow["BuID"].ToString().TrimEnd();
+                domainInterfaceId = Convert.ToInt32(domainInterfaceRow["DomainInterfaceID"].ToString ());
+                chainInterfaceId = Convert.ToInt32(domainInterfaceRow["InterfaceID"].ToString ());
+                string[] chainSymOpStrings = GetChainInterfaceChainComponent(pdbId, buId, chainInterfaceId);
+                if (chainSymOpStrings == null)
+                {
+                    continue;
+                }
+                DomainInterfaceComponent domainInterfaceContent = new DomainInterfaceComponent();
+                domainInterfaceContent.chainSymOpString1 = chainSymOpStrings[0];
+                domainInterfaceContent.chainSymOpString2 = chainSymOpStrings[1];
+                Range domainRange1 = GetDomainRange(pdbId, Convert.ToInt32(domainInterfaceRow["DomainID1"].ToString ()), ref domainRangeHash);
+                if (domainRange1 == null)
+                {
+                    continue;
+                }
+                Range domainRange2 = GetDomainRange(pdbId, Convert.ToInt32(domainInterfaceRow["DomainID2"].ToString ()), ref domainRangeHash);
+                if (domainRange2 == null)
+                {
+                    continue;
+                }
+                domainInterfaceContent.domainRange1 = domainRange1;
+                domainInterfaceContent.domainRange2 = domainRange2;
+                domainInterfaceContent.chainInterfaceId = chainInterfaceId;
+                domainInterfaceContent.domainId1 = Convert.ToInt32(domainInterfaceRow["DomainID1"].ToString ());
+                domainInterfaceContent.domainId2 = Convert.ToInt32 (domainInterfaceRow["DomainID2"].ToString ());
+
+                if (buDomainInterfaceHash.ContainsKey(buId))
+                {
+                    Hashtable domainInterfaceHash = (Hashtable)buDomainInterfaceHash[buId];
+                    domainInterfaceHash.Add(domainInterfaceId, domainInterfaceContent);
+                }
+                else
+                {
+                    Hashtable domainInterfaceHash = new Hashtable();
+                    domainInterfaceHash.Add(domainInterfaceId, domainInterfaceContent);
+                    buDomainInterfaceHash.Add(buId, domainInterfaceHash);
+                }
+            }
+            return buDomainInterfaceHash;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <returns></returns>
+        private string[] GetDifBUs(string pdbId)
+        {
+            string queryString = string.Format("Select * From {0}EntryBuComp Where PdbID = '{1}';",
+                BuInterfaceRetriever.buCompDbConnect, pdbId);
+            DataTable buCompTable = dbQuery.Query(BuInterfaceRetriever.buCompDbConnect, queryString);
+
+            ArrayList buList = new ArrayList ();
+            string buId1 = "";
+            string buId2 = "";
+            foreach (DataRow buCompRow in buCompTable.Rows)
+            {
+                buId1 = buCompRow["BuID1"].ToString().TrimEnd();
+                buId2 = buCompRow["BuID2"].ToString().TrimEnd();
+                if (! buList.Contains (buId1))
+                {
+                    buList.Add (buId1);
+                }
+                if (! buList.Contains (buId2))
+                {
+                    buList.Add (buId2);
+                }
+            }
+
+            ArrayList difBuList = new ArrayList(buList);           
+            string sameBUs = "";
+            for (int i = 0; i < buList.Count; i ++)
+            {
+                if (! difBuList.Contains (buList[i]))
+                {
+                    continue;
+                }
+                for (int j = i + 1; j < buList.Count; j ++)
+                {
+                    if (! difBuList.Contains (buList[j]))
+                    {
+                        continue;
+                    }
+                    DataRow[] compRows = buCompTable.Select (string.Format ("BuID1 = '{0}' AND BuID2 = '{1}'", 
+                        buList[i], buList[j]));
+                    if (compRows.Length > 0)
+                    {
+                        sameBUs = compRows[0]["SameBUs"].ToString ();
+                        if (sameBUs == "1")
+                        {
+                            difBuList.Remove (buList[j]);
+                        }
+                    }
+                }
+            }
+            string[] difBUs = new string[difBuList.Count];
+            difBuList.CopyTo (difBUs);
+            return difBUs;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="buId"></param>
+        /// <param name="interfaceId"></param>
+        /// <returns></returns>
+        private string[] GetChainInterfaceChainComponent(string pdbId, string buId, int interfaceId)
+        {
+            string queryString = string.Format("Select * From {0}BuSameInterfaces " + 
+                " Where PdbID = '{1}' AND BuID = '{2}' AND InterfaceID = {3};", pdbId, buId, interfaceId);
+            DataTable interfaceTable = dbQuery.Query(BuInterfaceRetriever.buCompDbConnect, queryString);
+            if (interfaceTable.Rows.Count > 0)
+            {
+                string[] chainSymOpStrings = new string[2];
+                chainSymOpStrings[0] = interfaceTable.Rows[0]["Chain1"].ToString().TrimEnd() + "_" +
+                    interfaceTable.Rows[0]["SymmetryString1"].ToString().TrimEnd();
+                chainSymOpStrings[1] = interfaceTable.Rows[0]["Chain2"].ToString().TrimEnd() + "_" +
+                    interfaceTable.Rows[0]["SymmetryString2"].ToString().TrimEnd();
+                return chainSymOpStrings;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="domainId"></param>
+        /// <returns></returns>
+        private Range GetDomainRange(string pdbId, int domainId, ref Hashtable domainRangeHash)
+        {
+            if (domainRangeHash.ContainsKey(domainId))
+            {
+                Range domainRange = (Range)domainRangeHash[domainId];
+                return domainRange;
+            }
+            string queryString = string.Format("Select * From PfamPdb " + 
+                " Where PdbID = '{0}' AND DomainID = {1};", pdbId, domainId);
+            DataTable domainTable = dbQuery.Query(queryString);
+            
+            if (domainTable.Rows.Count > 0)
+            {
+                Range domainRange = new Range();
+                domainRange.startPos = Convert.ToInt32 (domainTable.Rows[0]["SeqStartPos"].ToString());
+                domainRange.endPos = Convert.ToInt32(domainTable.Rows[0]["SeqEndPos"].ToString ());
+                domainRangeHash.Add(domainId, domainRange);
+                return domainRange;
+            }
+            domainRangeHash.Add(domainId, null);
+            return null;
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,1213 @@
+34	P 64 2 2	A(2)	1mx3	4lce	True
+42	P 1	A(5)	4jht	4rfr	True
+42	P 1 21 1	A(7)	4nig	3o1s	True
+42	P 43	A(3)	3i2o	2fdk	True
+42	P 43 21 2	A(2)	4o7x	4nrm	True
+42	P 65 2 2	A(3)	3h8r	3rzk	True
+43	P 63	A(3)	4bqy	4jzr	False
+66	P 21 21 21	A4(9)	5t07	5t06	True
+75	I 2 2 2	A(3)	2jc9	2xjd	True
+80	P 65 2 2	A(3)	5ak0	5ajx	True
+84	I 2 2 2	A(2)	3uza	3pwh	True
+84	P 21 21 21	A(2)	4z35	4z36	True
+326	C 1 2 1	A4(4)	4dm7	4eus	True
+326	C 2 2 21	A(1)	1iup	1uk8	True
+326	P 1	A(2)	3g9x	4f5z	True
+326	P 1 21 1	A2B2	3r40	3r3w	True
+326	P 21 21 2	AB	1ede	1edb	True
+326	P 41 21 2	A2B2	1e89	1dwo	True
+326	P 41 21 2	A2(5)	1dwo	1dwq	True
+326	P 41 21 2	A2(5)	1e89	1dwq	True
+334	P 1	A2(3)	4j0d	4jui	True
+337	P 1 21 1	A2(5)	3sty	3stw	True
+379	P 21 21 2	A(2)	4l8a	4klv	True
+379	P 21 21 2	A(5)	4l8a	4oae	True
+389	P 43 21 2	A(1)	2bue	2prb	True
+407	C 2 2 21	A(3)	4yuc	5c1j	True
+571	P 1	A2(14)	4nfs	1qv7	True
+571	P 1	A2(6)	4nfs	4xd2	True
+586	C 1 2 1	AB	1jtv	3dey	True
+586	C 1 2 1	A(6)	1jtv	3klm	True
+586	C 1 2 1	A(6)	3dey	3klm	True
+586	P 1 21 1	A4B4	4hx5	3bzu	True
+586	P 1 21 1	A2(6)	1sby	1b15	True
+586	P 65 2 2	A(1)	1oaa	1sep	True
+591	C 1 2 1	A6B6	4trm	4bgi	False
+591	C 1 2 1	A6(9)	4bgi	4bge	True
+591	P 1	A8B8(1)	4d44	4bng	True
+591	P 1	A8B8(2)	4alk	4d43	False
+591	P 1 21 1	A4B4	2x9g	2x9v	True
+591	P 1 21 1	A4(48)	5g0t	4uvh	False
+591	P 1 21 1	A4(75)	2x9g	4wcd	False
+591	P 21 21 21	A4(34)	4bnw	4bo1	True
+591	P 32 2 1	A2B2	2rhc	4dbz	True
+591	P 43 21 2	A2B2	3zv4	3zv3	True
+591	P 61 2 2	A2(9)	4cv2	4d46	False
+591	P 61 2 2	A2(8)	4cv2	5cfz	False
+591	P 61 2 2	A2(1)	4cv2	5cg1	True
+591	P 62	A2B2	3u09	3rro	True
+591	P 62 2 2	AB	4tro	2nv6	False
+591	P 62 2 2	A(11)	2nv6	3oew	False
+591	P 62 2 2	A(11)	4tro	3oew	True
+591	P 62 2 2	A(8)	4tro	4uvd	False
+642	P 1 21 1	A(5)	5iny	5iow	True
+646	C 1 2 1	A5(3)	3tjj	3tjg	True
+646	C 2 2 21	A5(5)	4xra	4xrd	False
+646	P 1	A10(4)	3a2v	2cv4	True
+666	I 4 2 2	A2(1)	4ycb	4z7j	True
+682	P 4 21 2	A2(7)	1w5q	2c18	True
+702	P 21 21 2	A8(2)	5f2c	5ek6	True
+702	P 21 21 21	A8B8	1o04	3n80	True
+702	P 21 21 21	A8(5)	3n80	1o02	True
+702	P 21 21 21	A4B4	4npi	4oub	True
+702	P 62 2 2	AB	1uxt	1uxn	True
+705	H 3 2	A2B2	4jtr	1xjb	True
+705	P 1	AB	4gca	3mc5	True
+705	P 1	A(5)	4gca	1iei	True
+705	P 1	A(6)	3mc5	2pd5	True
+705	P 1 21 1	AB	1us0	2pdw	True
+705	P 1 21 1	A(12)	2pdw	2pdx	True
+705	P 21 21 21	AB	3uwe	3r8g	True
+705	P 21 21 21	A2B2	3buv	3uzx	True
+705	P 21 21 21	A(24)	3r8g	3r8h	True
+705	P 21 21 21	A2(14)	3buv	3uzz	True
+705	P 21 21 21	A2(14)	3uzx	3uzz	True
+705	P 31	AB	4wev	4xzn	True
+712	P 4 21 2	A(2)	1e4b	1e48	True
+765	P 21 21 21	A(15)	4x9y	2qmk	True
+765	P 21 21 21	A(16)	5emy	3ij8	True
+772	P 21 21 21	A(2)	3bmv	3bmw	True
+804	I 2 2 2	A4(4)	5dwf	3qv4	False
+804	I 2 2 2	A4(1)	5dwf	3uml	False
+815	C 2 2 21	AB	4c6f	4c6e	True
+815	P 1 21 1	A2(8)	3ls9	3lsb	True
+815	P 1 21 1	A2(9)	3ls9	4lh8	True
+819	P 1 21 1	A4(3)	4hk5	4hk6	False
+827	C 2 2 2	A2(3)	1s3e	1s3b	True
+827	C 2 2 2	A2(1)	2c64	2c73	True
+827	C 2 2 2	A2(5)	1s3e	2v60	True
+830	C 2 2 21	AB	4dbc	1toj	False
+830	C 2 2 21	A(8)	2q7w	3pa9	True
+830	C 2 2 21	AB(1)	1ars	1ix6	True
+830	P 1 21 1	A2(1)	1ahx	1arg	True
+830	P 21 21 21	A2B2	4f5l	4f5i	True
+830	P 32 2 1	A2(8)	3ei9	2z1z	True
+832	P 1	A2(7)	4nog	5eav	False
+832	P 21 21 21	A2B2	4wyd	4xjo	False
+832	P 21 21 21	A2(18)	4wyd	4cxr	False
+832	P 21 21 21	A2(18)	4xjo	4cxr	True
+832	P 32 2 1	A3B3	2oat	1gbn	True
+832	P 32 2 1	A3(2)	2oat	1oat	True
+833	P 21 21 21	A2(10)	5bwx	5bww	True
+833	P 21 21 21	A2(10)	5cr5	5bww	True
+852	P 21 21 21	A(2)	2d1s	2d1t	True
+852	P 21 21 21	A2(6)	3o83	3u16	True
+852	P 41	A(1)	3rix	3ier	True
+866	I 2 2 2	A(1)	4kvl	4kvk	True
+866	P 1 21 1	A(1)	3q9k	3ogw	True
+866	P 1 21 1	A(1)	4n7a	3ogw	True
+866	P 1 21 1	A(4)	3q9k	3ql6	True
+866	P 1 21 1	A(11)	3q9k	4ksz	True
+904	P 1 21 1	AB(3)	4mr7	4mrm	True
+907	P 21 21 2	A4B2(1)	4u5b	4u5d	True
+1037	P 31 2 1	A4(2)	4kwd	5in8	True
+1040	P 1 21 1	A4(3)	3st6	3rv9	True
+1082	C 1 2 1	A(2)	4xdu	4ifu	True
+1107	P 1 21 1	A4(3)	5byl	5iqi	True
+1291	P 21 21 2	A2B2C2D2E2(2)	4z7n	4z7q	True
+1337	C 1 2 1	A(8)	4l7j	3inh	False
+1337	C 1 2 1	A(9)	4l7g	3l3a	False
+1337	C 1 2 1	AB	4l7g	4l7j	False
+1337	C 1 2 1	AB(2)	4l7g	2iqg	False
+1337	C 2 2 21	ABCD	4fgx	3uqp	False
+1337	C 2 2 21	A(9)	3tpp	2ph8	True
+1337	C 2 2 21	A(8)	3tpp	4fco	False
+1337	C 2 2 21	A(3)	3tpp	4ivt	True
+1337	P 1 21 1	A3(3)	4lxa	2f3e	False
+1337	P 1 21 1	A3(9)	4di2	3nsh	False
+1337	P 1 21 1	A3(10)	4lxa	3kyr	False
+1337	P 1 21 1	A3(8)	4lxa	3qbh	False
+1337	P 1 21 1	A3(5)	4di2	4ke0	True
+1337	P 1 21 1	A3(5)	4lxa	4ke0	True
+1337	P 1 21 1	A3(11)	4di2	4i0h	True
+1337	P 1 21 1	AB	4y5l	4y38	True
+1337	P 1 21 1	A(12)	4y5l	5p1w	False
+1337	P 1 21 1	A(11)	4y5l	5p1c	False
+1337	P 21 21 21	AB	4b72	4acu	True
+1337	P 21 21 21	A(9)	3vf3	4b70	True
+1337	P 21 21 21	A(24)	4acu	4b05	False
+1337	P 21 21 21	A(24)	4b72	4b05	True
+1337	P 21 21 21	A2(16)	3q5h	3q4b	True
+1337	P 21 21 21	A2(13)	5hdz	4ybi	False
+1337	P 21 21 21	A2B2(3)	3km4	3q5h	False
+1337	P 21 21 21	A2B2(1)	5hdz	2qp8	False
+1337	P 21 3	A2(2)	1hrn	3sfc	True
+1337	P 21 3	A2(4)	1hrn	5sy3	False
+1337	P 31 2 1	A2B2	1xe5	1xe6	False
+1337	P 31 2 1	A2B2C2D2	1xdh	1w6i	True
+1337	P 61 2 2	A(6)	5f01	2zhu	False
+1337	P 61 2 2	A(1)	5f01	4j1e	False
+1337	P 61 2 2	A(8)	1w50	4j1f	True
+1337	P 61 2 2	A(8)	5f01	4j1f	True
+1337	P 61 2 2	A(5)	1w50	5f00	False
+1337	P 61 2 2	A(5)	5f01	5f00	True
+1337	P 61 2 2	AB	5f01	1w50	True
+1358	P 65	A2(1)	4o0c	4pvr	True
+1422	P 43 2 2	A2B2(4)	2scu	1cqj	True
+1422	P 43 2 2	A2B2(5)	2nu8	2nua	True
+1428	P 21 21 21	A(6)	1m15	1sd0	True
+1499	I 2 2 2	A2(5)	2izg	2izc	False
+1499	I 41 2 2	AB	2izb	2izk	True
+1499	I 41 2 2	A(7)	2izk	3rds	False
+1499	I 41 2 2	ABCD(1)	1vwr	1rst	False
+1499	I 41 2 2	ABCD(2)	1vwe	1vwd	False
+1499	P 1 21 1	A4(18)	1kl4	1n7y	False
+1499	P 1 21 1	A4(18)	1nbx	1n7y	False
+1499	P 1 21 1	A4B4	3mg5	3wyp	False
+1499	P 1 21 1	A4B4(2)	1kl4	1nbx	False
+1584	C 2 2 21	A(12)	4y9h	1xji	True
+1584	P 63	A(3)	1m0k	1m0m	True
+1615	C 1 2 1	A2B2(2)	5aqm	5aql	True
+1652	P 42 21 2	A(2)	4e01	4e00	True
+1652	P 42 21 2	A(2)	4h85	4e00	True
+1652	P 42 21 2	A(1)	4e01	4h81	True
+1652	P 42 21 2	A(3)	4e01	4h85	True
+1704	C 1 2 1	A2B2	2ffy	4kz5	True
+1704	C 1 2 1	A2(3)	4kz5	4kzb	True
+1704	C 1 2 1	A2(1)	4lv2	4kg2	True
+1704	P 21 21 2	A(7)	1rgz	2q9n	False
+1704	P 21 21 21	A(15)	1yqs	1pw8	False
+1704	P 21 21 21	A(16)	4ooy	4wyy	False
+1704	P 21 21 21	A(16)	4wz4	4wyy	False
+1704	P 21 21 21	AB	4wz4	4ooy	False
+1704	P 21 21 21	AB(1)	1yqs	1scw	True
+1704	P 31	A3(1)	3wrz	3ws0	True
+1709	P 1	A2(4)	5ghx	5ghz	False
+1709	P 1 21 1	A2B2	4ua6	4dds	True
+1709	P 1 21 1	A2(27)	4ua6	3g32	False
+1709	P 21 21 21	A(29)	1nym	1fqg	True
+1709	P 21 21 21	A(30)	1pzp	1li0	False
+1709	P 21 21 21	AB	1m40	1nym	True
+1709	P 21 21 21	A(47)	4jpm	4fh2	True
+1709	P 21 21 21	A(48)	3cg5	4jlf	True
+1709	P 21 21 21	A(48)	3ny4	4jlf	True
+1709	P 21 21 21	AB(1)	1pzp	1ck3	False
+1709	P 21 21 21	AB(3)	4jpm	2h5s	True
+1709	P 21 21 21	AB(4)	3ny4	3cg5	True
+1720	P 41 21 2	A(2)	3ilc	1r2d	True
+1766	P 21 21 21	A2(10)	3g8d	1dv2	True
+1766	P 21 21 21	A2(8)	2w70	3jzf	True
+1792	P 41 21 2	A2(2)	3gt9	3gta	True
+1829	C 2 2 21	A(4)	4ncs	2f11	True
+1919	C 2 2 21	AB	5dyu	5cq3	True
+1919	P 2 21 21	AB	5ig6	5hfq	True
+1919	P 21 21 2	A(15)	3oni	4qew	False
+1919	P 21 21 2	A2(1)	5igm	5eu1	True
+1919	P 21 21 2	AB(1)	5bt5	3oni	False
+1919	P 21 21 2	AB(3)	5enf	5enh	True
+1919	P 21 21 21	A(57)	4qr4	4hxp	False
+1919	P 21 21 21	A(36)	4qb3	4cfl	False
+1919	P 21 21 21	A(42)	4qb3	5dw2	True
+1919	P 21 21 21	AB	5d3l	5d3r	True
+1919	P 21 21 21	A(7)	4qb3	5ei4	True
+1919	P 21 21 21	A(4)	4x2i	5hm0	True
+1919	P 21 21 21	A(2)	4qb3	5lj2	False
+1919	P 32 2 1	AB	5etb	5d7x	False
+1919	P 32 2 1	A(4)	5etb	5eps	False
+1919	P 32 2 1	A(5)	5etb	5ewh	True
+1919	P 65 2 2	A(4)	5f36	4tz2	False
+2067	P 21 21 21	ABC(1)	1k5n	3vfo	False
+2121	C 1 2 1	A2B2C2D2(5)	5d7j	4pjx	True
+2121	C 1 2 1	A2B2C2D2(4)	5d7j	5d5m	True
+2125	P 21 21 21	AB(4)	3t1f	2fik	True
+2125	P 21 21 21	AB(3)	3t1f	2gaz	True
+2133	P 21 21 21	A2(12)	3ave	2dts	True
+2160	P 1 21 1	A(1)	4wee	3f04	True
+2282	P 1 21 1	A(20)	3k34	1fr4	False
+2282	P 1 21 1	A(22)	2eu2	1i9n	True
+2282	P 1 21 1	A(3)	2eu2	1i9p	False
+2282	P 1 21 1	A(4)	3k34	3vbd	False
+2282	P 1 21 1	A(8)	3k34	4fpt	False
+2282	P 1 21 1	A(24)	3k34	4k0s	False
+2282	P 1 21 1	A(21)	3k34	5fni	False
+2282	P 1 21 1	A(23)	3d92	5jep	False
+2282	P 21 21 21	A2B2	4knn	4qsj	False
+2282	P 21 21 21	A2B2(1)	4wr7	1j9w	True
+2366	P 1 21 1	A4(5)	4qol	4qom	True
+2366	P 21 21 21	A4(1)	1dgg	3re8	True
+2368	P 1 21 1	A4(1)	3ttv	3ttt	True
+2401	P 21 21 21	A2B2C2D2(1)	5cpk	4z5t	False
+2409	P 21 21 21	A2B2C2D2(3)	3ut9	3lz0	False
+2435	P 6	AB(4)	3bum	3bun	True
+2464	P 21 21 21	A(2)	2y6l	2y6g	True
+2601	C 1 2 1	A2(1)	5i78	5i79	True
+2601	C 1 2 1	A3B3	3qho	4dm1	False
+2601	C 1 2 1	A3(3)	3qho	3w6l	False
+2601	C 1 2 1	A3(3)	4dm1	3w6l	True
+2601	P 21 21 21	AB	7a3h	1w3l	True
+2601	P 21 21 21	A(20)	1w3l	6a3h	True
+2601	P 31	A2B2	4w88	4w87	True
+2601	P 31 2 1	A2(4)	4eam	4ean	True
+2707	P 21 21 21	A(4)	3b9e	3b9d	True
+2719	P 21 21 21	A2(10)	3g15	5eqp	True
+2837	C 2 2 21	A(2)	5jqn	4izt	True
+2837	C 2 2 21	A(3)	5jqn	4izs	True
+2913	P 21 21 21	A3B3	2hrr	3k9b	False
+2913	P 21 21 21	A2(5)	2ha2	2ha6	False
+2913	P 21 21 21	A2(14)	1zgc	2vjc	False
+2913	P 21 21 21	A2(14)	2vja	2vjc	True
+2913	P 21 21 21	A2B2	4b85	1n5r	False
+2913	P 21 21 21	A2(16)	2ha2	4b81	False
+2913	P 21 21 21	A2(15)	2ha2	5foq	False
+2913	P 21 21 21	A2B2(1)	1zgc	2vja	True
+2913	P 31 2 1	A(4)	2c5g	1e66	False
+2913	P 31 2 1	AB	1ea5	2c5g	True
+2913	P 31 2 1	A(2)	2c5g	1vxr	True
+3006	C 2 2 21	A2B2	1aiz	1uri	True
+3006	P 1 21 1	AB	2ov0	2qdw	True
+3006	P 1 21 1	AB(1)	2ov0	2ids	True
+3006	P 21 21 21	A(14)	4dp9	4dpa	True
+3242	P 21 21 21	A3(9)	2ppc	2ppa	True
+3242	P 21 21 21	A3(13)	5d4h	5d4j	True
+3245	P 1 21 1	A(3)	4e9s	1pf3	True
+3246	P 21 21 21	AB	4a2e	4a2g	True
+3246	P 31 2 1	A(2)	2wsd	1w6l	True
+3274	P 41 21 2	A(4)	4z1v	2wa3	True
+3276	P 41 21 2	AB(3)	3d8c	1h2k	True
+3319	P 21 21 21	A2B2C2(3)	2uue	1okv	True
+3319	P 21 21 21	A2B2(2)	4eoj	1h1r	False
+3341	I 2 2 2	A8(2)	4u2h	4q31	True
+3360	P 43 21 2	ABCD(2)	3t6e	3t6d	True
+3393	P 65 2 2	A(2)	2ykz	2yl1	True
+3437	I 2 2 2	A(6)	2i2f	3v8n	True
+3440	I 2 3	A(2)	3e9a	1x8f	True
+3440	P 1 21 1	A4(5)	4uma	4hsn	True
+3440	P 31 2 1	A2(1)	2nwr	3e12	True
+3489	P 21 21 21	A(10)	2xwv	3b50	True
+3559	P 1 21 1	A2(1)	4k2m	4k2i	True
+3598	H 3	A2B2	3pul	3pue	True
+3598	P 21 21 2	A4B4	4oe7	4ptn	True
+3598	P 21 21 2	A4(3)	4ptn	3n2x	False
+3598	P 21 21 21	A4B4	4aho	4ah7	True
+3598	P 21 21 21	A4(21)	4ah7	5kzd	True
+3598	P 31 2 1	A2(1)	2pur	3i7r	True
+3598	P 32 2 1	A4B4	3lbm	3lcl	True
+3598	P 32 2 1	A4(1)	3lbm	3lch	True
+3600	C 1 2 1	AB	8dfr	1dr6	True
+3600	C 2 2 21	A2B2	2w3b	2w3a	True
+3600	C 2 2 21	A2(5)	2w3a	2w3m	True
+3600	C 2 2 21	A2(5)	2w3b	2w3m	True
+3600	P 1 21 1	A2B2	1aoe	1ia1	True
+3600	P 1 21 1	A2(6)	1aoe	1m79	False
+3600	P 1 21 1	A2(6)	1ia1	1m79	True
+3600	P 1 21 1	A(4)	3d80	3k45	True
+3600	P 1 21 1	A(15)	3nzb	3nzc	False
+3600	P 1 21 1	AB	3nzb	4qjz	True
+3600	P 1 21 1	AB(1)	4ixf	1ly3	True
+3600	P 21 21 21	AB	1rx6	1rx5	True
+3600	P 41	A2B2	3cse	3roa	True
+3600	P 61	A2B2	4dfr	1tdr	True
+3600	P 61 2 2	A(1)	3sqy	3sr5	True
+3603	C 1 2 1	A5(1)	3dl5	4q0e	True
+3610	P 32 2 1	AB	4oqv	4igh	True
+3610	P 61	A2(3)	3mhu	3tq0	True
+3610	P 64	AB	3i65	4orm	True
+3619	P 42 2 2	A3(2)	4b6s	2xd9	True
+3645	C 1 2 1	A(3)	3hhy	3hjs	True
+3645	C 1 2 1	A(4)	3i51	3i4y	True
+3663	P 1 21 1	A6(3)	5jzm	4i2n	True
+3663	P 31 2 1	A(3)	5sy6	3cza	True
+3676	P 21 21 21	A(3)	1zi8	1zi9	True
+3724	P 21 21 21	A(6)	4e0d	1l3v	True
+3724	P 21 21 21	A(4)	3tan	2hht	True
+3724	P 21 21 21	A(7)	2hhv	2xy7	True
+3724	P 21 21 21	A2(5)	4yfu	4dqq	True
+3724	P 43	A(2)	2kfn	1qsl	True
+3734	P 1 21 1	A4(3)	2dtu	3rmb	True
+3734	P 1 21 1	A4(5)	2dy4	3tab	False
+3734	P 21 21 21	A(7)	4khy	3cfp	False
+3734	P 21 21 21	A(8)	4khy	3cq8	False
+3734	P 21 21 21	A(14)	3qer	3sq0	True
+3734	P 21 21 21	AB	4khu	4khy	False
+3734	P 21 21 21	A(22)	3qex	4dtx	False
+3734	P 21 21 21	AB(2)	4flw	4flv	True
+3743	P 1 21 1	A2(1)	4k3l	4n98	True
+3847	P 65	A(7)	3qow	5juw	True
+3860	P 21 21 21	A2(5)	2hu5	2hu7	True
+3860	P 21 21 21	A2(14)	1tk3	1n1m	True
+3860	P 21 21 21	A2(7)	3nox	4jh0	True
+3860	P 63 2 2	A(1)	2z3z	2z3w	True
+3882	P 21 2 21	A(1)	5cnw	5co3	True
+3882	P 21 2 21	A(3)	5cnw	5coh	True
+4323	P 1 21 1	A2B2(4)	3u7q	1fp4	True
+4538	P 61	A2B2(3)	3k22	3cld	True
+4676	P 21 21 21	A6(1)	4ao5	2xcd	True
+4712	P 31 2 1	AB(2)	2bfd	1u5b	True
+4759	P 21 21 21	A3(13)	4q1k	4q1g	True
+4764	P 21 21 21	A2(2)	3zwc	3zw8	True
+4769	P 3 2 1	A(1)	1cl8	1ckq	True
+4864	C 1 2 1	A(1)	4cpv	5cpv	True
+5070	I 2 2 2	AB(4)	4uv8	4uv9	False
+5070	I 2 2 2	AB(5)	4uv8	4czz	False
+5105	I 4 2 2	A(3)	3go2	3sn4	True
+5130	P 1 21 1	A(2)	2vwx	2vwy	True
+5130	P 1 21 1	A(10)	5i9v	5i9u	True
+5143	P 1 21 1	A2(2)	2c5a	2c5e	True
+5287	I 41	A24(2)	3azb	3aza	True
+5301	C 2 2 21	AB	1pbe	2phh	True
+5301	I 2 2 2	A(3)	3alj	4h2n	True
+5301	P 1 21 1	A2(11)	4j33	4j2w	True
+5301	P 1 21 1	A2(12)	4j33	4j34	True
+5309	C 1 2 1	A(4)	3s1d	3kjm	True
+5336	P 1 21 1	A2(4)	3vk8	4nrw	True
+5336	P 21 21 21	A(11)	1l1z	1l2c	True
+5336	P 21 21 21	A(6)	1l1z	1l2d	True
+5336	P 21 21 21	A(4)	3u6p	3gq3	False
+5336	P 21 21 21	A(12)	3gq4	3jr5	True
+5353	I 2 2 2	A(12)	1nux	2f3b	True
+5353	P 21 21 2	A2(1)	2qvu	1kz8	False
+5353	P 21 21 2	A2(2)	1frp	1rdz	False
+5353	P 32 2 1	A2(1)	5fbp	1fbh	True
+5461	F 4 3 2	AB	2v2p	2cei	False
+5461	F 4 3 2	A(3)	2cei	4dyx	False
+5461	F 4 3 2	AB(2)	4eve	3t9j	True
+5461	H 3 2	A4B4	4m32	4m33	True
+5634	P 31 2 1	A(3)	4wxp	3rvb	True
+5668	P 31 2 1	A(4)	2fdx	5nll	True
+5670	P 21 21 21	A2(2)	3qe2	3qfc	True
+5670	P 21 21 21	A2(4)	1ja1	4yao	True
+5672	P 1	A4(4)	1d4a	1h66	False
+5672	P 21 21 21	A2(9)	4fgj	3nhw	False
+5672	P 4 21 2	A(2)	2d5i	2z9c	True
+5733	C 2 2 21	A(3)	4m5q	4mk2	True
+5733	P 1	A4(1)	3hw5	3hw3	False
+5733	P 41 21 2	A(1)	5jht	4zqq	True
+5828	P 32 2 1	A(2)	4zz1	4zz0	True
+5831	C 1 2 1	A2(2)	4lxt	4lxu	True
+5871	P 65	A(2)	3evf	3evd	True
+5910	P 21 21 21	AB(6)	3q3k	2d1j	True
+5910	P 21 21 21	AB(11)	2pr3	2w3i	True
+5910	P 41 21 2	AB(3)	4jze	2bz6	True
+5910	P 41 21 2	AB(5)	5l2z	4zxy	True
+5910	P 43 21 2	AB(4)	2xc5	2xby	True
+5932	P 1 21 1	A2B2(2)	2qm6	3fnm	True
+5932	P 21 21 21	A2B2(2)	2dg5	2z8k	True
+5950	P 21 21 21	A2(1)	2w3g	2w3e	True
+5966	P 6	A(1)	5jpa	3h47	True
+5991	P 1 21 1	A4(5)	4ym3	4ym0	True
+5991	P 21 21 21	AB	4r9a	3zsm	False
+5991	P 21 21 21	A2B2	4q27	4y1z	False
+5991	P 21 21 21	A(9)	3zsm	5e89	False
+5991	P 21 21 21	A(13)	5t7u	5t7i	True
+6000	I 4	A(3)	4n0e	1bof	False
+6085	P 32	A4B4	3ruf	3rue	True
+6085	P 32 2 1	A(5)	1e7s	1gfs	True
+6085	P 32 2 1	A(6)	1udb	1lrk	True
+6109	I 2 2 2	A(3)	3rc1	3rcb	True
+6109	P 21 21 21	A4(2)	4miy	4mio	True
+6112	P 21 21 21	A4B4	2z1o	3lsa	False
+6112	P 21 21 21	A2B2	2qli	4h3l	True
+6112	P 21 21 21	A(2)	5t3i	1rmm	False
+6112	P 21 21 21	A(20)	4as8	1yhh	False
+6112	P 21 21 21	A4(4)	3gj1	3gj2	True
+6112	P 21 21 21	A(25)	4as8	3ztf	False
+6112	P 21 21 21	A(27)	4as8	4gf6	False
+6112	P 21 21 21	A(28)	3dq7	4kex	False
+6112	P 21 21 21	A(28)	3svc	4kex	True
+6112	P 21 21 21	AB(1)	4as8	3dq4	False
+6112	P 21 21 21	AB(4)	3dq7	3svc	True
+6139	C 1 2 1	ABC(4)	3pvu	3pvw	True
+6171	P 21 21 21	ABC(5)	3th2	1z6j	True
+6189	I 1 21 1	A2B2	1myg	1myj	True
+6189	P 1 21 1	A(28)	1a6m	1ajh	False
+6189	P 1 21 1	A(29)	1bzp	1vxe	False
+6189	P 1 21 1	A(29)	1vxd	1vxe	True
+6189	P 1 21 1	AB	4twu	4ns2	False
+6189	P 1 21 1	A(31)	3v2z	5iks	False
+6189	P 1 21 1	AB(1)	1a6m	3v2z	True
+6189	P 1 21 1	AB(2)	1bzp	1vxd	True
+6189	P 21 21 21	A2B2	3kuo	4dwu	True
+6189	P 21 21 21	A(21)	4f6j	2xkg	False
+6189	P 21 21 21	A(38)	4f6j	4f6b	True
+6189	P 21 21 21	A2(19)	4dwu	4kmv	True
+6189	P 21 21 21	A2(19)	4kjt	4kmv	True
+6189	P 21 21 21	AB	1u7r	4lpi	False
+6189	P 21 21 21	A(37)	5hav	4pqc	False
+6189	P 21 21 21	A(6)	4lpi	4pq6	True
+6189	P 21 21 21	AB(1)	5hav	4mxk	True
+6189	P 6	AB	2mbw	112m	True
+6190	P 1 21 1	A4B4C4D4	1j40	1j3z	True
+6190	P 1 21 1	A2B2(30)	2dn2	1j7w	False
+6190	P 1 21 1	A2B2(31)	1c7b	1shr	False
+6190	P 1 21 1	A2B2(14)	3qjd	3nmm	False
+6190	P 1 21 1	A2B2C2D2(1)	2dn2	1c7b	False
+6190	P 1 21 1	A2B2C2D2(2)	3qjd	1r1y	False
+6190	P 21 21 2	A2B2C2D2	1ye2	1y83	True
+6190	P 21 21 2	A2B2(6)	1y83	1rq4	True
+6190	P 21 21 21	A2B2C2D2	6hbw	1y8k	False
+6190	P 21 21 21	A2B2(47)	3s65	1nej	True
+6213	P 21 21 21	A(3)	4pi8	4pia	True
+6218	P 21 21 21	A4(4)	5hl1	5fi2	True
+6218	P 21 21 21	A4(5)	5hl1	5fi7	True
+6235	C 1 2 1	A(3)	3vii	3vik	True
+6235	P 21 21 21	A2(16)	3f5l	2rgm	True
+6235	P 21 21 21	A(13)	4hz8	4hz7	True
+6237	C 1 2 1	A(5)	1r85	4prw	True
+6237	P 1	A2(3)	3niy	1vbr	True
+6237	P 41 21 2	A(4)	3cui	3cuh	True
+6237	P 43 21 2	A2(2)	1w32	1w3h	True
+6263	P 21 21 21	A(18)	2hvm	1llo	True
+6263	P 21 21 21	AB(2)	1zbc	1zbw	True
+6263	P 21 21 21	A(19)	2dsz	2o9o	True
+6263	P 43	A4(2)	1nwu	1nwr	True
+6283	P 61 2 2	A(1)	1jak	1m04	True
+6285	P 1	A2(3)	5fky	2xj7	True
+6285	P 2 21 21	A2(3)	5fl0	5abh	True
+6302	P 1 21 1	A2(4)	4gvf	4gvh	True
+6303	P 43 21 2	A(4)	3wli	3wlq	True
+6305	I 1 2 1	A2(2)	4zoc	4zo6	True
+6333	C 1 2 1	A(2)	4l6x	4el8	True
+6343	P 21 21 21	A(3)	2bog	2bof	True
+6408	C 2 2 21	A(2)	3ioh	1xz6	False
+6408	C 2 2 21	AB	3ioh	4y63	False
+6408	C 2 2 21	A(5)	3i0i	4frq	False
+6408	C 2 2 21	A(4)	3ioh	4fre	False
+6408	C 2 2 21	AB(1)	3ioh	3i0i	True
+6408	P 1 21 1	A2(3)	1o7q	1gx4	True
+6408	P 21 21 2	A2(1)	3u0y	3v0m	True
+6421	P 1 21 1	A4(4)	1zai	3dfn	True
+6427	P 43 21 2	A(1)	4ead	4lhm	True
+6435	H 3	AB	3pkx	3oul	True
+6449	P 42 21 2	A(2)	2f5v	4mos	True
+6477	C 2 2 2	A3(3)	1rm4	1rm3	True
+6477	P 1 21 1	A4B4	3lvf	3lc1	True
+6482	P 1 21 1	A2(3)	4dkp	4dvv	True
+6499	P 21 21 21	ABC(10)	4olz	4om1	True
+6578	P 21 21 21	A6(2)	5a4u	5a4v	True
+6584	C 1 2 1	A2(5)	1pgt	2pgt	True
+6584	C 1 2 1	A2(20)	1k3y	2r3x	True
+6584	C 1 2 1	A2(21)	2a2r	3dd3	True
+6584	C 1 2 1	A2(22)	3csh	3gss	True
+6584	C 1 2 1	A2(3)	1pl1	3q74	False
+6584	C 1 2 1	A2(14)	1k3y	4hj2	True
+6584	I 41	A4(3)	5ais	2vcz	True
+6584	P 21 21 21	A2(25)	1lbk	1px6	True
+6584	P 43 21 2	A(4)	4ecc	3d0z	True
+6590	P 1 21 1	A(3)	5d9x	5d9v	True
+6590	P 31 2 1	AB	3vln	4is0	True
+6590	P 31 2 1	A2B2	4mpg	1ljr	True
+6590	P 31 2 1	A2(4)	1ljr	2ljr	True
+6590	P 31 2 1	A2(4)	4mpg	2ljr	True
+6673	P 63	A(6)	4clf	4oyi	True
+6673	P 63	A(5)	4clf	4oyw	True
+6740	C 2 2 21	A(3)	4emv	4mb9	True
+6740	P 21 21 21	A(6)	4k4o	4ktn	True
+6740	P 21 21 21	A(7)	4k4o	4gee	True
+6741	C 1 2 1	A2(4)	5cph	5d6p	True
+6741	C 1 2 1	A2(5)	5cph	5d7d	True
+6748	I 2 2 2	AB	3t0h	2yi7	False
+6748	I 2 2 2	A(11)	3t0h	3bm9	False
+6748	I 2 2 2	A(13)	2yk9	3qtf	False
+6748	I 2 2 2	A(13)	3o0i	3qtf	True
+6748	I 2 2 2	A(18)	3o0i	4lwe	False
+6748	I 2 2 2	A(19)	4l8z	5cf0	False
+6748	I 2 2 2	A(14)	2yi7	4lwg	False
+6748	I 2 2 2	AB(1)	2yk9	3o0i	True
+6748	I 2 2 2	AB(3)	4l8z	4l90	False
+6748	P 1 21 1	AB	3vha	2yef	True
+6748	P 1 21 1	A(19)	2yef	2xk2	False
+6748	P 1 21 1	A(19)	3vha	2xk2	True
+6748	P 43 2 2	AB	2iwx	4asf	True
+6748	P 43 2 2	A(4)	2iwx	1a4h	False
+6772	P 61	A2B2(3)	4i33	1dxp	True
+6868	C 1 2 1	A3B3C3D3	1rv0	1rvt	False
+6868	C 1 2 1	A3B3C3D3(2)	3znm	2ibx	True
+6868	H 3 2	AB(2)	4bsg	4lkk	True
+6868	P 1	A6B6C6D6	3ubq	3ubn	False
+6868	P 1 21 1	A3B3C3D3	4bh1	5e30	True
+6868	P 21 21 21	A3B3(9)	4uo0	4uo2	False
+6886	P 1 21 1	A2(12)	1ozr	5btq	True
+6886	P 32 2 1	A(2)	1j02	1ix4	True
+6995	P 61	A(6)	2i1q	3ntu	True
+7001	C 1 2 1	A(8)	4qzf	4qzc	False
+7001	P 1 21 1	AB	4kli	5bol	True
+7001	P 1 21 1	A(29)	4kli	3c2k	True
+7001	P 1 21 1	A(30)	5bol	1bpy	True
+7001	P 1 21 1	A(27)	4kli	4klj	True
+7001	P 1 21 1	A(9)	4kli	4kll	True
+7001	P 1 21 1	A(26)	4kli	4klm	False
+7001	P 1 21 1	A(6)	4klu	4ub1	False
+7001	P 1 21 1	A(31)	4kli	4ymo	True
+7001	P 1 21 1	A(31)	5bol	4ymo	True
+7001	P 21 21 2	A(4)	8ick	1zqq	True
+7001	P 21 21 2	AB	9icw	8ick	True
+7001	P 21 21 2	A(5)	8ick	9icy	True
+7001	P 21 21 21	A(21)	4i2a	4i2c	True
+7001	P 21 21 21	A(21)	4i2e	4i2c	True
+7001	P 21 21 21	A(14)	5iim	3upq	True
+7001	P 21 21 21	AB	4i2a	4i2e	True
+7028	C 1 2 1	ABCDEFGH	7kme	8kme	False
+7028	C 1 2 1	ABC(7)	5afy	3p17	False
+7028	C 1 2 1	ABCDEF	5afy	3si4	False
+7028	C 1 2 1	ABC(4)	1ypj	2jh6	False
+7028	C 1 2 1	ABC(2)	3si4	2cf8	False
+7028	C 1 2 1	ABC(1)	5afy	4ud9	True
+7028	C 1 2 1	ABCDEF(2)	1ypm	2zhw	True
+7038	P 21 21 21	A(8)	1dkq	1dkm	True
+7052	P 1 21 1	A2(9)	5bwz	4rn0	True
+7052	P 21 21 21	A2B2(2)	5dc8	5dc6	True
+7095	C 1 2 1	A2B2(2)	2h6n	2h6q	True
+7095	C 1 2 1	A2B2(3)	2h6n	2o9k	True
+7108	P 43 21 2	A(1)	3o1c	3o1z	True
+7163	P 21 21 21	A2(3)	4mza	4xjq	False
+7175	P 21 3	A2(2)	3tfg	3tf9	True
+7214	P 43 21 2	A(2)	4x1f	3r8d	False
+7227	C 1 2 1	ABCD	3vt7	2o4j	False
+7227	C 1 2 1	A2(21)	2zvt	2xkw	True
+7227	C 1 2 1	AB(6)	3vt7	2zmi	False
+7227	C 1 2 1	AB(4)	2zl9	2zlc	False
+7227	C 1 2 1	AB(4)	3vt7	2zlc	True
+7227	C 1 2 1	A2(22)	2zvt	3vjh	False
+7227	C 1 2 1	A2B2	3adx	3ty0	False
+7227	C 1 2 1	AB(17)	2o4j	3w5p	False
+7227	C 1 2 1	AB(17)	3vt7	3w5p	True
+7227	C 1 2 1	AB(18)	2zl9	5gid	False
+7227	C 1 2 1	A2B2(3)	3adx	2vv2	False
+7227	C 1 2 1	A2B2(4)	3b0q	2p4y	False
+7227	C 1 2 1	ABCD(2)	3vt7	2zl9	True
+7227	C 1 2 1	ABCD(3)	3vt3	3w0g	False
+7227	C 1 2 1	ABCD(4)	3vt3	3vt4	True
+7227	P 1 21 1	A2(16)	3noa	2ath	False
+7227	P 1 21 1	A2(17)	3wj5	2g0h	True
+7227	P 1 21 1	A2(15)	4a2j	3d90	True
+7227	P 1 21 1	A2(18)	3wj5	3gbk	False
+7227	P 1 21 1	A2B2(5)	1sqn	4a2j	True
+7227	P 21 21 21	ABCD	1t7r	4oha	False
+7227	P 21 21 21	A(26)	2am9	1e3g	False
+7227	P 21 21 21	A(27)	3b0t	3az3	True
+7227	P 21 21 21	AB	3b0t	3a3z	False
+7227	P 21 21 21	A2B2	4rzf	3v3e	False
+7227	P 21 21 21	AB(7)	3b0t	2har	False
+7227	P 21 21 21	AB(12)	3b0t	3w0y	True
+7229	P 1 21 1	A2BC(3)	4mga	3uua	False
+7234	P 1 21 1	A2B2(9)	4iwf	3hm1	True
+7234	P 1 21 1	A2B2(10)	4ivy	4ppp	False
+7234	P 21 21 21	A2B2(2)	1yye	2nv7	True
+7234	P 21 21 21	A2B2(5)	1yye	1u3r	True
+7234	P 4 21 2	A2B2C2D2	5hjs	3ipu	True
+7234	P 43 21 2	AB(2)	4zsh	1mvc	False
+7234	P 43 21 2	ABCD	2p1t	4zsh	False
+7234	P 43 21 2	AB(5)	4rmd	3fug	False
+7234	P 43 21 2	AB(7)	4rmd	3pcu	False
+7234	P 65 2 2	ABCD	4q0a	4ia1	False
+7234	P 65 2 2	AB(3)	4q0a	4g2h	False
+7237	P 65 2 2	A(2)	1xpc	5acc	True
+7240	P 1 21 1	A2B2(18)	5kce	5dvv	True
+7240	P 1 21 1	A2B2(3)	5tn4	5tlt	True
+7240	P 1 21 1	A2B2(10)	5tn5	5tn6	True
+7244	P 1 21 1	A(10)	3hsz	3hcx	True
+7289	P 21 21 2	A2B2C2D2	4ezp	3dpp	False
+7289	P 21 21 21	A(23)	5bn8	3atv	True
+7289	P 21 21 21	A(24)	5bn8	5bn9	True
+7354	P 65 2 2	A2(2)	2bnm	3sch	True
+7443	P 65 2 2	A(2)	5am2	5ai5	True
+7470	P 21 21 21	AB(4)	5d5k	1pjn	False
+7470	P 21 21 21	A(3)	4u5u	3tpo	False
+7735	P 41 21 2	A(3)	2d48	1hzi	True
+7754	P 31 2 1	A(3)	4xdx	5d14	True
+7776	I 4	A(6)	5k4x	4zqm	True
+7783	P 1 21 1	A2(25)	4ird	4irc	False
+7783	P 1 21 1	A2B2(1)	5c5j	4ird	False
+7783	P 21 21 2	AB	3m9n	3m9o	False
+7783	P 21 21 2	A(18)	2jej	3pw2	False
+7783	P 21 21 2	A(19)	2jej	4rua	True
+7783	P 21 21 2	A(19)	2uvv	4rua	False
+7783	P 21 21 2	A(4)	3qz7	5edw	False
+7783	P 21 21 2	AB(1)	2ibk	2c2r	True
+7783	P 21 21 2	AB(2)	2jeg	2v4q	True
+7783	P 21 21 2	AB(4)	2jej	2uvv	False
+7783	P 61	AB	5kfz	5kg6	True
+7783	P 61	A(2)	5kfz	4o3s	False
+7783	P 61	A(4)	5kfz	5ewf	False
+7783	P 65 2 2	AB	3osn	3q8p	True
+7827	P 21 21 21	A(4)	5djh	5djj	True
+7841	H 3	A2B2C2D2	3w7y	1m5a	False
+7841	H 3	A2B2(11)	3w7y	4eyp	False
+7841	H 3	A2B2(23)	3kq6	3v19	True
+7841	H 3	A2B2C2D2(2)	4gbc	3kq6	False
+7841	I 21 3	AB(2)	5hqi	1b2d	False
+8045	C 1 2 1	AB	5ivb	5e6h	True
+8045	P 1 21 1	A4B4	5f3c	5f39	False
+8045	P 1 21 1	A4(3)	5f3c	5f3g	False
+8045	P 21 21 2	A2(2)	3pdq	2ybk	True
+8048	P 65 2 2	A(3)	5fyz	5fz4	True
+8179	P 21 21 21	A2B2C2D2E2F2G2H2I2J2K2L2M2N2O2P2Q2R2S2T2U2V2W2X2Y2Z2a2b2c2d2e2f2g2h2i2j2k2l2m2n2o2p2q2r2s2t2u2v2w2(1)	4w2f	4w2g	True
+8346	I 2 2 2	A(2)	4nq2	1ko3	True
+8346	P 1 21 1	A2B2	5acs	5acq	True
+8346	P 1 21 1	A2(19)	5acq	5act	True
+8346	P 21 21 21	A4(5)	5ev6	5ev8	True
+8346	P 64 2 2	AB	5evk	1sml	True
+8444	C 1 2 1	A6B6	3vku	3vkv	True
+8444	C 1 2 1	A4(8)	3hhp	1ie3	True
+8444	C 1 2 1	A6(2)	3vku	3vpf	True
+8444	C 1 2 1	A6(2)	3vkv	3vpf	True
+8444	I 2 2 2	AB	1t2d	1ldg	True
+8444	P 1 21 1	A4B4	4aj2	4al4	True
+8444	P 1 21 1	A4(14)	4aj2	4ajn	True
+8444	P 1 21 1	A4(14)	4al4	4ajn	True
+8463	P 63	AB	3pbf	1r13	True
+8463	P 63	A(2)	1r13	1r14	True
+8463	P 63	A(2)	3pbf	1r14	True
+8478	I 2 2 2	AB	1nls	1dq0	True
+8478	I 2 2 2	A(9)	1dq0	1qny	True
+8478	I 2 2 2	A(23)	1dq0	2cna	False
+8515	P 2 2 21	AB	4f29	4f2q	False
+8515	P 2 2 21	A(4)	4f2q	3rt6	False
+8515	P 2 21 21	A3(6)	5h8s	3t9x	False
+8515	P 21 21 2	A2B2	3tkd	2xhd	False
+8515	P 21 21 2	A3B3	2xxh	2xx8	False
+8515	P 21 21 2	AB	4fat	3o6i	True
+8515	P 21 21 2	A(19)	3o6i	3pmv	True
+8515	P 21 21 2	A3(4)	2xxh	3t9u	False
+8515	P 21 21 2	A2(6)	2xhd	5elv	False
+8515	P 21 21 2	A2(6)	3tkd	5elv	True
+8551	P 1	A2(28)	5f7g	5f58	True
+8551	P 21 21 21	AB	4tkb	4wbk	True
+8551	P 21 21 21	A(37)	5edb	3q6l	True
+8551	P 21 21 21	A(38)	5edb	2nnq	True
+8551	P 21 21 21	A(39)	4tkb	3wxq	True
+8551	P 31 2 1	AB	4yfq	4ybp	True
+8551	P 32 2 1	A(7)	4gny	1bsq	True
+8551	P 41 21 2	A3(6)	1x71	4iaw	True
+8551	P 41 21 2	A3(4)	4zhc	3tf6	False
+8551	P 41 21 2	A3(2)	4zhc	4zhd	False
+8551	P 41 21 2	A3B3	4zhc	1x71	False
+8551	P 61 2 2	A(1)	3o22	4orr	True
+8563	P 21 21 21	A(6)	3vg7	3vg5	True
+8754	P 42	A4(3)	4n33	4n35	True
+8765	P 1 21 1	A2(15)	2d4i	1b2k	False
+8765	P 1 21 1	A2(16)	2d4i	1dkk	False
+8765	P 21 21 21	A(37)	1di3	1eqe	False
+8765	P 21 21 21	A(37)	1ge1	1eqe	True
+8765	P 21 21 21	A(38)	2nwd	1gbw	False
+8765	P 21 21 21	A(23)	2nwd	1iwv	True
+8765	P 21 21 21	A(3)	2nwd	1lmt	False
+8765	P 21 21 21	A(36)	207l	208l	True
+8765	P 21 21 21	A(40)	1lzr	2med	False
+8765	P 21 21 21	A(40)	1oug	2med	True
+8765	P 21 21 21	AB(5)	1jsf	207l	True
+8765	P 21 21 21	AB(6)	4j7v	3az5	True
+8765	P 21 21 21	AB(1)	2nwd	1b7l	True
+8765	P 21 21 21	AB(2)	1di3	1b7m	True
+8765	P 21 21 21	AB(3)	1ge1	1b7q	True
+8765	P 21 21 21	AB(4)	1lzr	1oug	True
+8765	P 43 21 2	A(24)	4axt	1yil	False
+8765	P 43 21 2	A(24)	4b0d	1yil	False
+8765	P 43 21 2	A(22)	4b4e	2d6b	False
+8765	P 43 21 2	A(23)	4axt	3iju	False
+8765	P 43 21 2	A(23)	5lxw	3iju	True
+8765	P 43 21 2	A(6)	4b49	4bap	False
+8765	P 43 21 2	A(8)	3ajn	4ng8	False
+8765	P 43 21 2	A(20)	4axt	4ngl	False
+8765	P 43 21 2	A(20)	5lxw	4ngl	True
+8765	P 43 21 2	A(15)	4n8z	4p2e	False
+8765	P 43 21 2	A(19)	4b4e	4xen	False
+8765	P 43 21 2	AB(1)	1lzb	1uc0	True
+8765	P 43 21 2	AB(2)	4n8z	2q0m	True
+8765	P 43 21 2	AB(3)	4axt	4b0d	False
+8765	P 43 21 2	AB(4)	3ajn	5dl9	True
+8765	P 43 21 2	AB(5)	4b49	4wg1	True
+8789	C 2 2 21	A(5)	4lq2	4lq5	True
+9065	C 1 2 1	AB	2nxc	2zbr	True
+9065	C 1 2 1	A(6)	2nxc	2zbp	True
+9065	C 1 2 1	A(6)	2zbr	2zbp	True
+9065	I 41	A(5)	4c08	4c05	True
+9296	H 3 2	A4(2)	1sjb	5fjr	True
+9296	H 3 2	A4B4	1sjd	1sjb	True
+9467	P 1 21 1	A(2)	1cjc	1e1m	True
+9491	P 1 21 1	A2(4)	4lvf	4o17	True
+9503	C 2 2 21	A6(2)	3gp9	3eic	True
+9518	I 4	A(11)	4wa4	4wa5	True
+9521	P 65	A5(2)	3wtj	3wti	True
+9596	P 1 21 1	A(7)	4c7i	5age	False
+9596	P 1 21 1	A(8)	4c7i	5ag6	False
+9602	C 2 2 21	AB	1vag	1qwc	True
+9602	P 21 21 2	A(7)	4ugc	4ug6	False
+9602	P 21 21 2	AB	4d3t	4ugc	False
+9602	P 21 21 2	A(8)	4ugw	5g6l	False
+9602	P 21 21 2	AB(2)	4ugk	4ugw	True
+9602	P 21 21 21	A2B2	4fvy	1om4	True
+9602	P 21 21 21	A2(25)	1om4	1p6k	True
+9602	P 21 21 21	A2(25)	4fvy	1p6k	True
+9602	P 21 21 21	A2(14)	3nle	4ctz	True
+9602	P 21 21 21	A2(22)	1om4	4d7o	False
+9602	P 21 21 21	A2(22)	4fvy	4d7o	True
+9602	P 61 2 2	A2B2	3e7m	3e65	True
+9602	P 61 2 2	A2(5)	3e7m	1m8d	False
+9720	P 21 21 2	AB	5anv	5anu	True
+9720	P 21 21 21	A2B2	2a8t	2a8s	True
+9720	P 21 21 21	A2(19)	2a8s	2a8q	True
+9720	P 21 21 21	A2(19)	2a8t	2a8q	True
+9847	P 21 21 21	A(12)	1vyr	1h61	True
+9869	P 1 21 1	A4B4	2fdv	1z10	True
+9869	P 1 21 1	A2(51)	1o76	1t88	False
+9869	P 1 21 1	AB	4lxj	5hs1	True
+9869	P 1 21 1	A4(13)	1z10	2pg5	True
+9869	P 1 21 1	A4(13)	2fdv	2pg5	True
+9869	P 1 21 1	A(19)	5hs1	5esh	False
+9869	P 1 21 1	A(2)	4lxj	5esg	False
+9869	P 1 21 1	A2(13)	4dty	5jtd	False
+9869	P 1 21 1	A(20)	4wmz	5esn	False
+9869	P 1 21 1	A2B2(1)	2a1o	1o76	True
+9869	P 1 21 1	A2B2(2)	4dty	4kf0	True
+9869	P 21 21 2	A(8)	5l1r	5l1o	True
+9869	P 21 21 21	A(53)	1re9	3p6n	False
+9869	P 21 21 21	A(53)	3oia	3p6n	False
+9869	P 21 21 21	AB(1)	1jfb	1cmj	True
+9869	P 21 21 21	AB(2)	4l4e	1gek	True
+9869	P 21 21 21	AB(3)	1re9	3oia	False
+9869	P 21 21 21	AB(4)	3l61	3p6s	True
+9869	P 31 2 1	AB	4jlt	5iut	True
+9869	P 31 2 1	A(16)	5iut	4mgj	True
+9869	P 43 21 2	AB	2zwu	2fe6	True
+9869	P 65 2 2	AB	4zfa	4zfb	True
+9875	P 1 21 1	A4(3)	4kvp	4ibt	True
+9920	C 1 2 1	A(6)	4n2k	4n2h	True
+9947	P 1 21 1	A4B4	4d9b	4d92	True
+9947	P 1 21 1	A4(7)	4d9b	4d8t	True
+9961	P 1 21 1	A2(2)	3iub	4efk	True
+10009	C 2 2 21	A2B2	4uvz	5aku	True
+10010	P 41 21 2	AB(3)	5adq	5adr	True
+10011	P 1 21 1	A(4)	4gv2	4l7o	True
+10026	C 1 2 1	AB(2)	3f1p	4gs9	True
+10026	C 1 2 1	AB(4)	3f1p	3f1o	True
+10082	P 1	A2(1)	5df7	5df8	True
+10134	P 21 21 21	A4B4	3g4i	3g4l	True
+10134	P 21 21 21	A4(6)	3sl4	1zkn	False
+10134	P 21 21 21	A2B2	3sn7	3sni	True
+10134	P 21 21 21	A2(21)	3sni	4fcd	True
+10134	P 21 21 21	A2(22)	3wym	3wyl	False
+10134	P 21 21 21	A2(23)	5axq	5b4l	False
+10134	P 21 21 21	A2B2(1)	5axq	3wym	True
+10147	P 21 21 21	A2B2(5)	4jok	4jof	True
+10147	P 21 21 21	A2B2(6)	4jok	4nmq	True
+10241	P 21 21 21	AB	2f7d	2bdl	False
+10241	P 41 2 2	A2(2)	3ovx	2fra	False
+10241	P 41 2 2	A2B2	3ovx	2frq	True
+10241	P 43 21 2	A(11)	3kwz	3kw9	True
+10273	C 1 2 1	AB(3)	2z3c	3avz	False
+10313	P 21 21 21	A2(6)	1hy7	1bqo	True
+10313	P 21 21 21	A2(8)	1hy7	1d7x	True
+10339	P 21 21 21	A(1)	4c2o	1uze	True
+10410	P 21 21 21	A2(4)	4b76	4b71	True
+10430	P 1 21 1	A(12)	1suc	2sbt	False
+10430	P 1 21 1	AB(2)	1gns	1suc	True
+10430	P 21 21 21	A3B3	3wiu	3wiv	True
+10430	P 21 21 21	A(22)	1scn	1avt	False
+10430	P 21 21 21	A(21)	1be8	1bfu	True
+10430	P 21 21 21	A(21)	1scn	1bfu	True
+10430	P 21 21 21	A(23)	1gci	1q5p	False
+10430	P 21 21 21	A(23)	1st3	1q5p	True
+10430	P 21 21 21	AB(1)	1scn	1be8	True
+10430	P 21 21 21	AB(2)	4cfy	1ndu	True
+10430	P 21 21 21	AB(3)	1gci	1st3	True
+10474	P 21 21 21	A(25)	4nvf	1bva	False
+10474	P 21 21 21	A(26)	2eur	1dj1	True
+10474	P 21 21 21	A(28)	1gwu	1h5m	False
+10474	P 21 21 21	A(28)	1h57	1h5m	True
+10474	P 21 21 21	AB	4nvb	3e2n	False
+10474	P 21 21 21	A(27)	4nvb	3m29	False
+10474	P 21 21 21	AB(1)	1gwu	1h57	True
+10474	P 21 21 21	AB(2)	2eut	2eur	True
+10474	P 42 21 2	AB	2vcn	2ghk	True
+10498	P 1 21 1	A2(12)	4k8p	4k9c	True
+10498	P 21 21 21	A2(10)	3nbv	3nbw	True
+10577	C 2 2 21	A2(4)	1xo0	2crx	True
+10588	P 32 2 1	A(15)	5jdt	1t6h	True
+10588	P 32 2 1	A(13)	5g27	3cdt	True
+10588	P 32 2 1	A(6)	1swy	3hh3	True
+10660	P 31 2 1	A(12)	4dbk	3hsw	True
+10660	P 41	A(3)	1mh8	1oxr	True
+10660	P 43	A(5)	4qmc	3fo7	True
+10711	C 1 2 1	A(5)	1e8x	3dpd	True
+10711	C 1 2 1	A(7)	4anv	4anw	False
+10711	C 1 2 1	A(4)	1e8x	3r7q	True
+10732	P 42 3 2	A5B5C5(2)	4rr3	4rqp	True
+10740	C 1 2 1	A6(2)	3t9z	3ta0	True
+10763	C 2 2 21	A2(4)	3x01	3x05	True
+10771	I 2 2 2	A2(1)	4kct	4kcv	False
+10783	P 21 21 21	AB(23)	1rdq	4hpu	True
+10783	P 21 21 21	AB(36)	3poo	2vo0	True
+10783	P 21 21 21	AB(20)	4c33	4uj2	False
+10785	C 1 2 1	A(40)	4dgm	2oxd	False
+10785	C 1 2 1	A(41)	4dgm	2pvn	False
+10785	C 1 2 1	A(42)	2xk8	2xke	True
+10785	C 1 2 1	A(43)	1zoe	3kxn	False
+10785	C 1 2 1	A(36)	4rlk	4anm	True
+10785	C 1 2 1	A(2)	4dgm	4dgn	True
+10785	C 1 2 1	A(44)	4dgm	4dgo	False
+10785	C 1 2 1	A4(4)	4ylj	4mq2	False
+10785	C 1 2 1	A(27)	5lvo	5lvm	False
+10785	C 1 2 1	AB(3)	2xkd	2wqo	True
+10785	C 1 2 1	AB(4)	2xnm	2xk6	True
+10785	C 1 2 1	AB(2)	2w5a	2xk8	True
+10785	C 1 2 1	AB(5)	4rlk	3pvg	False
+10785	C 1 2 1	A4B4(2)	4mq1	4ylj	False
+10785	C 2 2 21	AB(3)	3fxz	4eqc	False
+10785	I 2 2 2	A(22)	5ap0	4c4f	False
+10785	I 2 2 2	A(11)	5eh0	4jt3	False
+10785	I 2 2 2	AB(1)	5ei6	2zmc	False
+10785	I 4 2 2	ABCD	3vuh	3vud	True
+10785	P 1 21 1	A(42)	3owk	1pjk	False
+10785	P 1 21 1	A(43)	3pa3	2r0u	False
+10785	P 1 21 1	A(43)	4hyi	2r0u	True
+10785	P 1 21 1	A(44)	4hyh	2wmr	False
+10785	P 1 21 1	A(12)	4hyi	3ot3	False
+10785	P 1 21 1	A(38)	4kwp	3pe2	False
+10785	P 1 21 1	A(45)	4zzn	3sa0	False
+10785	P 1 21 1	A(46)	4kwp	3r0t	True
+10785	P 1 21 1	A(37)	4s31	4xrj	False
+10785	P 1 21 1	A(3)	4s31	4xp0	False
+10785	P 1 21 1	A(47)	4s31	4xrl	False
+10785	P 1 21 1	A(5)	5cu6	5csv	False
+10785	P 1 21 1	A(23)	4kwp	5cvf	True
+10785	P 1 21 1	AB	4kwp	5cu6	False
+10785	P 1 21 1	AB(4)	4kwp	3owk	False
+10785	P 1 21 1	AB(2)	4hyi	3pa3	True
+10785	P 1 21 1	AB(5)	4hyh	3u9n	True
+10785	P 1 21 1	AB(8)	4qmu	4qml	False
+10785	P 1 21 1	AB(9)	4zzn	4s31	True
+10785	P 1 21 1	AB(10)	4zzn	4zzo	True
+10785	P 21 21 21	A(145)	1urw	1gij	True
+10785	P 21 21 21	A(145)	3rm6	1gij	True
+10785	P 21 21 21	A(4)	1wbs	1wbt	True
+10785	P 21 21 21	A(156)	5lar	1zyj	False
+10785	P 21 21 21	A(5)	1yqj	1zzl	True
+10785	P 21 21 21	A(157)	3roc	2ghl	False
+10785	P 21 21 21	A(153)	4w4w	2o0u	False
+10785	P 21 21 21	A(143)	4ek4	2r3i	False
+10785	P 21 21 21	A(155)	2yis	2yiw	True
+10785	P 21 21 21	A(66)	1wbs	3fln	False
+10785	P 21 21 21	A(66)	3fmk	3fln	True
+10785	P 21 21 21	A(159)	3flq	3fsk	False
+10785	P 21 21 21	A(159)	3kq7	3fsk	False
+10785	P 21 21 21	A(160)	2fst	3gcs	False
+10785	P 21 21 21	A(160)	3zs5	3gcs	False
+10785	P 21 21 21	A(164)	5lar	3p78	False
+10785	P 21 21 21	A(158)	4ek4	3qqj	False
+10785	P 21 21 21	A(146)	4ek4	3qzg	False
+10785	P 21 21 21	A(154)	3fmk	3nnv	False
+10785	P 21 21 21	A(165)	4ek4	3rpr	True
+10785	P 21 21 21	A(141)	5m4f	3wik	False
+10785	P 21 21 21	A(11)	4ek4	4ek3	False
+10785	P 21 21 21	A(85)	2yis	4f9w	False
+10785	P 21 21 21	A(85)	3roc	4f9w	False
+10785	P 21 21 21	A(166)	1gz8	4gcj	False
+10785	P 21 21 21	A(166)	4ek4	4gcj	False
+10785	P 21 21 21	A(161)	2qd9	4dli	False
+10785	P 21 21 21	A(161)	3k3i	4dli	False
+10785	P 21 21 21	A(162)	5bvf	4fv8	True
+10785	P 21 21 21	A(152)	2w4j	5av4	True
+10785	P 21 21 21	A(152)	4pf4	5av4	True
+10785	P 21 21 21	A(104)	5m4f	5h8g	False
+10785	P 21 21 21	AB(8)	2fst	2fso	True
+10785	P 21 21 21	AB(10)	3roc	2gtn	False
+10785	P 21 21 21	AB(11)	4pf4	2w4j	True
+10785	P 21 21 21	AB(12)	3roc	2yis	False
+10785	P 21 21 21	AB(14)	3oy1	3cgo	False
+10785	P 21 21 21	AB(15)	1wbs	3flq	False
+10785	P 21 21 21	AB(17)	2qd9	3k3i	False
+10785	P 21 21 21	AB(18)	5lar	3obj	True
+10785	P 21 21 21	AB(24)	2fst	3zs5	False
+10785	P 21 21 21	AB(31)	3oy1	4w4w	False
+10785	P 21 21 21	AB(32)	4ek4	4rj3	False
+10785	P 21 21 21	AB(16)	5k4i	5bvf	True
+10785	P 21 21 21	AB(34)	3rm6	5fp6	False
+10785	P 21 21 21	AB(1)	3fmk	1ouk	False
+10785	P 21 21 21	AB(2)	4ek4	1gz8	False
+10785	P 21 21 21	AB(5)	4txc	1wvx	True
+10785	P 32 2 1	A(21)	2ycf	2wtc	True
+10785	P 32 2 1	A(21)	4bdg	2wtc	True
+10785	P 32 2 1	AB(1)	2rku	2ou7	False
+10785	P 32 2 1	AB(3)	2ycf	4bdg	True
+10785	P 43 21 2	A2B2	5h8e	3q9x	True
+10785	P 43 21 2	A2(1)	3q9x	3q9z	False
+10785	P 43 21 2	A2(1)	5h8e	3q9z	True
+10785	P 43 21 2	A2(7)	3q9x	5cqw	True
+10785	P 43 21 2	A2(7)	5h8e	5cqw	True
+10785	P 61 2 2	A(24)	4byi	4c3r	False
+10785	P 62	AB	3dv3	1s9j	True
+10785	P 65	ABCD	2c3i	2bil	False
+10785	P 65	A(6)	3a99	3we8	False
+10785	P 65	A(6)	3vbq	3we8	False
+10785	P 65	A(1)	3vbq	4dtk	False
+10785	P 65	A(7)	4bzn	4mta	False
+10785	P 65	AB(1)	3a99	3vbq	False
+10813	P 21 21 21	A(13)	4oth	4otg	False
+10826	C 1 2 1	A2B2	3qgw	1snu	True
+10826	C 1 2 1	A4B4	2oib	4y73	True
+10826	C 1 2 1	A2(27)	4uwc	3js2	False
+10826	C 1 2 1	A4(10)	4y73	4ztn	False
+10826	C 1 2 1	A2(15)	5ew8	5am6	True
+10826	H 3	AB	2i1m	2i0y	True
+10826	H 3	A(7)	2i0y	3dpk	False
+10826	H 3 2	AB	4yne	4gt5	False
+10826	I 2 2 2	A(8)	2eva	5jgb	True
+10826	I 2 3	A(5)	4wkq	3w2p	True
+10826	P 1	A2(8)	2oiq	3g5d	True
+10826	P 1	A2(38)	2oiq	3oez	False
+10826	P 1	A2(40)	5j5s	4mcv	False
+10826	P 1	A2B2(1)	5j5s	3g6h	True
+10826	P 1 21 1	A2B2	3b8r	3cpb	False
+10826	P 1 21 1	A2(63)	5tc0	4mh7	True
+10826	P 1 21 1	A2(70)	5tq6	5tq7	False
+10826	P 21 21 21	A(84)	4fyo	1xbc	True
+10826	P 21 21 21	A(14)	2rgp	3bel	True
+10826	P 21 21 21	A(33)	4z55	4anq	False
+10826	P 21 21 21	A(87)	4z55	5j7h	True
+10826	P 21 21 21	AB(4)	5c26	5c27	False
+10826	P 21 21 21	A(89)	5hg5	5u8l	True
+10826	P 21 21 21	AB(1)	5hhw	1p14	False
+10826	P 21 21 21	AB(2)	4z55	2xba	False
+10826	P 21 21 21	AB(4)	4fyo	4f4p	False
+10826	P 21 21 21	AB(5)	4z55	4mkc	False
+10826	P 21 21 21	AB(7)	5hg8	5hg5	False
+10826	P 31 2 1	AB	5ih4	5ih5	True
+10826	P 31 2 1	A(10)	5ih5	5ih6	True
+10826	P 32 2 1	A2B2	5ar2	5j7b	True
+10826	P 32 2 1	A2(2)	5j7b	5ar4	True
+10826	P 41	A2B2	5cf8	4e6d	False
+10826	P 41	A2(4)	4e6d	3fup	False
+10826	P 41	A2(4)	5cf8	3fup	True
+10826	P 41 21 2	A2(10)	4e26	3q4c	False
+10826	P 41 21 2	A2B2	4ksp	4fc0	False
+10892	H 3	A2B2	2oxf	1t0u	True
+10892	H 3 2	A(12)	1rsz	1ula	True
+10892	H 3 2	AB	3bgs	1rsz	True
+10892	P 1 21 1	A6(15)	5f7j	4l5y	True
+10892	P 21 21 21	A2B2	3o4v	3df9	False
+10892	P 21 21 21	A6B6	4tti	4tta	True
+10892	P 21 21 21	A2(9)	3df9	1z5o	True
+10892	P 43 21 2	A6B6	1odk	1odj	True
+10892	P 61 2 2	A3(3)	4ts9	1ov6	True
+10926	C 1 2 1	A2B2	3dyh	2i19	True
+10926	C 1 2 1	A2(6)	3dyh	3dyg	True
+10926	P 41 21 2	A(14)	4nfk	4ga3	False
+10926	P 41 21 2	A(15)	4nfk	4pvx	False
+11102	P 31 2 1	A2B2	1j7j	1g9s	True
+11102	P 61 2 2	A(1)	1qb7	1qb8	True
+11104	P 1 21 1	A2(2)	3lrt	3nag	True
+11135	P 41 21 2	A(8)	4o8h	4zsd	True
+11135	P 43 21 2	AB	5cbu	5cbt	True
+11170	P 1 21 1	A14B14(4)	3mi0	3h6i	True
+11172	P 1 21 1	A2B2C2D2E2F2G2H2I2J2K2L2M2N2(5)	5cz4	4qlq	False
+11172	P 1 21 1	A2B2C2D2E2F2G2H2I2J2K2L2M2N2O2P2Q2R2S2T2U2V2W2X2Y2Z2a2b2	5cz4	4r02	True
+11172	P 1 21 1	A4B4C2D2E2F2G2H2I2J2K2L2M2N2O2P2Q2R2S2T2U2V2W2X2Y2Z2a2b2c2d2	4y70	4y8k	True
+11172	P 1 21 1	A6B6C2D2E2F2G2H2I2J2K2L2M2N2O2P2Q2R2S2T2U2V2W2X2Y2Z2a2b2c2d2	4y77	4y8i	True
+11172	P 1 21 1	A2B2C2D2E2F2G2H2I2J2K2L2M2N2(8)	4r02	4qw3	True
+11172	P 1 21 1	A6B2C2D2E2F2G2H2I2J2K2L2M2N2O2(2)	4y77	4y6z	True
+11172	P 1 21 1	A4B2C2D2E2F2G2H2I2J2K2L2M2N2O2(2)	4y8k	4y8o	True
+11172	P 1 21 1	A2B2C2D2E2F2G2H2I2J2K2L2M2N2(7)	4qlq	5l5d	True
+11274	P 61 2 2	A(2)	5bz1	5bz5	True
+11306	C 1 2 1	A2B2	3cgb	3cgd	True
+11306	C 1 2 1	A2(3)	3cgd	3cge	True
+11364	P 1 21 1	A2(2)	4d6p	4a6x	True
+11413	C 1 2 1	A3B3	4lyh	4m1y	True
+11413	C 1 2 1	A3(5)	4lyh	4m1t	True
+11413	C 1 2 1	A3(5)	4m1y	4m1t	True
+11413	H 3	A(1)	4dsu	4dso	True
+11413	H 3 2	AB	3k8y	2rge	True
+11413	H 3 2	A(5)	3k8y	2rgb	False
+11413	H 3 2	A(5)	4dlr	2rgb	True
+11413	H 3 2	A(9)	2rge	3rs7	False
+11413	H 3 2	A(9)	3k8y	3rs7	True
+11413	P 21 21 21	A(24)	1n6p	1n6r	False
+11413	P 21 21 21	A(24)	1r2q	1n6r	True
+11413	P 21 21 21	A(30)	4epw	4nmm	False
+11413	P 21 21 21	A(30)	4q03	4nmm	True
+11413	P 21 21 21	AB(1)	1r2q	1n6p	True
+11413	P 21 21 21	AB(2)	4q03	4epw	True
+11413	P 32 2 1	A(7)	821p	1gnr	False
+11413	P 32 2 1	A(8)	821p	1plk	False
+11413	P 32 2 1	AB(1)	3tgp	1rvd	False
+11413	P 32 2 1	AB(2)	3tgp	821p	False
+11504	P 1	A4(6)	3ol9	3ol6	True
+11504	P 32 2 1	A(7)	3n6m	3n6n	True
+11504	P 43 21 2	A(2)	4zpc	3cdu	False
+11505	P 21 21 21	A2B2	4j06	3gol	False
+11505	P 21 21 21	A2(24)	5czb	4jtz	True
+11573	P 21 21 21	A(3)	5e7n	4r4t	True
+11678	P 21 21 21	A(2)	2a2k	2ifv	True
+11968	C 1 2 1	A2B2	1o0h	1o0n	True
+11968	C 1 2 1	A2(12)	1o0h	3d6o	False
+11968	C 1 2 1	A2(12)	1o0n	3d6o	True
+11968	C 1 2 1	A2(13)	1o0h	3eux	False
+11968	C 1 2 1	A2(13)	1o0n	3eux	True
+11968	C 2 2 21	AB	4ahj	4ahe	True
+11968	P 21 21 2	A(13)	5eop	1h52	True
+11968	P 21 21 21	A2B2	3djq	3djx	True
+11968	P 32 2 1	AB	4j60	4j68	True
+11968	P 32 2 1	A(9)	4j68	4j65	True
+11969	P 31 2 1	AB(2)	1rbd	1rbe	True
+11969	P 31 2 1	AB(3)	1rbd	1rbh	True
+12017	H 3 2	A(3)	2oih	1vc5	True
+12093	P 1 21 1	A4B4	3tog	3ndu	True
+12093	P 1 21 1	A4(14)	3ndu	3ndt	False
+12093	P 1 21 1	A4(14)	3tog	3ndt	True
+12093	P 2 21 21	A2(2)	5kqy	5kqz	False
+12093	P 21 21 2	A2(15)	1g35	1vik	True
+12093	P 21 21 2	A2(16)	2a1e	2qnp	False
+12093	P 21 21 2	A2(16)	3fx5	2qnp	False
+12093	P 21 21 2	A2(9)	3d1x	3d20	False
+12093	P 21 21 2	A2(4)	3a2o	3djk	True
+12093	P 21 21 2	A2(17)	3d1x	3kfn	False
+12093	P 21 21 2	A2(5)	3d1x	3tl9	True
+12093	P 21 21 2	A2B2(1)	3d1x	1g35	True
+12093	P 21 21 2	A2B2(2)	3a2o	3fx5	False
+12093	P 21 21 21	A2(30)	1b6l	1k6v	False
+12093	P 21 21 21	A2(30)	1kzk	1k6v	True
+12093	P 21 21 21	A2(32)	2avs	1fg8	False
+12093	P 21 21 21	A2(32)	2nmz	1fg8	True
+12093	P 21 21 21	A2(33)	1d4k	1hiv	False
+12093	P 21 21 21	A2(33)	1kzk	1hiv	True
+12093	P 21 21 21	A2(29)	1d4k	1hpx	False
+12093	P 21 21 21	A2(29)	1kzk	1hpx	True
+12093	P 21 21 21	A2B2	2nmz	2avs	True
+12093	P 21 21 21	A2(31)	3oxc	2aid	False
+12093	P 21 21 21	A2B2(1)	1kzk	1b6l	True
+12093	P 21 21 21	A2B2(2)	1kzk	1d4k	True
+12093	P 21 21 21	A2B2(3)	1kzk	3i7e	True
+12093	P 31 2 1	A(2)	2hah	6fiv	True
+12093	P 31 2 1	A(2)	5fiv	6fiv	False
+12093	P 31 2 1	AB(2)	2hah	5fiv	False
+12093	P 41 21 2	AB	4yob	3oqa	True
+12093	P 61	A2B2	3spk	1hpv	False
+12093	P 61	A2(11)	4u7v	2pym	True
+12093	P 61	A2(10)	3spk	1zsf	False
+12093	P 61	A2(10)	4u7v	1zsf	True
+12093	P 61	A2(6)	3spk	5t2z	False
+12093	P 61 2 2	AB	2zga	1zpa	False
+12093	P 61 2 2	A(2)	1zj7	3tlh	True
+12097	P 21 21 21	A(3)	3ka2	2o40	True
+12103	C 1 2 1	AB(7)	4g1q	4kfb	True
+12103	C 1 2 1	AB(19)	4g1q	3qlh	True
+12106	P 21 21 21	AB(3)	1rth	1jla	False
+12106	P 21 21 21	AB(5)	3dlg	1s1t	True
+12106	P 21 21 21	AB(12)	1tkt	1dtq	True
+12115	P 43 21 2	A(2)	4aqj	2wos	True
+12208	H 3	A(1)	3q1x	3p1b	True
+12432	P 21 21 21	AB	1o43	1o4c	False
+12451	P 65 2 2	A(3)	4omn	4jz3	True
+12624	P 1 21 1	A(9)	4hmj	3sr1	True
+12624	P 1 21 1	A(13)	4eqp	4j1m	True
+12624	P 1 21 1	A(12)	4hmj	5hur	True
+12624	P 21 21 21	A(7)	3shl	4trd	True
+12631	P 21 21 21	ABC(4)	4xp4	4xpb	False
+12639	C 2 2 21	A(6)	4k1v	1w02	False
+12639	C 2 2 21	A(8)	1w6y	5ai1	False
+12639	C 2 2 21	A(8)	3cpo	5ai1	True
+12639	C 2 2 21	AB(1)	3cpo	1w6y	True
+12639	P 65 2 2	AB	3nhx	3nbr	False
+12639	P 65 2 2	A(3)	3nhx	8cho	True
+12646	C 1 2 1	A4(11)	2gbt	3re0	True
+12646	C 2 2 21	A10(2)	1uxl	1sos	True
+12646	H 3 2	AB	1yaz	1b4t	True
+12648	P 1 21 1	A4(9)	4l2c	3ljf	True
+12750	P 31 2 1	A2(2)	3vje	3w7f	True
+12897	P 21 21 2	A(2)	5byk	4mua	True
+13043	P 31 2 1	A(1)	4bwj	3py8	True
+13123	C 1 2 1	A(2)	3sdr	3sdt	True
+13141	I 41 2 2	A(7)	2xpv	2xrl	True
+13141	I 41 2 2	A(8)	2xpw	5fkl	True
+13195	C 1 2 1	A(5)	4lbu	1r5y	True
+13195	C 1 2 1	A(12)	4q4m	2pot	True
+13195	C 1 2 1	AB	4q8w	4lbu	False
+13195	C 1 2 1	A(2)	4lbu	4hvx	False
+13281	P 61 2 2	A(6)	3ik0	3ik1	True
+13300	P 1 21 1	A2(17)	2x1t	2x1r	True
+13300	P 1 21 1	A2(18)	2x1t	2x1u	True
+13300	P 1 21 1	A2(19)	5bnk	5bmw	True
+13308	H 3 2	AB(2)	5fm7	5fm6	True
+13344	P 63	AB(1)	4giq	5bnq	False
+13438	P 31 2 1	A2(3)	2ji7	2ji8	True
+13569	P 1 21 1	A(6)	4g8h	3ttr	True
+13593	P 21 21 2	A2(29)	3esn	3djr	False
+13593	P 21 21 2	A2(31)	5clz	3ipe	False
+13593	P 21 21 2	A2(30)	3imt	4mrc	False
+13593	P 21 21 2	A2(30)	4l1t	4mrc	True
+13593	P 21 21 2	A2B2(1)	3esn	2fbr	False
+13593	P 21 21 2	A2B2(2)	4l1t	3imt	True
+13593	P 21 21 2	A2B2(3)	4ky2	5clz	False
+13593	P 41	A4B4	1sn2	1sn5	True
+13686	P 21 21 21	A(2)	4arc	4ari	True
+13728	C 2 2 2	AB	3p8g	4is5	True
+13728	C 2 2 2	A(3)	4is5	2gv7	True
+13728	C 2 2 2	A(1)	4is5	4jyt	True
+13728	H 3	ABCD	4zkn	4zkr	True
+13728	H 3	AB(3)	4zkn	3ox7	False
+13728	H 3	AB(3)	4zkr	3ox7	True
+13728	H 3	AB(4)	4zkn	4x1q	False
+13728	H 3	AB(1)	4zkn	4x1n	False
+13728	P 21 21 21	A(64)	7est	1esb	False
+13728	P 21 21 21	A(70)	1gi4	1gi5	False
+13728	P 21 21 21	A(70)	1o3d	1gi5	True
+13728	P 21 21 21	A(71)	1qnj	1l0z	False
+13728	P 21 21 21	AB(20)	1gvk	1haz	False
+13728	P 21 21 21	AB(22)	1gvk	2bd5	False
+13728	P 21 21 21	A(73)	1owe	2vin	False
+13728	P 21 21 21	A(73)	2vip	2vin	False
+13728	P 21 21 21	AB(21)	1qr3	4est	False
+13728	P 21 21 21	AB(2)	2agi	4abj	False
+13728	P 21 21 21	A(74)	3mfj	5lh8	False
+13728	P 21 21 21	AB(7)	1owe	2vip	False
+13728	P 21 21 21	AB(11)	3gyl	3fvf	True
+13728	P 21 21 21	AB(12)	4i8h	3mfj	False
+13728	P 21 21 21	AB(1)	1o3d	1gi4	True
+13728	P 21 21 21	AB(2)	1o3j	1o3o	True
+13728	P 21 21 21	AB(4)	3est	1eas	True
+13728	P 21 21 21	AB(3)	5avd	1qnj	True
+13728	P 21 21 21	AB(19)	3est	7est	True
+13728	P 31 2 1	A(12)	1c5s	3pwc	False
+13728	P 31 2 1	AB(3)	4niv	1y59	False
+13728	P 32 2 1	ABCD	2h5d	1p12	False
+13728	P 32 2 1	A(11)	2alp	1p01	False
+13728	P 32 2 1	A(11)	2h5c	1p01	False
+13728	P 32 2 1	AB(3)	2h5d	3m7u	True
+13728	P 32 2 1	AB(1)	2h5c	2alp	False
+13728	P 41	A4B4	4a6l	3v7t	True
+13728	P 41	A4(2)	4a6l	1a0l	True
+13728	P 63	A(3)	5abw	5a0a	False
+13728	P 63	AB(2)	5abw	3q77	True
+13826	P 43 3 2	A2B2	2fcs	2jf5	True
+13826	P 43 3 2	A2(2)	2fcs	3h7s	True
+13826	P 43 3 2	A2(2)	2jf5	3h7s	True
+13896	P 21 21 21	AB	3fci	3fcf	True
+13950	P 1 21 1	A(5)	5f6e	5f6y	True
+13977	I 2 2 2	A(1)	3l8w	4n9s	True
+14093	C 1 2 1	A2B2C2(2)	4kk8	4kk5	False
+14093	C 1 2 1	A2B2C2(4)	4kkl	4kjq	False
+14118	P 21 21 21	A4B4C4D4	1oau	1oar	True
+14118	P 21 21 21	A4B4(4)	1oar	1oax	True
+14118	P 21 21 21	A4B4(4)	1oau	1oax	True
+14118	P 43 21 2	AB(3)	1vfa	1a7r	True
+14130	C 1 2 1	AB(73)	4kzd	4kze	True
+14130	P 1	A2B2(28)	5tdo	5tdn	True
+14130	P 1 21 1	AB(59)	2xzc	5adp	True
+14130	P 21 21 21	A2B2C2D2	4rbp	1zlv	True
+14130	P 21 21 21	AB(8)	1mre	1mrd	True
+14130	P 21 21 21	ABCDEF	4jg1	4jfz	False
+14130	P 21 21 21	ABC(18)	1u8i	3idm	True
+14130	P 21 21 21	ABC(18)	3idg	3idm	True
+14130	P 21 21 21	A2B2(62)	1zlv	3ob0	True
+14130	P 21 21 21	A2B2(62)	4rbp	3ob0	True
+14130	P 21 21 21	A2B2C2(4)	5th2	5euk	False
+14130	P 21 21 21	ABCDEF(1)	3idg	1u8i	True
+14275	P 1	A2B2	4ge6	4ge5	True
+14275	P 1 21 1	A2B2	2i5x	2i3r	True
+14275	P 21 21 21	ABCD	4rhg	4s0g	True
+14275	P 21 21 21	AB	2i42	1ytn	False
+14275	P 31 2 1	AB	2f71	3sme	False
+14275	P 31 2 1	A(6)	3sme	1c83	False
+14422	P 21 21 2	A(1)	4r2p	4r2e	True
+14497	P 41 21 2	A2(2)	4be2	3l2u	True
+14611	P 21 21 21	A(1)	5gof	5goe	True

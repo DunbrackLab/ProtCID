@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectorySettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XML_Path>D:\Qifang\ProjectData\DbProjectData\PDB\XML</XML_Path>
+  <XmlCoordinate_path>X:\Qifang\ProjectData\DbProjectData\CoordXml</XmlCoordinate_path>
+  <InterfaceFile_path>X:\Qifang\ProjectData\DbProjectData\InterfaceFiles</InterfaceFile_path>
+  <PdbfamDB_Path>D:\Firebird\Pfam31\PDBFAM.FDB</PdbfamDB_Path>
+  <ProtcidDB_Path>D:\Firebird\Pfam31\PROTCID.FDB</ProtcidDB_Path>
+  <BAInterfaceDB_Path>D:\FireBird\Pfam31\BUCOMP.FDB</BAInterfaceDB_Path>
+  <AlignmentDB_Path>D:\FireBird\Pfam31\ALIGNMENTS.FDB</AlignmentDB_Path>
+  <Pfam_Path>X:\Qifang\ProjectData\Pfam</Pfam_Path>
+  <Pisa_path>D:\Qifang\ProjectData\DbProjectData\PISA</Pisa_path>
+  <Pisces_Path>D:\Qifang\ProjectData\DbProjectData\PdbHit</Pisces_Path>
+  <Fatcat_Path>D:\Qifang\ProjectData\DbProjectData\Fatcat</Fatcat_Path>
+  <Sifts_Path>D:\Qifang\ProjectData\DbProjectData\Sifts\xml</Sifts_Path>
+  <Fasta_Path>X:\Qifang\ProjectData\DbProjectData\PhylogeneticTree\fasta</Fasta_Path>
+  <Psiblast_Path>D:\Psiblast</Psiblast_Path>
+  <SeqFile_Path>D:\Sequences</SeqFile_Path>
+  <HH_Path>D:\Pfam\HH</HH_Path>
+  <Hmmer_Path>D:\Pfam\hmmer</Hmmer_Path>
+</DirectorySettings>

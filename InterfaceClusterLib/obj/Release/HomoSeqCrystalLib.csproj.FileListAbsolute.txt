@@ -1,0 +1,16 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\HomoSeqCrystalLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\AuxFuncLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\BuCompLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\BuQueryLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\ProgressLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\XtalLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\DbLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\ProgressLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\BuCompLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\obj\Release\HomoSeqCrystalLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\DataCollectorLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\PfamLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\DataCollectorLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\HomoSeqCrystalLib\bin\Release\PfamLib.pdb

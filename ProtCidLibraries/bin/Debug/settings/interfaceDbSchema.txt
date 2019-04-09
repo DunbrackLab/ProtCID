@@ -1,0 +1,109 @@
+CREATE TABLE PdbBuInterfaces ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   AsymChain1 CHAR(2) NOT NULL,
+   AsymChain2 CHAR(2) NOT NULL,
+   AuthChain1 CHAR(3) NOT NULL,
+   AuthChain2 CHAR(3) NOT NULL,
+   EntityID1 INTEGER NOT NULL,
+   EntityID2 INTEGER NOT NULL,
+   SurfaceArea FLOAT NOT NULL,
+   NumOfCopy INTEGER NOT NULL,
+   PRIMARY KEY (PdbID, BuID, InterfaceID));
+
+CREATE TABLE PqsBuInterfaces ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   AsymChain1 CHAR(2) NOT NULL,
+   AsymChain2 CHAR(2) NOT NULL,
+   AuthChain1 CHAR(3) NOT NULL,
+   AuthChain2 CHAR(3) NOT NULL,
+   EntityID1 INTEGER NOT NULL,
+   EntityID2 INTEGER NOT NULL,
+   PqsChain1 CHAR(2) NOT NULL,
+   PqsChain2 CHAR(2) NOT NULL,
+   SurfaceArea FLOAT NOT NULL,
+   NumOfCopy INTEGER NOT NULL,
+   Primary Key (PdbID, BuID, InterfaceID));
+
+CREATE TABLE PdbBuSameInterfaces ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   SameInterfaceID INTEGER NOT NULL,
+   Chain1 CHAR(2) NOT NULL,
+   SymmetryString1 VARCHAR(10) NOT NULL,
+   Chain2 CHAR(2) NOT NULL,
+   SymmetryString2 VARCHAR(10) NOT NULL,
+   QScore FLOAT NOT NULL);
+CREATE INDEX PdbBuSameInterfaces_IndexPdbBu ON PdbBuSameInterfaces (PdbID, BuID, InterfaceID);
+
+CREATE TABLE PqsBuSameInterfaces ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   SameInterfaceID INTEGER NOT NULL,
+   Chain1 CHAR(2) NOT NULL,
+   SymmetryString1 VARCHAR(30) NOT NULL,
+   Chain2 CHAR(2) NOT NULL,
+   SymmetryString2 VARCHAR(30) NOT NULL,
+   QScore FLOAT NOT NULL);
+CREATE INDEX PqsBuSameInterfaces_IndexPqsBu ON PqsBuSameInterfaces (PdbID, BuID, InterfaceID);
+
+CREATE TABLE PdbInterfaceResidues ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   ChainNum INTEGER NOT NULL,
+   Residue CHAR(3) NOT NULL,
+   SeqID CHAR(5) NOT NULL);
+CREATE INDEX PdbInterfaceResidues_IndexPdbBu ON PdbInterfaceResidues (PdbID, BuID, InterfaceID);
+
+CREATE TABLE PqsInterfaceResidues ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   ChainNum INTEGER NOT NULL,
+   Residue CHAR(3) NOT NULL,
+   SeqID CHAR(5) NOT NULL);
+CREATE INDEX PqsInterfaceResidues_IndexPqsBu ON PqsInterfaceResidues (PdbID, BuID, InterfaceID);
+
+CREATE TABLE PdbPqsBuInterfaceComp ( 
+   PdbID CHAR(4) NOT NULL,
+   PdbBuID INTEGER NOT NULL,
+   PqsBuID INTEGER NOT NULL,
+   PdbInterfaceID INTEGER NOT NULL,
+   PqsInterfaceID INTEGER NOT NULL,
+   QScore FLOAT NOT NULL);
+CREATE INDEX PdbPqsBuInterfaceComp_IndexPdb ON PdbPqsBuInterfaceComp (PdbID);
+
+CREATE TABLE PdbPqsBuComp ( 
+   PdbID CHAR(4) NOT NULL,
+   PdbBuID INTEGER NOT NULL,
+   PqsBuID INTEGER NOT NULL,
+   PdbInterfaceNum INTEGER NOT NULL,
+   PqsInterfaceNum INTEGER NOT NULL,
+   IsSame CHAR(1) NOT NULL);
+CREATE INDEX PdbPqsBuComp_IndexPdb ON PdbPqsBuComp (PdbID);
+
+CREATE TABLE PdbBuContacts ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   Residue1 CHAR(3) NOT NULL,
+   SeqID1 CHAR(5) NOT NULL,
+   Residue2 CHAR(3) NOT NULL,
+   SeqID2 CHAR(5) NOT NULL);
+CREATE INDEX PdbBuContacts_IndexPdbBu ON PdbBuContacts (PdbID, BuID, InterfaceID);
+
+CREATE TABLE PqsBuContacts ( 
+   PdbID CHAR(4) NOT NULL,
+   BuID INTEGER NOT NULL,
+   InterfaceID INTEGER NOT NULL,
+   Residue1 CHAR(3) NOT NULL,
+   SeqID1 CHAR(5) NOT NULL,
+   Residue2 CHAR(3) NOT NULL,
+   SeqID2 CHAR(5) NOT NULL);
+CREATE INDEX PqsBuContacts_IndexPqsBu ON PqsBuContacts (PdbID, BuID, InterfaceID);

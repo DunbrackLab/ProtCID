@@ -1,0 +1,3 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\ProgressLib\bin\Release\ProgressLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\ProgressLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\ProgressLib\obj\Release\ProgressLib.dll

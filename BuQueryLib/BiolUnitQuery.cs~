@@ -1,0 +1,1680 @@
+using System;
+using System.Data;
+using System.Data.Odbc;
+using System.Collections;
+using DbLib;
+
+
+namespace BuQueryLib
+{
+	/// <summary>
+	/// Summary description for Query.
+	/// </summary>
+	public class BiolUnitQuery
+	{
+		#region accessory classes
+		class BiolUnitInfo
+		{			
+			public Hashtable biolUnit_asym;
+			public Hashtable biolUnit_asymHash;	
+			public Hashtable biolUnit_entityHash;
+			public Hashtable biolUnit_authorchainHash;
+			public Hashtable biolUnit_pqsHash; 	
+			public Hashtable biolUnit_namesHash;
+			public string hasDNA;
+			public string hasRNA;
+			
+			// entry level
+			public BiolUnitInfo()
+			{
+				biolUnit_asym = new Hashtable ();	
+				biolUnit_asymHash = new  Hashtable ();
+				biolUnit_entityHash = new Hashtable ();				
+				biolUnit_authorchainHash = new Hashtable ();
+				biolUnit_pqsHash = new Hashtable (); 
+				biolUnit_namesHash = new Hashtable ();
+				hasDNA = "no";
+				hasRNA = "no";				
+			}
+		}
+
+		class AsymUnitInfo
+		{
+			public Hashtable asymUnit_asym;
+			public Hashtable asymUnit_entityHash;
+			public Hashtable asymUnit_authorchainHash;
+			public Hashtable asymUnit_pqsHash;
+			public string hasLigands;
+			public string resolution;
+
+			public AsymUnitInfo()
+			{
+				asymUnit_asym = new Hashtable ();
+				asymUnit_entityHash = new Hashtable ();
+				asymUnit_authorchainHash = new Hashtable ();
+				asymUnit_pqsHash = new Hashtable ();
+				hasLigands = "no";
+			}
+		}
+		#endregion
+
+		private string [] pdbColumnNames = {"PDBID",  "Names", "PdbBuID", "PqsBuID", "PisaBuID",
+										"ASU-Entity", "ASU-AsymID", "ASU-Auth", "ASU-ABC",
+										"PDBBU-Entity", "PDBBU-AsymID", "PDBBU-Auth", "PDBBU-ABC", 
+										"PQSBU-Entity", "PQSBU-AsymID", "PQSBU-Auth", "PQSBU-ABC",	
+										"PISABU-Entity", "PISABU-AsymID", "PISABU-Auth", "PISABU-ABC",
+										"PdbPqs", "PdbPisa", "PqsPisa", 
+										"DNA", "RNA", "Ligands", "Resolution"};
+		private string queryString = "";
+		private string chainLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		private DbQuery dbQuery = new DbQuery ();
+
+		/// <summary>
+		/// initialize the table schema
+		/// </summary>
+		/// <param name="queryResultTable"></param>
+		internal void CreateTableStructure (ref DataTable queryResultTable)
+		{
+			if (queryResultTable == null)
+			{
+				queryResultTable = new DataTable ();
+			}
+			// set the queryResultTable 
+			foreach (string colName in pdbColumnNames)
+			{
+				DataColumn dataCol = new DataColumn ();
+				dataCol.ColumnName = colName;
+				dataCol.DataType = System.Type.GetType("System.String");
+				queryResultTable.Columns.Add(dataCol);
+			}
+		}
+
+		#region public interface: constructors, property, retrieve BUs
+		public BiolUnitQuery()
+		{
+			//
+			// TODO: Add constructor logic here
+			//
+		}
+
+		// property for query string
+		public string QueryString
+		{
+			get
+			{
+				return queryString;	
+			}
+		}
+
+		/// <summary>
+		/// get biolunit result from pdb entry and chain
+		/// </summary>
+		/// <returns></returns>
+		public string GetBiolUnitForPdbEntry(string pdbId, string chainId, string chainType, ref DataTable queryResultTable)
+		{
+			string errorMsg = "";
+			// set the queryResultTable 
+			CreateTableStructure (ref queryResultTable);
+
+			queryString = "";
+			// set the queryResult table for PDB return
+			//DataTable pdbResultTable = new DataTable ("PDB Result");
+
+			DbBuilder.dbConnect.ConnectToDatabase ();
+			string queryStringForPdb = GetPdbEntryQueryStringForPdb(pdbId, chainId, chainType);
+			errorMsg = GetPdbBiolUnitForPdb(queryStringForPdb, ref queryResultTable);
+			if (errorMsg.Length > 0)
+				return errorMsg;
+
+			queryString = queryStringForPdb;
+			queryString += "\r\n\r\n";
+
+			// set the query result table for PQS return
+			DataTable pqsResultTable = new DataTable ("PQS Result");
+
+			string queryStringForPqs = GetPdbEntryQueryStringForPqs(pdbId, chainId, chainType);
+			errorMsg = GetPqsBiolUnit(queryStringForPqs, ref queryResultTable);
+			queryString += queryStringForPqs;
+
+			AddPisaBUInfoToTable (ref queryResultTable);
+
+			CompareBUs (ref queryResultTable);
+
+			return errorMsg;
+		}
+
+		/// <summary>
+		/// get biolunit result from pdb entry and chain
+		/// </summary>
+		/// <returns></returns>
+		public string GetBiolUnitForPdbEntry(string pdbId, ref DataTable queryResultTable, bool needBuComp)
+		{
+			string errorMsg = "";
+			// set the queryResultTable 
+			CreateTableStructure (ref queryResultTable);
+
+			queryString = "";
+			// set the queryResult table for PDB return
+			//DataTable pdbResultTable = new DataTable ("PDB Result");
+
+			DbBuilder.dbConnect.ConnectToDatabase ();
+			string queryStringForPdb = GetPdbEntryQueryStringForPdb(pdbId, "", "");
+			errorMsg = GetPdbBiolUnitForPdb(queryStringForPdb, ref queryResultTable);
+			if (errorMsg.Length > 0)
+				return errorMsg;
+
+			queryString = queryStringForPdb;
+			queryString += "\r\n\r\n";
+
+			// set the query result table for PQS return
+			DataTable pqsResultTable = new DataTable ("PQS Result");
+
+			string queryStringForPqs = GetPdbEntryQueryStringForPqs(pdbId, "", "");
+			errorMsg = GetPqsBiolUnit(queryStringForPqs, ref queryResultTable);
+			queryString += queryStringForPqs;
+
+			AddPisaBUInfoToTable (ref queryResultTable);
+
+			if (needBuComp)
+			{
+				CompareBUs (ref queryResultTable);
+			}
+
+			return errorMsg;
+		}
+
+		/// <summary>
+		/// retrieve ASU/BU for the list of PDB entries
+		/// </summary>
+		/// <param name="pdbIdList"></param>
+		/// <param name="queryResultTable"></param>
+		/// <param name="needBuComp">need bu comparison data or not</param>
+		/// <returns></returns>
+		public string GetBiolUnitForPdbEntries(ArrayList pdbIdList, ref DataTable queryResultTable, bool needBuComp)
+		{
+			string errorMsg = "";
+			// set the queryResultTable 
+			CreateTableStructure (ref queryResultTable);
+
+			queryString = "";
+			// set the queryResult table for PDB return
+			// DataTable pdbResultTable = new DataTable ("PDB Result");
+
+			DbBuilder.dbConnect.ConnectToDatabase ();
+			string queryStringForPdb = GetPdbEntryQueryStringForPdbList(pdbIdList);
+			errorMsg = GetPdbBiolUnitForPdb(queryStringForPdb, ref queryResultTable);
+			if (errorMsg.Length > 0)
+				return errorMsg;
+
+			queryString = queryStringForPdb;
+			queryString += "\r\n\r\n";
+
+			// set the query result table for PQS return
+			DataTable pqsResultTable = new DataTable ("PQS Result");
+
+			string queryStringForPqs = GetPdbEntryQueryStringForPqs(pdbIdList);
+			errorMsg = GetPqsBiolUnit(queryStringForPqs, ref queryResultTable);
+			queryString += queryStringForPqs;
+
+			AddPisaBUInfoToTable (ref queryResultTable);
+
+			if (needBuComp)
+			{
+				CompareBUs (ref queryResultTable);
+			}
+
+			return errorMsg;
+		}
+		#endregion
+
+		#region Compare PDB/PQS/PISA BUs
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="queryResultTable"></param>
+		internal void CompareBUs (ref DataTable queryResultTable)
+		{
+			foreach (DataRow dRow in queryResultTable.Rows)
+			{
+				try
+				{
+					CompareBUs (dRow);
+				}
+				catch (Exception ex)
+				{
+					string errorMsg = ex.Message;
+				}
+			}
+			queryResultTable.AcceptChanges ();
+		}
+
+
+		/// <summary>
+		/// comapre BUs in a row of the result table
+		/// </summary>
+		/// <param name="dataRow"></param>
+		private void CompareBUs (DataRow dataRow)
+		{
+			CompareTwoBUs (ref dataRow, "pdb", "pqs");
+			CompareTwoBUs (ref dataRow, "pdb", "pisa");
+			CompareTwoBUs (ref dataRow, "pqs", "pisa");
+		}
+		
+		/// <summary>
+		/// compare PDB and PQS biological units
+		/// </summary>
+		/// <param name="dataRow"></param>
+		/// <param name="type1"></param>
+		/// <param name="type2"></param>
+		internal void CompareTwoBUs (ref DataRow dataRow, string type1, string type2)
+		{
+			if (dataRow[type1 + "BU-Entity"].ToString () == "-" || 
+				dataRow[type2 + "BU-Entity"].ToString () == "-" )
+			{
+				dataRow[type1 + type2] = "-";
+				return;
+			}
+			// check if it is XPack
+			if (dataRow[type1 + "BU-Entity"].ToString () == dataRow[type2 + "BU-Entity"].ToString ())
+			{
+				if (dataRow[type1 + "BU-ABC"].ToString () == "A")
+				{
+					dataRow[type1 + type2] = "same";
+				}
+				else
+				{
+					CompareSameEntityBUs (ref dataRow, type1, type2);
+				}
+			}
+			else
+			{
+				if ((dataRow[type1 + "BU-ABC"].ToString () == "A" && 
+					dataRow[type2 + "BU-ABC"].ToString ().IndexOf ("A") > -1)|| 
+					(dataRow[type2 + "BU-ABC"].ToString () == "A" && 
+					dataRow[type1 + "BU-ABC"].ToString ().IndexOf ("A") > -1))
+				{
+					dataRow[type1 + type2] = "substruct";
+				}
+				else
+				{
+					ComparePartEntityBUs (ref dataRow, type1, type2);
+				}
+			}
+			if ((type1 == "pqs" || type2 == "pqs") && dataRow["PqsBuID"].ToString () != "-")
+			{
+				if (IsXpack (dataRow["PdbID"].ToString (), Convert.ToInt32 (dataRow["PqsBuID"].ToString ())))
+				{
+					dataRow[type1 + type2] = dataRow[type1 + type2].ToString () + "(X)";
+				}
+			}
+		}
+
+		/// <summary>
+		/// compare BUs with same entity-format
+		/// </summary>
+		/// <param name="dRow"></param>
+		private void CompareSameEntityBUs (ref DataRow dRow, string type1, string type2)
+		{
+			string queryString =string.Format ( "Select InterfaceNum1, InterfaceNum2, IsSame From BuComp " + 
+				" Where PdbID = '{0}' AND BuId1 = {1} AND BuId2 = {2} AND CompType = '{3}';", 
+				dRow["PdbID"].ToString (), dRow["PdbBUID"], dRow["PqsBuID"], type1 + type2);
+			DataTable resultTable = dbQuery.Query (queryString);
+
+			// most likely, they are true
+			if (resultTable.Rows.Count == 0)
+			{
+				queryString =string.Format ( "Select InterfaceNum1, InterfaceNum2, IsSame From BuComp " + 
+					" Where PdbID = '{0}' AND BuId1 = {1} AND BuId2 = {2} AND CompType = '{3}';", 
+					dRow["PdbID"].ToString (), dRow["PdbBUID"], dRow["PqsBuID"], type2 + type1);
+				resultTable = dbQuery.Query (queryString);
+			}
+			if (resultTable.Rows.Count == 0)
+			{
+				if (dRow["PdbPqs"].ToString () == "same" && (
+					(type1 == "pisa" && type2 == "pqs") || (type1 == "pqs" && type2 == "pisa")))
+				{
+					dRow["PqsPisa"] = dRow["PdbPisa"];
+				}
+				else
+				{
+					dRow[type1 + type2] = "same";
+				}
+				return;
+			}
+			int interfaceNum1 = Convert.ToInt32 (resultTable.Rows[0]["InterfaceNum1"].ToString ());
+			int interfaceNum2 = Convert.ToInt32 (resultTable.Rows[0]["InterfaceNum2"].ToString ());
+			int isSame = Convert.ToInt32 (resultTable.Rows[0]["IsSame"].ToString ());
+			if ( interfaceNum1 != interfaceNum2 )
+			{
+				dRow[type1 + type2] = "difNum";
+			}
+			else
+			{
+				if (isSame > 0)
+				{
+					dRow[type1 + type2] = "same";
+				}
+				else
+				{
+					dRow[type1 + type2] = "difOrient";
+				}
+			}
+		}
+
+		/// <summary>
+		/// compare BUs with same entity-format
+		/// </summary>
+		/// <param name="dRow"></param>
+		private void ComparePartEntityBUs (ref DataRow dRow, string type1, string type2)
+		{
+			string queryString =string.Format ( "Select InterfaceNum1, InterfaceNum2, IsSame " + 
+				" From BuComp Where PdbID = '{0}' and BuId1 = {1} and BuId2 = {2} and compType = '{3}';", 
+				dRow["PdbID"].ToString (), dRow["PdbBUID"], dRow["PqsBuID"], type1 + type2);
+			DataTable resultTable = dbQuery.Query (queryString);
+			if (resultTable.Rows.Count == 0)
+			{
+				queryString =string.Format ( "Select InterfaceNum1, InterfaceNum2, IsSame " + 
+					" From BuComp Where PdbID = '{0}' and BuId1 = {1} and BuId2 = {2} and compType = '{3}';", 
+					dRow["PdbID"].ToString (), dRow["PdbBUID"], dRow["PqsBuID"], type2 + type1);
+				resultTable = dbQuery.Query (queryString);
+			}
+			if (resultTable.Rows.Count == 0)
+			{
+				dRow[type1 + type2] = "dif";
+				return;
+			}
+			int isSame = Convert.ToInt32 (resultTable.Rows[0]["IsSame"].ToString ());
+			if ( isSame > 0)
+			{
+				dRow[type1 + type2] = "substruct";
+			}
+			else
+			{
+				dRow[type1 + type2] = "dif";
+			}
+		}
+		#endregion
+
+		#region add PISA BU info to table 
+		/// <summary>
+		/// add pisa bu info to table
+		/// </summary>
+		/// <param name="queryResultTable"></param>
+		public void AddPisaBUInfoToTable (ref DataTable queryResultTable)
+		{
+			ArrayList entryList = new ArrayList ();
+			string queryString = "";
+			foreach (DataRow dRow in queryResultTable.Rows)
+			{
+				if (entryList.Contains (dRow["PdbID"].ToString ()))
+				{
+					continue;
+				}
+				entryList.Add (dRow["PdbID"].ToString ());
+			}
+			int i = 0;
+			foreach (string pdbId in entryList)
+			{
+				queryString = string.Format ("Select * From PisaAssembly Where PdbID = '{0}' ORDER BY AssemblySeqID;", pdbId);
+				DataTable pisaBuInfoTable = dbQuery.Query (queryString);
+				if (pisaBuInfoTable.Rows.Count == 0)
+				{
+					GetPisaMonomerInfo (pdbId, ref pisaBuInfoTable);
+				}
+				DataRow[] dataRows = queryResultTable.Select (string.Format ("PdbID = '{0}'", pdbId));
+				i = 0;
+				foreach (DataRow dataRow in dataRows)
+				{
+					if (i < pisaBuInfoTable.Rows.Count)
+					{
+						dataRow["PisaBuID"] = pisaBuInfoTable.Rows[i]["AssemblySeqID"];
+						dataRow["PISABU-Entity"] = pisaBuInfoTable.Rows[i]["Formula_Entity"];
+						dataRow["PisaBu-AsymID"] = pisaBuInfoTable.Rows[i]["Formula_Asym"];
+						dataRow["PisaBu-Abc"] = pisaBuInfoTable.Rows[i]["Formula_Abc"];
+						dataRow["PisaBu-Auth"] = pisaBuInfoTable.Rows[i]["Formula_Auth"];
+						i ++;
+					}
+					else
+					{
+						dataRow["PisaBuID"] = "-";
+						dataRow["PISABU-Entity"] = "-";
+						dataRow["PisaBu-AsymID"] = "-";
+						dataRow["PisaBu-Abc"] = "-";
+						dataRow["PisaBu-Auth"] = "-";
+					}
+				}
+				// pisa has more bu assemblies
+				while (i < pisaBuInfoTable.Rows.Count)
+				{
+					DataRow newRow = queryResultTable.NewRow ();
+					foreach (DataColumn col in queryResultTable.Columns)
+					{
+						newRow[col] = "-";
+					}
+					newRow["PdbID"] = pdbId;
+					newRow["Names"] = queryResultTable.Rows[0]["Names"];
+					newRow["PisaBuID"] = pisaBuInfoTable.Rows[i]["AssemblySeqID"];
+					newRow["PISABU-Entity"] = pisaBuInfoTable.Rows[i]["Formula_Entity"];
+					newRow["PisaBu-AsymID"] = pisaBuInfoTable.Rows[i]["Formula_Asym"];
+					newRow["PisaBu-Abc"] = pisaBuInfoTable.Rows[i]["Formula_Abc"];
+					newRow["PisaBu-Auth"] = pisaBuInfoTable.Rows[i]["Formula_Auth"];
+					newRow["PdbPqs"] = "-";
+					newRow["PdbPisa"] = "-";
+					newRow["PqsPisa"] = "-";
+					newRow["DNA"] = queryResultTable.Rows[0]["DNA"];
+					newRow["RNA"] = queryResultTable.Rows[0]["RNA"];
+					newRow["Ligands"] = queryResultTable.Rows[0]["Ligands"];
+					newRow["Resolution"] = queryResultTable.Rows[0]["Resolution"];
+					queryResultTable.Rows.Add (newRow);
+					i ++;
+				}
+			}
+		}
+
+		private void GetPisaMonomerInfo (string pdbId, ref DataTable pisaBuInfoTable)
+		{
+			string queryString = string.Format ("Select * From PisaBuStatus Where PdbID = '{0}';", pdbId);
+			DataTable statusTable = dbQuery.Query (queryString);
+			if (statusTable.Rows.Count == 0)
+			{
+				return;
+			}
+			if (statusTable.Rows[0]["Status"].ToString ().TrimEnd ().ToLower () == "ok")
+			{
+				int assemblyId = 1;
+				queryString = string.Format ("Select * From AsymUnit Where PdbID = '{0}' AND " + 
+					" PolymerType = 'polypeptide';", pdbId);
+				DataTable chainInfoTable = dbQuery.Query (queryString);
+				foreach (DataRow chainInfoRow in chainInfoTable.Rows)
+				{
+					DataRow newRow = pisaBuInfoTable.NewRow ();
+					newRow["PdbID"] = pdbId;
+					newRow["AssemblySeqID"] = assemblyId;
+					newRow["Formula_Entity"] = "(" + chainInfoRow["EntityID"].ToString () + ".1)";
+					newRow["Formula_Asym"] =  "(" + chainInfoRow["AsymID"].ToString ().TrimEnd () + ")";
+					newRow["Formula_Abc"] = "A";
+					newRow["Formula_Auth"] = "(" + chainInfoRow["AuthorChain"].ToString ().TrimEnd () + ")";
+					pisaBuInfoTable.Rows.Add (newRow);
+					assemblyId ++;
+				}
+			}
+		}
+		#endregion
+
+		#region Query string
+		/// <summary>
+		/// query string on PDB biol units for input pdb code
+		/// </summary>
+		/// <param name="pdbId"></param>
+		/// <param name="chainId"></param>
+		/// <param name="chainType"></param>
+		/// <returns></returns>
+		private string GetPdbEntryQueryStringForPdb(string pdbId, string chainId, string chainType)
+		{
+			string queryStr = "";
+			if (pdbId == "") // no input 
+				return "";
+			try
+			{
+				switch (chainType)
+				{	
+					case "author-chain":
+						queryStr = string.Format ("SELECT DISTINCT BiolUnit.PdbID  as PdbID, BiolUnit.AsymID as AsymID, BiolUnitID," + 
+							" NumOfAsymIDs, AuthorChain, EntityID, PolymerType, Name, NumOfLigandAtoms, Resolution, Method" + 
+							" FROM BiolUnit, AsymUnit, PdbEntry" +
+							" WHERE AsymUnit.PdbID = '{0}' and AsymUnit.AuthorChain = '{1}'" +  
+							" and BiolUnit.PdbID = AsymUnit.PdbID and PdbEntry.PdbID = BiolUnit.PdbID" + 
+							" and BiolUnit.AsymID = AsymUnit.AsymID" +
+							" ORDER BY BiolUnitID, BiolUnit.AsymID;", pdbId, chainId);
+						break;
+					case "asym":
+						queryStr = string.Format ("SELECT DISTINCT BiolUnit.PdbID  as PdbID, BiolUnit.AsymID as AsymID, BiolUnitID," + 
+							" NumOfAsymIDs, AuthorChain, EntityID, PolymerType, Name, NumOfLigandAtoms, Resolution, Method" + 
+							" FROM BiolUnit, AsymUnit, PdbEntry" +
+							" WHERE AsymUnit.PdbID = '{0}' and AsymUnit.AsymID = '{1}'" +  
+							" and BiolUnit.PdbID = AsymUnit.PdbID and PdbEntry.PdbID = BiolUnit.PdbID" + 
+							" and BiolUnit.AsymID = AsymUnit.AsymID" +
+							" ORDER BY BiolUnitID, BiolUnit.AsymID;", pdbId, chainId);
+						break;
+					case "entity":
+						queryStr = string.Format ("SELECT DISTINCT BiolUnit.PdbID  as PdbID, BiolUnit.AsymID as AsymID, BiolUnitID," + 
+							" NumOfAsymIDs, AuthorChain, EntityID, PolymerType, Name, NumOfLigandAtoms, Resolution, Method" + 
+							" FROM BiolUnit, AsymUnit, PdbEntry" +
+							" WHERE AsymUnit.PdbID = '{0}' and AsymUnit.EntityID = '{1}'" +  
+							" and BiolUnit.PdbID = AsymUnit.PdbID and PdbEntry.PdbID = BiolUnit.PdbID" + 
+							" and BiolUnit.AsymID = AsymUnit.AsymID" +
+							" ORDER BY BiolUnitID, BiolUnit.AsymID;", pdbId, chainId);
+						break;
+					default:
+						queryStr = string.Format ("SELECT DISTINCT BiolUnit.PdbID  as PdbID, BiolUnit.AsymID as AsymID, BiolUnitID," + 
+							" NumOfAsymIDs, AuthorChain, EntityID, PolymerType, Name, NumOfLigandAtoms, Resolution, Method" + 
+							" FROM BiolUnit, AsymUnit, PdbEntry" +
+							" WHERE AsymUnit.PdbID = '{0}'" +  
+							" and BiolUnit.PdbID = AsymUnit.PdbID and PdbEntry.PdbID = BiolUnit.PdbID" + 
+							" and BiolUnit.AsymID = AsymUnit.AsymID" +
+							" ORDER BY BiolUnitID, BiolUnit.AsymID;", pdbId);
+						break;
+				}
+			}
+			catch (System.FormatException formatError)
+			{
+				throw formatError;
+			}
+			return queryStr;
+		}
+
+		/// <summary>
+		/// query string on PQS biological units for this pdb code
+		/// </summary>
+		/// <param name="pdbId"></param>
+		/// <param name="chainId"></param>
+		/// <param name="chainType"></param>
+		/// <returns></returns>
+		private string GetPdbEntryQueryStringForPqs(string pdbId, string chainId, string chainType)
+		{
+			string queryStr = "";
+			if (pdbId == "") // no input 
+				return "";
+
+			try
+			{
+				switch (chainType)
+				{
+					case "author-chain":
+						queryStr = string.Format ("SELECT distinct PqsPdbChainMap.*, AsymID, EntityID, AuthorChain, PolymerType " + 
+							" FROM PqsPdbChainMap, AsymUnit" +
+							" WHERE AsymUnit.PdbID = '{0}' and PqsPdbChainMap.PdbId = '{0}'" + 
+							" and AsymUnit.AuthorChain = '{1}' " +
+							" and PqsPdbChainMap.PdbID = AsymUnit.PdbID" + 
+							" and PqsPdbChainMap.PdbChainID = AsymUnit.AuthorChain " +
+							" ORDER BY PqsPdbChainMap.PdbID, PqsBiolUnitID;", pdbId, chainId);
+						break;
+					case "asym":
+						queryStr = string.Format ("SELECT distinct PqsPdbChainMap.*, AsymID, EntityID, AuthorChain, PolymerType " + 
+							" FROM PqsPdbChainMap, AsymUnit" +
+							" WHERE AsymUnit.PdbID = '{0}' and PqsPdbChainMap.PdbId = '{0}'" + 
+							" and AsymUnit.AsymID = '{1}' " +
+							" and PqsPdbChainMap.PdbID = AsymUnit.PdbID" + 
+							" and PqsPdbChainMap.PdbChainID = AsymUnit.AuthorChain " +
+							" ORDER BY PqsPdbChainMap.PdbID, PqsBiolUnitID;", pdbId, chainId);
+						break;
+					case "entity":
+						queryStr = string.Format ("SELECT distinct PqsPdbChainMap.*, AsymID, EntityID, AuthorChain, PolymerType " + 
+							" FROM PqsPdbChainMap, AsymUnit" +
+							" WHERE AsymUnit.PdbID = '{0}' and PqsPdbChainMap.PdbId = '{0}'" + 
+							" and AsymUnit.EntityID = '{1}' " +
+							" and PqsPdbChainMap.PdbID = AsymUnit.PdbID" + 
+							" and PqsPdbChainMap.PdbChainID = AsymUnit.AuthorChain" +
+							" ORDER BY PqsPdbChainMap.PdbID, PqsBiolUnitID;", pdbId, chainId);
+						break;
+					default:
+						queryStr = string.Format ("SELECT distinct PqsPdbChainMap.*, AsymID, EntityID, AuthorChain, PolymerType " + 
+							" FROM PqsPdbChainMap, AsymUnit" +
+							" WHERE AsymUnit.PdbID = '{0}' and PqsPdbChainMap.PdbId = '{0}'" + 
+							" and PqsPdbChainMap.PdbID = AsymUnit.PdbID" + 
+							" and PqsPdbChainMap.PdbChainID = AsymUnit.AuthorChain " +
+							" ORDER BY PqsPdbChainMap.PdbID, PqsBiolUnitID;", pdbId);
+						break;
+				}
+			}
+			catch (System.FormatException formatError)
+			{
+				throw formatError;
+			}
+			return queryStr;
+		}
+
+		/// <summary>
+		/// query string of ASU/BU for a list of PDB entries
+		/// </summary>
+		/// <param name="pdbIdList"></param>
+		/// <returns></returns>
+		private string GetPdbEntryQueryStringForPdbList(ArrayList pdbIdList)
+		{
+			string queryStr = string.Format ("SELECT DISTINCT BiolUnit.PdbID  as PdbID, BiolUnit.AsymID as AsymID, BiolUnitID," + 
+				" NumOfAsymIDs, AuthorChain, EntityID, PolymerType, Name, NumOfLigandAtoms, Resolution, Method" + 
+				" FROM BiolUnit, AsymUnit, PdbEntry" +
+				" WHERE AsymUnit.PdbID IN ({0}) " +  
+				" and BiolUnit.PdbID = AsymUnit.PdbID and PdbEntry.PdbID = BiolUnit.PdbID" + 
+				" and BiolUnit.AsymID = AsymUnit.AsymID" +
+				" ORDER BY BiolUnit.PdbID, BiolUnitID, BiolUnit.AsymID;", FormatListString(pdbIdList));
+			return queryStr;
+		}
+
+		/// <summary>
+		/// query string of PQS ASU/BU for a list of PDB entries
+		/// </summary>
+		/// <param name="?"></param>
+		/// <returns></returns>
+		private string GetPdbEntryQueryStringForPqs(ArrayList pdbIdList)
+		{
+			string queryStr = string.Format ("SELECT distinct PqsPdbChainMap.*, AsymID, EntityID, AuthorChain, PolymerType " + 
+				" FROM PqsPdbChainMap, AsymUnit" +
+				" WHERE AsymUnit.PdbID IN  ({0}) and PqsPdbChainMap.PdbID IN ({0})" +
+				" and PqsPdbChainMap.PdbID = AsymUnit.PdbID" + 
+				" and PqsPdbChainMap.PdbChainID = AsymUnit.AuthorChain " +
+				" ORDER BY PqsPdbChainMap.PdbID, PqsBiolUnitID;", FormatListString (pdbIdList));
+			return queryStr;
+
+		}
+		/// <summary>
+		/// format a list of pdbid into a sql string
+		/// </summary>
+		/// <param name="pdbIdList"></param>
+		/// <returns></returns>
+		private string FormatListString (ArrayList pdbIdList)
+		{
+			string listString = "";
+			foreach (object pdbId in pdbIdList)
+			{
+				listString += "'";
+				listString += pdbId.ToString ();
+				listString += "',";
+			}
+			return listString.TrimEnd (',');
+		}
+	    #endregion
+
+		#region Query and parse 
+		/// <summary>
+		/// get PDB result from Scop query
+		/// </summary>
+		/// <returns></returns>
+		internal string GetPdbBiolUnit(string queryStr, ref DataTable queryResultTable)
+		{
+			string errorMsg = "";
+			BiolUnitInfo biolUnitInfo = new BiolUnitInfo ();
+			AsymUnitInfo asymUnitInfo = new AsymUnitInfo ();
+			Hashtable biolUnitHash = new Hashtable ();
+			// used to format the asym format and authorchain format
+			Hashtable entityAsymIdHash = new Hashtable ();
+			Hashtable entityAuthorChainHash = new Hashtable ();
+			DataTable thisPdbQueryResultTable = new DataTable ();
+
+			string polymerType = "";
+			int numOfLigandAtoms = 0;
+			double resolution = 0;
+			string prePdbId = "";
+			string currentPdbId = "";
+			int preBiolUnit = 0;
+			int currentBiolUnit = 0;
+			// add to asym unit, 
+			// used in case where multiple biological units contain same asym chain group
+			bool addAsym = true;
+
+			try
+			{
+				thisPdbQueryResultTable = dbQuery.Query (queryStr);
+
+				if (thisPdbQueryResultTable.Rows.Count > 0)
+				{
+					// then insert the data into datatable
+					foreach (DataRow dRow in thisPdbQueryResultTable.Rows)
+					{
+						currentPdbId = dRow["PdbID"].ToString ().Trim ();
+						currentBiolUnit = Int16.Parse (dRow["BiolUnitID"].ToString ());
+						// new pdb entry
+						if (currentPdbId != prePdbId)
+						{
+							if (prePdbId != "") // finish one pdb entry, add the last biolunit of previous entry
+							{
+								if (! biolUnitHash.ContainsKey (preBiolUnit))
+									biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+
+								AddBiolUnitInfoToTable(prePdbId, biolUnitHash, asymUnitInfo, ref queryResultTable, entityAsymIdHash, entityAuthorChainHash);
+
+								biolUnitInfo = new BiolUnitInfo ();
+								asymUnitInfo = new AsymUnitInfo ();
+								addAsym = true;
+								biolUnitHash.Clear ();
+								preBiolUnit = 0; // new entry
+								entityAsymIdHash = new Hashtable ();
+								entityAuthorChainHash = new Hashtable();
+							}
+							// entry level
+							numOfLigandAtoms = Int16.Parse (dRow["NumOfLigandAtoms"].ToString ());
+							if (numOfLigandAtoms > 0)
+							{
+								asymUnitInfo.hasLigands = "yes";
+							}
+							resolution = System.Convert.ToDouble (dRow["Resolution"].ToString ());
+							if (resolution > 0.0)
+							{
+								asymUnitInfo.resolution = resolution.ToString ();
+							}
+							else
+							{
+								asymUnitInfo.resolution = dRow["Method"].ToString ().Trim ();
+							}
+
+						}
+						else
+						{
+							if (preBiolUnit != currentBiolUnit)
+							{
+								if (preBiolUnit != 0) // finish one biol unit
+								{
+									if (! biolUnitHash.ContainsKey (preBiolUnit))
+										biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+									
+									biolUnitInfo = new BiolUnitInfo();
+								}
+							}
+						}
+						polymerType = dRow["PolymerType"].ToString ().Trim ();
+						if (polymerType.ToLower ().IndexOf ("polyribonucleotide") > -1)
+							biolUnitInfo.hasRNA = "yes";
+						else if (polymerType.ToLower ().IndexOf ("polydeoxyribonucleotide") > -1)
+							biolUnitInfo.hasDNA = "yes";
+						else if (polymerType.ToLower ().IndexOf ("polypeptide") > -1)
+						{
+							string asymId = dRow["AsymID"].ToString ().Trim ();
+							if (! asymUnitInfo.asymUnit_asym.Contains (asymId))
+							{
+								asymUnitInfo.asymUnit_asym.Add (asymId, 1);
+								addAsym = true;
+							}
+							else
+							{
+								addAsym = false;
+							}
+							biolUnitInfo.biolUnit_asym.Add (asymId, dRow["NumOfAsymIDs"].ToString ().Trim ());
+							
+							object entityId = dRow["EntityID"].ToString ().Trim ();
+							
+							if (addAsym)
+							{
+								if (asymUnitInfo.asymUnit_entityHash.ContainsKey (entityId))
+								{
+									int count = Int16.Parse ((asymUnitInfo.asymUnit_entityHash)[entityId].ToString ());	
+									count ++;
+									asymUnitInfo.asymUnit_entityHash[entityId] = count;
+								}
+								else
+									asymUnitInfo.asymUnit_entityHash.Add (entityId, 1);
+							}
+							
+							int asymCount = Int16.Parse (dRow["NumOfAsymIDs"].ToString ());
+							if ((biolUnitInfo.biolUnit_entityHash).ContainsKey (entityId))
+							{
+								int count = Int16.Parse ((biolUnitInfo.biolUnit_entityHash)[entityId].ToString ());
+								count += asymCount;
+								biolUnitInfo.biolUnit_entityHash[entityId] = count;
+							}
+							else
+								biolUnitInfo.biolUnit_entityHash.Add (entityId, asymCount);
+
+							string entityName = dRow["Name"].ToString ().Trim ();
+							if (! (biolUnitInfo.biolUnit_namesHash).ContainsKey (entityId))
+							{
+								biolUnitInfo.biolUnit_namesHash.Add (entityId, entityName);
+							}
+
+							object authorchain = dRow["AuthorChain"].ToString ().Trim ();
+							if (addAsym)
+							{
+								if (asymUnitInfo.asymUnit_authorchainHash.ContainsKey (authorchain))
+								{
+									int count = Int16.Parse ((asymUnitInfo.asymUnit_authorchainHash)[authorchain].ToString ());
+									count ++;
+									asymUnitInfo.asymUnit_authorchainHash[authorchain] = count;
+								}
+								else
+									asymUnitInfo.asymUnit_authorchainHash.Add (authorchain, 1);
+							}
+
+							if (biolUnitInfo.biolUnit_authorchainHash.ContainsKey (authorchain))
+							{
+								int count = Int16.Parse ((biolUnitInfo.biolUnit_authorchainHash)[authorchain].ToString ());
+								count += asymCount;
+								biolUnitInfo.biolUnit_authorchainHash[authorchain] = count;
+							}
+							else
+								biolUnitInfo.biolUnit_authorchainHash.Add (authorchain, asymCount);
+
+							// get the asymId for this entity id
+							if (entityAsymIdHash.ContainsKey (entityId))
+							{
+								ArrayList asymIdList = (ArrayList)entityAsymIdHash[entityId];
+								if (! SearchChain(asymIdList, asymId))
+									asymIdList.Add (asymId);
+								entityAsymIdHash[entityId] = asymIdList;
+							}
+							else
+							{
+								ArrayList asymIdList = new ArrayList ();
+								asymIdList.Add (asymId);
+								entityAsymIdHash.Add (entityId, asymIdList);
+							}
+							
+							// get the asymId for this entity id
+							if (entityAuthorChainHash.ContainsKey (entityId))
+							{
+								ArrayList chainIdList = (ArrayList)entityAuthorChainHash[entityId];
+								if (! SearchChain(chainIdList, authorchain))
+									chainIdList.Add (authorchain);
+								entityAuthorChainHash[entityId] = chainIdList;
+							}
+							else
+							{
+								ArrayList chainIdList = new ArrayList ();
+								chainIdList.Add (authorchain);
+								entityAuthorChainHash.Add (entityId, chainIdList);
+							}
+						}
+
+						prePdbId = currentPdbId;
+						preBiolUnit = currentBiolUnit;
+						
+					}
+					// add the last pdb entry info
+					if (! biolUnitHash.ContainsKey (preBiolUnit))
+						biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+					AddBiolUnitInfoToTable(currentPdbId, biolUnitHash, asymUnitInfo, ref queryResultTable, entityAsymIdHash, entityAuthorChainHash);
+				}
+				else
+				{
+					errorMsg = "empty set.";
+				}
+			}
+			catch (Exception exception)
+			{
+				throw exception;
+			}			
+			return errorMsg;
+		}
+
+		/// <summary>
+		/// get PDB result from PDB query
+		/// </summary>
+		/// <returns></returns>
+		private string GetPdbBiolUnitForPdb(string queryStr, ref DataTable queryResultTable)
+		{
+			string errorMsg = "";
+			BiolUnitInfo biolUnitInfo = new BiolUnitInfo ();
+			AsymUnitInfo asymUnitInfo = new AsymUnitInfo ();
+			Hashtable biolUnitHash = new Hashtable ();
+			// used to format the asym format and authorchain format
+			Hashtable entityAsymIdHash = new Hashtable ();
+			Hashtable entityAuthorChainHash = new Hashtable ();
+			DataTable thisPdbQueryResultTable = new DataTable ();
+
+			string polymerType = "";
+			int numOfLigandAtoms = 0;
+			double resolution = 0;
+			string prePdbId = "";
+			string currentPdbId = "";
+			string preBiolUnit = "";
+		    string currentBiolUnit = "";
+			bool addAsym = true;
+
+			try
+			{
+				thisPdbQueryResultTable = dbQuery.Query (queryStr);
+
+				if (thisPdbQueryResultTable.Rows.Count > 0)
+				{
+					// then insert the data into datatable
+					foreach (DataRow dRow in thisPdbQueryResultTable.Rows)
+					{
+						currentPdbId = dRow["PdbID"].ToString ().Trim ();
+						currentBiolUnit = dRow["BiolUnitID"].ToString ();
+						// new pdb entry
+						if (currentPdbId != prePdbId)
+						{
+							if (prePdbId != "") // finish one pdb entry, add the last biolunit of previous entry
+							{
+								if (! biolUnitHash.ContainsKey (preBiolUnit))
+									biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+
+								AddBiolUnitInfoToTable(prePdbId, biolUnitHash, asymUnitInfo, ref queryResultTable, entityAsymIdHash, entityAuthorChainHash);
+
+								biolUnitInfo = new BiolUnitInfo ();
+								asymUnitInfo = new AsymUnitInfo ();
+								biolUnitHash.Clear ();
+								preBiolUnit = ""; // new entry
+								entityAsymIdHash = new Hashtable ();
+								entityAuthorChainHash = new Hashtable();
+							}
+							// entry level
+							numOfLigandAtoms = Int16.Parse (dRow["NumOfLigandAtoms"].ToString ());
+							if (numOfLigandAtoms > 0)
+							{
+								asymUnitInfo.hasLigands = "yes";
+							}
+							resolution = System.Convert.ToDouble (dRow["Resolution"].ToString ());
+							if (resolution > 0.0)
+							{
+								asymUnitInfo.resolution = resolution.ToString ();
+							}
+							else
+							{
+								asymUnitInfo.resolution = dRow["Method"].ToString ().Trim ();
+							}
+
+						}
+						else
+						{
+							if (preBiolUnit != currentBiolUnit)
+							{
+								if (preBiolUnit != "") // finish one biol unit
+								{
+									if (! biolUnitHash.ContainsKey (preBiolUnit))
+										biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+									
+									biolUnitInfo = new BiolUnitInfo();
+								}
+							}
+						}
+						polymerType = dRow["PolymerType"].ToString ().Trim ();
+						if (polymerType.ToLower ().IndexOf ("polyribonucleotide") > -1)
+							biolUnitInfo.hasRNA = "yes";
+						else if (polymerType.ToLower ().IndexOf ("polydeoxyribonucleotide") > -1)
+							biolUnitInfo.hasDNA = "yes";
+
+						if (polymerType.ToLower ().IndexOf ("polypeptide") > -1/* || 
+							polymerType.ToLower ().IndexOf ("polyribonucleotide") > -1 ||
+							polymerType.ToLower ().IndexOf ("polydeoxyribonucleotide") > -1 ||
+							polymerType.ToLower ().IndexOf ("other") > -1*/)
+						{
+							string asymId = dRow["AsymID"].ToString ().Trim ();
+							if (! asymUnitInfo.asymUnit_asym.Contains (asymId))
+							{
+								asymUnitInfo.asymUnit_asym.Add (asymId, 1);
+								addAsym = true;
+							}
+							else
+							{
+								addAsym = false;
+							}
+							biolUnitInfo.biolUnit_asym.Add (asymId, dRow["NumOfAsymIDs"].ToString ().Trim ());
+							
+							object entityId = dRow["EntityID"].ToString ().Trim ();
+							
+							if (addAsym)
+							{
+								if (asymUnitInfo.asymUnit_entityHash.ContainsKey (entityId))
+								{
+									int count = Int16.Parse ((asymUnitInfo.asymUnit_entityHash)[entityId].ToString ());	
+									count ++;
+									asymUnitInfo.asymUnit_entityHash[entityId] = count;
+								}
+								else
+									asymUnitInfo.asymUnit_entityHash.Add (entityId, 1);
+							}
+
+							int asymCount = Int16.Parse (dRow["NumOfAsymIDs"].ToString ());
+							if ((biolUnitInfo.biolUnit_entityHash).ContainsKey (entityId))
+							{
+								int count = Int16.Parse ((biolUnitInfo.biolUnit_entityHash)[entityId].ToString ());
+								count += asymCount;
+								biolUnitInfo.biolUnit_entityHash[entityId] = count;
+							}
+							else
+								biolUnitInfo.biolUnit_entityHash.Add (entityId, asymCount);
+
+							string entityName = dRow["Name"].ToString ().Trim ();
+							if (! (biolUnitInfo.biolUnit_namesHash).ContainsKey (entityId))
+							{
+								biolUnitInfo.biolUnit_namesHash.Add (entityId, entityName);
+							}
+
+							object authorchain = dRow["AuthorChain"].ToString ().Trim ();
+							if (asymUnitInfo.asymUnit_authorchainHash.ContainsKey (authorchain))
+							{
+								int count = Int16.Parse ((asymUnitInfo.asymUnit_authorchainHash)[authorchain].ToString ());
+								count ++;
+								asymUnitInfo.asymUnit_authorchainHash[authorchain] = count;
+							}
+							else
+								asymUnitInfo.asymUnit_authorchainHash.Add (authorchain, 1);
+
+							if (biolUnitInfo.biolUnit_authorchainHash.ContainsKey (authorchain))
+							{
+								int count = Int16.Parse ((biolUnitInfo.biolUnit_authorchainHash)[authorchain].ToString ());
+								count += asymCount;
+								biolUnitInfo.biolUnit_authorchainHash[authorchain] = count;
+							}
+							else
+								biolUnitInfo.biolUnit_authorchainHash.Add (authorchain, asymCount);
+
+							// get the asymId for this entity id
+							if (entityAsymIdHash.ContainsKey (entityId))
+							{
+								ArrayList asymIdList = (ArrayList)entityAsymIdHash[entityId];
+								if (! SearchChain(asymIdList, asymId))
+									asymIdList.Add (asymId);
+								entityAsymIdHash[entityId] = asymIdList;
+							}
+							else
+							{
+								ArrayList asymIdList = new ArrayList ();
+								asymIdList.Add (asymId);
+								entityAsymIdHash.Add (entityId, asymIdList);
+							}
+							
+							// get the asymId for this entity id
+							if (entityAuthorChainHash.ContainsKey (entityId))
+							{
+								ArrayList chainIdList = (ArrayList)entityAuthorChainHash[entityId];
+								if (! SearchChain(chainIdList, authorchain))
+									chainIdList.Add (authorchain);
+								entityAuthorChainHash[entityId] = chainIdList;
+							}
+							else
+							{
+								ArrayList chainIdList = new ArrayList ();
+								chainIdList.Add (authorchain);
+								entityAuthorChainHash.Add (entityId, chainIdList);
+							}
+						}
+
+						prePdbId = currentPdbId;
+						preBiolUnit = currentBiolUnit;
+						
+					}
+					// add the last pdb entry info
+					if (! biolUnitHash.ContainsKey (preBiolUnit))
+						biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+					AddBiolUnitInfoToTable(currentPdbId, biolUnitHash, asymUnitInfo, ref queryResultTable, entityAsymIdHash, entityAuthorChainHash);
+				}
+				else
+				{
+					errorMsg = "empty set.";
+				}
+			}
+			catch (Exception exception)
+			{
+				throw exception;
+			}			
+			return errorMsg;
+		}
+		
+		/// <summary>
+		/// get result from Scop query
+		/// </summary>
+		/// <returns></returns>
+		internal string GetPqsBiolUnit(string queryStr, ref DataTable queryResultTable)
+		{
+			string errorMsg = "";
+			BiolUnitInfo biolUnitInfo = new BiolUnitInfo ();
+			Hashtable biolUnitHash = new Hashtable ();
+			// used to format the asym format and authorchain format
+			Hashtable entityAsymIdHash = new Hashtable ();
+			Hashtable entityAuthorChainHash = new Hashtable ();
+			DataTable thisPqsQueryResultTable = new DataTable ();
+
+			string prePdbId = "";
+			string currentPdbId = "";
+			string preBiolUnit = "";
+		    string currentBiolUnit = "";
+
+			try
+			{
+				// retrieve PQS BU data
+				thisPqsQueryResultTable = dbQuery.Query (queryStr);
+	
+				DataRow [] polypeptideRows = thisPqsQueryResultTable.Select ("PolymerType = 'polypeptide'");
+
+				if (polypeptideRows.Length  > 0)
+				{
+					foreach (DataRow dRow in polypeptideRows)
+					{
+						currentPdbId = dRow["PdbID"].ToString ();
+						currentBiolUnit = dRow["PqsBiolUnitID"].ToString ();
+						// new pdb entry
+						if (currentPdbId != prePdbId)
+						{
+							if (prePdbId != "") // finish one pdb entry, add the last biolunit of previous entry
+							{
+								if (! biolUnitHash.ContainsKey (preBiolUnit))
+								{
+									biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+								}
+
+								AddPqsBiolUnitInfoToTable(prePdbId, biolUnitHash, ref queryResultTable, entityAsymIdHash, entityAuthorChainHash);
+
+								biolUnitInfo = new BiolUnitInfo ();
+								biolUnitHash.Clear ();
+								preBiolUnit = ""; // new entry
+								entityAsymIdHash = new Hashtable ();
+								entityAuthorChainHash = new Hashtable();
+							}
+						}
+							// same pdb entry but new biological unit
+						else
+						{
+							if (preBiolUnit != currentBiolUnit)
+							{
+								if (preBiolUnit != "") // finish one biol unit
+								{
+									if (! biolUnitHash.ContainsKey (preBiolUnit))
+									{
+										biolUnitHash.Add (preBiolUnit, biolUnitInfo);
+									}
+									
+									biolUnitInfo = new BiolUnitInfo();
+								}
+							}
+						}
+						// asymmetric chains
+						string asymId = dRow["AsymID"].ToString ().Trim ();
+						if (biolUnitInfo.biolUnit_asymHash.ContainsKey (asymId))
+						{
+							int count = Int16.Parse ((biolUnitInfo.biolUnit_asymHash)[asymId].ToString ());
+							count ++ ;
+							biolUnitInfo.biolUnit_asymHash[asymId] = count;
+						}
+						else
+							biolUnitInfo.biolUnit_asymHash.Add (asymId, 1);
+
+						// entity
+						object entityId = dRow["EntityID"].ToString ().Trim ();
+                        if ((biolUnitInfo.biolUnit_entityHash).ContainsKey(entityId))
+                        {
+                            int count = Int16.Parse((biolUnitInfo.biolUnit_entityHash)[entityId].ToString());
+                            count++;
+                            biolUnitInfo.biolUnit_entityHash[entityId] = count;
+                        }
+                        else
+                        {
+                            biolUnitInfo.biolUnit_entityHash.Add(entityId, 1);
+                        }
+
+						// author chains
+						object authorchain = dRow["AuthorChain"].ToString ().Trim ();
+                        if (biolUnitInfo.biolUnit_authorchainHash.ContainsKey(authorchain))
+                        {
+                            int count = Int16.Parse((biolUnitInfo.biolUnit_authorchainHash)[authorchain].ToString());
+                            count++;
+                            biolUnitInfo.biolUnit_authorchainHash[authorchain] = count;
+                        }
+                        else
+                        {
+                            biolUnitInfo.biolUnit_authorchainHash.Add(authorchain, 1);
+                        }
+
+						// get the asymId for this entity id
+						if (entityAsymIdHash.ContainsKey (entityId))
+						{
+							ArrayList asymIdList = (ArrayList)entityAsymIdHash[entityId];
+							if (! SearchChain(asymIdList, asymId))
+							{
+								asymIdList.Add (asymId);
+								entityAsymIdHash[entityId] = asymIdList;
+							}
+						}
+						else
+						{
+							ArrayList asymIdList = new ArrayList ();
+							asymIdList.Add (asymId);
+							entityAsymIdHash.Add (entityId, asymIdList);
+						}
+							
+						// get the asymId for this entity id
+						if (entityAuthorChainHash.ContainsKey (entityId))
+						{
+							ArrayList chainIdList = (ArrayList)entityAuthorChainHash[entityId];
+							if (! SearchChain(chainIdList, authorchain))
+							{
+								chainIdList.Add (authorchain);
+								entityAuthorChainHash[entityId] = chainIdList;
+							}
+						}
+						else
+						{
+							ArrayList chainIdList = new ArrayList ();
+							chainIdList.Add (authorchain);
+							entityAuthorChainHash.Add (entityId, chainIdList);
+						}
+	
+						prePdbId = currentPdbId;
+						preBiolUnit = currentBiolUnit;
+						
+					}
+					// add the last pdb entry info
+					if (! biolUnitHash.ContainsKey (preBiolUnit))
+					{
+						biolUnitHash.Add (currentBiolUnit, biolUnitInfo);
+					}
+					AddPqsBiolUnitInfoToTable(prePdbId, biolUnitHash, ref queryResultTable, entityAsymIdHash, entityAuthorChainHash);
+				}
+				else
+				{
+					errorMsg = "empty set.";
+				}
+			}
+			catch (Exception exception)
+			{
+				throw exception;
+			}			
+			return errorMsg;
+		}
+		#endregion
+		
+		#region Parse query result
+		/// <summary>
+		/// add pdb data into table first
+		/// set pqs bu data to "-"
+		/// </summary>
+		/// <param name="thisPdbId"></param>
+		/// <param name="biolUnitHash"></param>
+		/// <param name="asymUnitInfo"></param>
+		/// <param name="pdbResultTable"></param>
+		private void AddBiolUnitInfoToTable(string thisPdbId, Hashtable biolUnitHash, AsymUnitInfo asymUnitInfo, ref DataTable pdbResultTable, 
+			Hashtable entityAsymIdHash, Hashtable entityAuthorChainHash)
+		{
+			string asymUnit_asym = GetAsymFormattedString(asymUnitInfo.asymUnit_asym, entityAsymIdHash);
+			string asymUnit_entity = GetEntityFormattedString(asymUnitInfo.asymUnit_entityHash);
+			string asymUnit_pqs = GetPqsFormatFromEntityHash(asymUnitInfo.asymUnit_entityHash);
+			string asymUnit_chain = GetAuthorChainFormattedString(asymUnitInfo.asymUnit_authorchainHash, entityAuthorChainHash);
+			
+			ArrayList biolUnitList = new ArrayList (biolUnitHash.Keys);
+			biolUnitList.Sort ();
+
+			foreach (object biolUnitId in biolUnitList)
+			{
+				BiolUnitInfo biolUnitInfo = (BiolUnitInfo) biolUnitHash[biolUnitId]; 
+
+				DataRow biolUnitRow = pdbResultTable.NewRow ();
+				biolUnitRow["PDBID"] = thisPdbId;
+				biolUnitRow["PdbBuID"] = biolUnitId.ToString ();
+				biolUnitRow["DNA"] = biolUnitInfo.hasDNA;
+				biolUnitRow["RNA"] = biolUnitInfo.hasRNA;
+				biolUnitRow["Ligands"] = asymUnitInfo.hasLigands;
+				biolUnitRow["Resolution"] = asymUnitInfo.resolution;
+				biolUnitRow["ASU-Entity"] = asymUnit_entity;
+				biolUnitRow["ASU-AsymID"] = asymUnit_asym;
+				biolUnitRow["ASU-Auth"] = asymUnit_chain;
+				biolUnitRow["ASU-ABC"] = asymUnit_pqs; // default "-"
+				biolUnitRow["PDBBU-AsymID"] = GetAsymFormattedString(biolUnitInfo.biolUnit_asym, entityAsymIdHash);
+				biolUnitRow["PDBBU-Entity"] = GetEntityFormattedString(biolUnitInfo.biolUnit_entityHash);
+				biolUnitRow["PDBBU-Auth"] = GetAuthorChainFormattedString(biolUnitInfo.biolUnit_authorchainHash, entityAuthorChainHash);				
+				biolUnitRow["PDBBU-ABC"] = GetPqsFormatFromEntityHash(biolUnitInfo.biolUnit_entityHash);
+				biolUnitRow["Names"] = GetNamesFromNameHash (biolUnitInfo.biolUnit_namesHash);
+				// set default to be -
+				biolUnitRow["PqsBuID"] = "-";
+				biolUnitRow["PQSBU-AsymID"] = "-";
+				biolUnitRow["PQSBU-Entity"] = "-";
+				biolUnitRow["PQSBU-Auth"] = "-";				
+				biolUnitRow["PQSBU-ABC"] = "-";
+				pdbResultTable.Rows.Add (biolUnitRow);
+			}
+		}
+
+		/// <summary>
+		/// add pqs data into table
+		/// 1. match PDB and PQS biological units by matching asymmetric chain format
+		/// 2. match remaining biological units by the number order
+		/// 3. add new rows if more PQS biological units
+		/// </summary>
+		/// <param name="thisPdbId"></param>
+		/// <param name="biolUnitHash"></param>
+		/// <param name="queryResultTable"></param>
+		/// <param name="entityAsymIdHash"></param>
+		/// <param name="entityAuthorChainHash"></param>
+		private void AddPqsBiolUnitInfoToTable(string thisPdbId, Hashtable biolUnitHash, ref DataTable queryResultTable, 
+			Hashtable entityAsymIdHash, Hashtable entityAuthorChainHash)
+		{
+			ArrayList biolUnitIdList = new ArrayList(biolUnitHash.Keys);
+			biolUnitIdList.Sort ();
+
+			string queryString = string.Format ("PDBID = '{0}'", thisPdbId);
+			DataRow [] thisPdbRows = queryResultTable.Select(queryString);
+
+			ArrayList pqsBuList = new ArrayList (biolUnitIdList);
+			ArrayList pdbBuList = new ArrayList ();
+
+			foreach (DataRow dRow in thisPdbRows)
+			{
+				pdbBuList.Add (dRow["PdbBuID"]);
+			}
+
+			// match asymmetric chain format
+			foreach (object biolUnitId in biolUnitIdList)
+			{
+				BiolUnitInfo biolUnitInfo = (BiolUnitInfo) biolUnitHash[biolUnitId]; 
+				string pqsBuAsymString = GetAsymFormattedString(biolUnitInfo.biolUnit_asymHash, entityAsymIdHash);	
+			
+				DataRow thisPdbBiolUnitRow = null;
+				foreach (DataRow dRow in thisPdbRows)
+				{
+					if (dRow["PDBBU-AsymID"].ToString () == pqsBuAsymString)
+					{
+						thisPdbBiolUnitRow = dRow;
+						break;
+					}
+				}				
+				if (thisPdbBiolUnitRow != null)
+				{
+					if (pdbBuList.Contains (thisPdbBiolUnitRow["PdbBuID"].ToString ()))
+					{
+						pdbBuList.Remove (thisPdbBiolUnitRow["PdbBuID"]);
+						pqsBuList.Remove (biolUnitId);
+						DataRow updatedRow = thisPdbBiolUnitRow;
+						updatedRow["PqsBuID"] = biolUnitId.ToString ();
+						updatedRow["PQSBU-AsymID"] = pqsBuAsymString;
+						updatedRow["PQSBU-Auth"] = GetAuthorChainFormattedString(biolUnitInfo.biolUnit_authorchainHash, entityAuthorChainHash);
+						updatedRow["PQSBU-Entity"] = GetEntityFormattedString(biolUnitInfo.biolUnit_entityHash);
+						updatedRow["PQSBU-ABC"] = GetPqsFormatFromEntityHash(biolUnitInfo.biolUnit_entityHash);
+						queryResultTable.AcceptChanges ();
+					}
+				}
+			}
+			// match remaining biological units by the id order
+			pdbBuList.Sort ();
+			pqsBuList.Sort ();
+			
+			int i = 0;
+			for (i = 0; i < pdbBuList.Count; i ++)
+			{
+				if (i >= pqsBuList.Count)
+				{
+					break;
+				}				
+				string pdbBuId = pdbBuList[i].ToString ();
+				BiolUnitInfo biolUnitInfo = (BiolUnitInfo) biolUnitHash[pqsBuList[i]]; 
+				
+				// no asymmetric chain format matched. Match biological unit ID
+				queryString = string.Format ("PDBID = '{0}' and PdbBuID = '{1}'", thisPdbId, pdbBuId);
+				DataRow[] thisPdbBiolUnitRows = queryResultTable.Select(queryString);
+
+				DataRow updatedRow = thisPdbBiolUnitRows[0];
+				updatedRow["PqsBuID"] = pqsBuList[i].ToString ();
+				updatedRow["PQSBU-AsymID"] = GetAsymFormattedString(biolUnitInfo.biolUnit_asymHash, entityAsymIdHash);
+				updatedRow["PQSBU-Auth"] = GetAuthorChainFormattedString(biolUnitInfo.biolUnit_authorchainHash, entityAuthorChainHash);
+				updatedRow["PQSBU-Entity"] = GetEntityFormattedString(biolUnitInfo.biolUnit_entityHash);
+				updatedRow["PQSBU-ABC"] = GetPqsFormatFromEntityHash(biolUnitInfo.biolUnit_entityHash);
+				queryResultTable.AcceptChanges ();
+			}
+			// add additional PQS BUs
+			while (i < pqsBuList.Count)
+			{
+				BiolUnitInfo biolUnitInfo = (BiolUnitInfo) biolUnitHash[pqsBuList[i]]; 
+
+				DataRow newRow = queryResultTable.NewRow ();
+				newRow["PDBID"] = thisPdbId;
+				newRow["PdbBuID"] = "-";
+				// may need to fill out the following three columns
+                if (thisPdbRows.Length > 0)
+                {
+                    // repeat the fields except PDB BU fields
+                    newRow["DNA"] = thisPdbRows[0]["DNA"];
+                    newRow["RNA"] = thisPdbRows[0]["RNA"];
+                    newRow["Ligands"] = thisPdbRows[0]["Ligands"];
+                    newRow["Resolution"] = thisPdbRows[0]["Resolution"];
+                    newRow["ASU-Entity"] = thisPdbRows[0]["ASU-Entity"];
+                    newRow["ASU-AsymID"] = thisPdbRows[0]["ASU-AsymID"];
+                    newRow["ASU-Auth"] = thisPdbRows[0]["ASU-Auth"];
+                    newRow["ASU-ABC"] = thisPdbRows[0]["ASU-ABC"];
+                    newRow["Names"] = thisPdbRows[0]["Names"];
+                }
+                else
+                {
+                    newRow["DNA"] = "-"; // default "-"
+                    newRow["RNA"] = "-";
+                    newRow["Ligands"] = "-";
+                    newRow["Resolution"] = "-";
+                    newRow["ASU-Entity"] = "-";
+                    newRow["ASU-AsymID"] = "-";
+                    newRow["ASU-Auth"] = "-";
+                    newRow["ASU-ABC"] = "-";
+                    newRow["Names"] = "-";
+                }
+
+				newRow["PDBBU-AsymID"] = "-";
+				newRow["PDBBU-Entity"] = "-";
+				newRow["PDBBU-Auth"] = "-";				
+				newRow["PDBBU-ABC"] = "-";
+				newRow["PqsBuID"] =  pqsBuList[i].ToString ();
+				newRow["PQSBU-AsymID"] = GetAsymFormattedString(biolUnitInfo.biolUnit_asymHash, entityAsymIdHash);;
+				newRow["PQSBU-Auth"] = GetAuthorChainFormattedString(biolUnitInfo.biolUnit_authorchainHash, entityAuthorChainHash);
+				newRow["PQSBU-Entity"] = GetEntityFormattedString(biolUnitInfo.biolUnit_entityHash);
+				newRow["PQSBU-ABC"] = GetPqsFormatFromEntityHash(biolUnitInfo.biolUnit_entityHash);
+				queryResultTable.Rows.Add (newRow);
+				i ++;
+			}
+		}
+		#endregion
+
+		#region BU formats
+		/// <summary>
+		/// get pqs format from entity format
+		/// i.e. entity format (1.1)(2.2), PQS format A2B
+		/// </summary>
+		/// <param name="entityHash"></param>
+		/// <returns></returns>
+		private string GetPqsFormatFromEntityHash(Hashtable entityHash)
+		{
+			string pqsUnitString = "";
+			ArrayList chainNumList = new ArrayList ();
+			foreach (object entityId in entityHash.Keys)
+			{
+				chainNumList.Add (entityHash[entityId]);	
+			}
+			chainNumList.Sort ();
+			// assume number of entitis less than 26
+			for (int i = 0; i < chainNumList.Count; i ++)
+			{
+				if (i < 26)
+				{
+					pqsUnitString += chainLetters[i];
+				}
+				else
+				{
+					int firstIndex = (int)Math.Floor ((double)i / 26.0) - 1;
+					int secondIndex = (int)(i % 26);
+					pqsUnitString += ("(" + chainLetters[firstIndex] + chainLetters[secondIndex] + ")");
+				}
+				if (System.Convert.ToInt32 (chainNumList[chainNumList.Count - i - 1]) > 1)
+					pqsUnitString += chainNumList[chainNumList.Count - i - 1].ToString ();
+			}
+			if (pqsUnitString == "")
+				return "-";
+			else
+				return pqsUnitString;
+		}
+
+		/// <summary>
+		/// get the asym format for asym unit and biol unit
+		/// chains with the same sequence enclosed in one set of parentheses
+		/// example Homodimer: ASU (A, B) BU(A2, B2) 
+		/// heterodimer: ASU (A)(B), BU (A2)(B2)
+		/// </summary>
+		/// <param name="asymHash"></param>
+		/// <param name="entityAsymIdHash"></param>
+		/// <returns></returns>
+		private string GetAsymFormattedString(Hashtable asymHash, Hashtable entityAsymIdHash)
+		{
+			string formattedString = "";
+			ArrayList entityIdList = new ArrayList (entityAsymIdHash.Keys);
+			entityIdList.Sort ();
+			foreach (object entityId in entityIdList)
+			{
+				formattedString += "(";
+				ArrayList asymIdList = (ArrayList)entityAsymIdHash[entityId];
+				asymIdList.Sort ();
+				foreach(object asymId in asymIdList)
+				{
+					if (asymHash.ContainsKey (asymId))
+					{
+						formattedString += asymId.ToString ();
+						if (System.Convert.ToInt32 (asymHash[asymId].ToString ()) > 1)
+							formattedString += asymHash[asymId].ToString ();
+						formattedString += ",";
+					}
+				}
+				formattedString = formattedString.TrimEnd (',');
+				formattedString += ")";
+				if (formattedString.IndexOf ("()") > -1)
+					formattedString = formattedString.Replace ("()", "");
+			}
+			if (formattedString == "")
+				return "-";
+			return formattedString;
+		}
+		/// <summary>
+		///  entity format string for asymmetric unit and biological unit, 
+		///  example: (1.2)(2.2)
+		/// </summary>
+		/// <param name="entityHash"></param>
+		/// <returns></returns>
+		private string GetEntityFormattedString(Hashtable unitHash)
+		{
+			string formattedString = "";
+			ArrayList keyList = new ArrayList(unitHash.Keys);
+			keyList.Sort ();
+			foreach (object keyItem in keyList)
+			{
+				int thisCount = Int16.Parse(unitHash[keyItem].ToString ());
+				formattedString += string.Format ("({0}.{1})", keyItem.ToString (), thisCount); 		
+			}
+			if (formattedString == "")
+				return "-";
+			else
+				return formattedString;
+		}
+
+		/// <summary>
+		/// return author chain formatted unit strings
+		/// example (author chain can be a number)
+		/// Asymmetric unit
+		/// Homodimer (L, K); (1, 2) Heterodimer (L)(K); (1)(2)
+		/// Biological unit
+		/// Homotetramer (L2, K2); (1.2, 2.2), Heterotetramer (L2)(K2); (1.2)(2.2)
+		/// </summary>
+		/// <param name="authorchainHash"></param>
+		/// <param name="entityAuthorChainHash"></param>
+		/// <returns></returns>
+		private string GetAuthorChainFormattedString(Hashtable authorchainHash, Hashtable entityAuthorChainHash)
+		{
+			string formattedString = "";
+			ArrayList entityIdList = new ArrayList (entityAuthorChainHash.Keys);
+			entityIdList.Sort ();
+			foreach (object entityId in entityIdList)
+			{
+				formattedString += "(";
+				ArrayList authorChainIdList = (ArrayList)entityAuthorChainHash[entityId];
+				authorChainIdList.Sort ();
+				foreach(object chainId in authorChainIdList)
+				{	
+					if (authorchainHash.ContainsKey (chainId))
+					{
+						formattedString += chainId.ToString ();
+						if (System.Convert.ToInt32 (authorchainHash[chainId].ToString ()) > 1)
+						{
+							if (IsStringNumber(chainId.ToString ()))
+							{
+								formattedString += ".";
+							}
+							formattedString += authorchainHash[chainId].ToString ();
+						}
+						formattedString += ",";
+					}
+				}
+				formattedString = formattedString.TrimEnd (',');
+				formattedString += ")";
+				if (formattedString.IndexOf ("()") > -1)
+					formattedString = formattedString.Replace ("()", "");
+			}
+			if (formattedString == "")
+				return "-";
+			return formattedString;
+		}
+		
+		/// <summary>
+		/// format names for this biolunit
+		/// </summary>
+		/// <param name="namesHash"></param>
+		/// <returns></returns>
+		private string GetNamesFromNameHash (Hashtable namesHash)
+		{
+			string nameString = "";
+			ArrayList entityList = new ArrayList (namesHash.Keys);
+			entityList.Sort ();
+			foreach (object entity in entityList)
+			{
+				/*nameString += entity.ToString ();
+				nameString += ":";*/
+				nameString += namesHash[entity].ToString ();
+				nameString += "; ";
+			}
+			return nameString.TrimEnd ("; ".ToCharArray ());
+		}
+
+		/// <summary>
+		/// check if the input string is numeric
+		/// </summary>
+		/// <param name="aString"></param>
+		/// <returns></returns>
+		private bool IsStringNumber(string aString)
+		{
+			foreach(char ch in aString)
+				if (!Char.IsDigit (ch))
+					return false;
+			return true;
+		}
+
+		// there is a bug in BinarySearch function in ArrayList class
+		// fortunately, chainlist is short enough to use a sequence search
+		private bool SearchChain(ArrayList chainList, object chainId)
+		{
+			foreach (object thisChainId in chainList)
+				if (thisChainId.ToString ().ToLower () == chainId.ToString ().ToLower ())
+					return true;
+			return false;
+		}
+		#endregion
+
+		#region XPack
+		/// <summary>
+		/// query string for PQS XPack for a list of PDB entries
+		/// </summary>
+		/// <param name="pdbIdList"></param>
+		/// <returns></returns>
+		private string GetPqsXpackString (string pdbId, int biolUnit)
+		{
+			string queryStr = string.Format ("SELECT distinct PdbID, PqsBiolUnitID, IsXPack From PqsBuStat" + 
+				" Where PdbID = '{0}' and PqsBiolUnitID = {1};", 
+				pdbId, biolUnit);
+			return queryStr;
+		}
+		/// <summary>
+		/// query string for PQS XPack for a list of PDB entries
+		/// </summary>
+		/// <param name="pdbIdList"></param>
+		/// <returns></returns>
+		private string GetPqsXpackString (ArrayList pdbIdList)
+		{
+			string queryStr = string.Format ("SELECT distinct PdbID, PqsBiolUnitID, IsXPack From PqsBuStat Where PdbID IN ('{0}');", 
+				FormatListString (pdbIdList));
+			return queryStr;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="xpackStatTable"></param>
+		/// <param name="biolUnitHash"></param>
+		/// <param name="biolUnitInfo"></param>
+		private bool IsXpack (string pdbId, int biolUnitId)
+		{	
+			string xpackString = GetPqsXpackString (pdbId, biolUnitId);
+			DataTable xpackStatTable = new DataTable ();
+			OdbcCommand selectCmd = DbBuilder.dbConnect.CreateCommand ();		
+			OdbcDataAdapter adapter = new OdbcDataAdapter();
+			selectCmd.CommandText = xpackString;
+			adapter.SelectCommand = selectCmd;
+			adapter.Fill (xpackStatTable);
+			if (xpackStatTable.Rows.Count > 0 )
+			{
+				if (xpackStatTable.Rows[0]["IsXpack"].ToString () == "1")
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		#endregion
+	}
+}

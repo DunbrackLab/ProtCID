@@ -1,0 +1,16 @@
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProtCidSettingsLib.dll
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProtCidSettingsLib.pdb
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\DbLib.dll
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProgressLib.dll
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\DbLib.pdb
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProgressLib.pdb
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\obj\Debug\ProtCidSettingsLib.dll
+C:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\obj\Debug\ProtCidSettingsLib.pdb
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProtCidSettingsLib.dll
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProtCidSettingsLib.pdb
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\DbLib.dll
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProgressLib.dll
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\DbLib.pdb
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\bin\Debug\ProgressLib.pdb
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\obj\Debug\ProtCidSettingsLib.dll
+X:\Qifang\Projects\ProtCidDbProjects\ProtCidLibraries\ProtCidSettingsLib\obj\Debug\ProtCidSettingsLib.pdb

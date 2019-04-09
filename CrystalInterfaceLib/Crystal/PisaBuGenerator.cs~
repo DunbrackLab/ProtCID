@@ -1,0 +1,460 @@
+using System;
+using System.IO;
+using System.Data;
+using System.Collections;
+using System.Xml.Serialization;
+using XtalLib.Settings;
+using DbLib;
+using AuxFuncLib;
+
+namespace XtalLib.Crystal
+{
+	/// <summary>
+	/// Summary description for PisaBuGenerator.
+	/// </summary>
+	public class PisaBuGenerator
+	{
+		private DbQuery dbQuery = new DbQuery ();
+
+		public PisaBuGenerator()
+		{
+
+		}
+
+		#region build pisa assemblies from xml file and the matrices
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="pdbId"></param>
+		/// <returns></returns>
+		public Hashtable BuildPisaAssemblies (string pdbId)
+		{
+			Hashtable assemblyComponentHash = null;
+			try
+			{
+				assemblyComponentHash = GetPisaBuMatrices (pdbId);
+			}
+			catch 
+			{
+				return null;
+			}
+
+			string gzXmlFile = Path.Combine (AppSettings.dirSettings.coordXmlPath, pdbId + ".xml.gz");
+			string xmlFile = ParseHelper.UnZipFile (gzXmlFile, AppSettings.tempDir);
+
+			Hashtable pisaMultimersHash = new Hashtable ();
+			foreach (int assemblySeqId  in assemblyComponentHash.Keys)
+			{
+				Hashtable pisaMultimerHash = 
+					BuildOnePisaAssembly (xmlFile, (Hashtable)assemblyComponentHash[assemblySeqId]);
+				pisaMultimersHash.Add (assemblySeqId, pisaMultimerHash);
+			}
+			File.Delete (xmlFile);
+			return pisaMultimersHash;
+		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pdbId"></param>
+        /// <param name="assemblyIds"></param>
+        /// <returns></returns>
+        public Hashtable BuildPisaAssemblies(string pdbId, string[] assemblyIds)
+        {
+            string gzXmlFile = Path.Combine(AppSettings.dirSettings.coordXmlPath, pdbId + ".xml.gz");
+            string xmlFile = ParseHelper.UnZipFile(gzXmlFile, AppSettings.tempDir);
+            // read data from crystal xml file
+            EntryCrystal thisEntryCrystal;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(EntryCrystal));
+            FileStream xmlFileStream = new FileStream(xmlFile, FileMode.Open);
+            thisEntryCrystal = (EntryCrystal)xmlSerializer.Deserialize(xmlFileStream);
+            xmlFileStream.Close();
+
+            Hashtable pisaMultimersHash = new Hashtable ();
+            foreach (string assemblyId in assemblyIds)
+            {
+                Hashtable pisaBuHash = BuildOnePisaAssembly(thisEntryCrystal, pdbId, assemblyId);
+                pisaMultimersHash.Add(assemblyId, pisaBuHash);
+            }
+            return pisaMultimersHash;
+        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="xmlFile"></param>
+		/// <param name="chainMatrixHash"></param>
+		/// <returns></returns>
+		public Hashtable BuildOnePisaAssembly (string xmlFile, Hashtable chainMatrixHash)
+		{
+			Hashtable chainCoordHash = new Hashtable ();
+
+			// read data from crystal xml file
+			EntryCrystal thisEntryCrystal;
+			XmlSerializer xmlSerializer = new XmlSerializer (typeof(EntryCrystal));
+			FileStream xmlFileStream = new FileStream(xmlFile, FileMode.Open);
+			thisEntryCrystal = (EntryCrystal) xmlSerializer.Deserialize (xmlFileStream);
+			xmlFileStream.Close ();
+			
+			ChainAtoms[] chainAtomsList = thisEntryCrystal.atomCat.ChainAtomList;
+			ChainAtoms thisChain = null;
+
+			foreach (string asymChain in chainMatrixHash.Keys)
+			{
+				foreach (ChainAtoms chain in chainAtomsList)
+				{
+					if (chain.AsymChain == asymChain)
+					{
+						thisChain = chain;
+						break;
+					}
+				}
+                if (thisChain == null)
+                {
+                    continue;
+                }
+				if (thisChain.CalphaAtoms ().Length < AppSettings.parameters.contactParams.minNumResidueInChain)
+				{
+					continue;
+				}
+				ArrayList symMatrixList = (ArrayList)chainMatrixHash[asymChain];
+				foreach (SymOpMatrix symMatrix in symMatrixList)
+				{
+					AtomInfo[] atoms = BuildOneChain (thisChain, symMatrix);
+					chainCoordHash.Add (asymChain + "_" + symMatrix.symmetryString, atoms);
+		//			symOpNum ++;
+				}
+			}
+			return chainCoordHash;
+		}
+
+		public Hashtable BuildOnePisaAssembly (string pdbId, string assemblySeqId)
+		{
+			string gzXmlFile = Path.Combine (AppSettings.dirSettings.coordXmlPath, pdbId + ".xml.gz");
+			string xmlFile = ParseHelper.UnZipFile (gzXmlFile, AppSettings.tempDir);
+			Hashtable buFileHash = BuildOnePisaAssembly (xmlFile, pdbId, assemblySeqId);
+			return buFileHash;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="xmlFile"></param>
+		/// <param name="chainMatrixHash"></param>
+		/// <returns></returns>
+		public Hashtable BuildOnePisaAssembly (string xmlFile, string pdbId, string assemblySeqId)
+		{
+			Hashtable assemblyHash = new Hashtable ();
+
+			Hashtable chainMatrixHash = GetPisaBuMatrices (pdbId, assemblySeqId);
+
+			// read data from crystal xml file
+			EntryCrystal thisEntryCrystal;
+			XmlSerializer xmlSerializer = new XmlSerializer (typeof(EntryCrystal));
+			FileStream xmlFileStream = new FileStream(xmlFile, FileMode.Open);
+			thisEntryCrystal = (EntryCrystal) xmlSerializer.Deserialize (xmlFileStream);
+			xmlFileStream.Close ();
+			
+			ChainAtoms[] chainAtomsList = thisEntryCrystal.atomCat.ChainAtomList;
+			ChainAtoms thisChain = null;
+
+			foreach (string asymChain in chainMatrixHash.Keys)
+			{
+				foreach (ChainAtoms chain in chainAtomsList)
+				{
+					if (chain.AsymChain == asymChain)
+					{
+						thisChain = chain;
+						break;
+					}
+				}
+                if (thisChain == null)
+                {
+                    continue;
+                }
+				if (thisChain.CalphaAtoms ().Length < AppSettings.parameters.contactParams.minNumResidueInChain)
+				{
+					continue;
+				}
+				ArrayList symMatrixList = (ArrayList)chainMatrixHash[asymChain];
+				foreach (SymOpMatrix symMatrix in symMatrixList)
+				{
+					AtomInfo[] atoms = BuildOneChain (thisChain, symMatrix);
+					assemblyHash.Add (asymChain + "_" + symMatrix.symmetryString, atoms);
+			//		symOpNum ++;
+				}
+			}
+			return assemblyHash;
+		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlFile"></param>
+        /// <param name="chainMatrixHash"></param>
+        /// <returns></returns>
+        private Hashtable BuildOnePisaAssembly(EntryCrystal thisEntryCrystal, string pdbId, string assemblySeqId)
+        {
+            Hashtable assemblyHash = new Hashtable();
+
+            Hashtable chainMatrixHash = GetPisaBuMatrices(pdbId, assemblySeqId);
+
+            ChainAtoms[] chainAtomsList = thisEntryCrystal.atomCat.ChainAtomList;
+            ChainAtoms thisChain = null;
+
+            foreach (string asymChain in chainMatrixHash.Keys)
+            {
+                foreach (ChainAtoms chain in chainAtomsList)
+                {
+                    if (chain.AsymChain == asymChain)
+                    {
+                        thisChain = chain;
+                        break;
+                    }
+                }
+                if (thisChain == null)
+                {
+                    continue;
+                }
+                if (thisChain.CalphaAtoms().Length < AppSettings.parameters.contactParams.minNumResidueInChain)
+                {
+                    continue;
+                }
+                ArrayList symMatrixList = (ArrayList)chainMatrixHash[asymChain];
+                foreach (SymOpMatrix symMatrix in symMatrixList)
+                {
+                    AtomInfo[] atoms = BuildOneChain(thisChain, symMatrix);
+                    assemblyHash.Add(asymChain + "_" + symMatrix.symmetryString, atoms);
+             //       symOpNum++;
+                }
+            }
+            return assemblyHash;
+        }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="xmlFile"></param>
+		/// <param name="chainMatrixHash"></param>
+		/// <returns></returns>
+		public Hashtable BuildOnePisaAssembly (string xmlFile, string pdbId, string assemblySeqId, DataTable buMatrixTable)
+		{
+			Hashtable assemblyHash = new Hashtable ();
+
+			Hashtable chainMatrixHash = GetPisaBuMatrices (pdbId, assemblySeqId, buMatrixTable);
+
+			// read data from crystal xml file
+			EntryCrystal thisEntryCrystal;
+			XmlSerializer xmlSerializer = new XmlSerializer (typeof(EntryCrystal));
+			FileStream xmlFileStream = new FileStream(xmlFile, FileMode.Open);
+			thisEntryCrystal = (EntryCrystal) xmlSerializer.Deserialize (xmlFileStream);
+			xmlFileStream.Close ();
+			
+			ChainAtoms[] chainAtomsList = thisEntryCrystal.atomCat.ChainAtomList;
+			ChainAtoms thisChain = null;
+
+			foreach (string asymChain in chainMatrixHash.Keys)
+			{
+				foreach (ChainAtoms chain in chainAtomsList)
+				{
+					if (chain.AsymChain == asymChain)
+					{
+						thisChain = chain;
+						break;
+					}
+				}
+                if (thisChain == null)
+                {
+                    continue;
+                }
+				if (thisChain.CalphaAtoms ().Length < AppSettings.parameters.contactParams.minNumResidueInChain)
+				{
+					continue;
+				}
+				ArrayList symMatrixList = (ArrayList)chainMatrixHash[asymChain];
+				foreach (SymOpMatrix symMatrix in symMatrixList)
+				{
+					AtomInfo[] atoms = BuildOneChain (thisChain, symMatrix);
+					assemblyHash.Add (asymChain + "_" + symMatrix.symmetryString, atoms);
+				}
+			}
+			return assemblyHash;
+		}
+		
+		/// <summary>
+		/// transform one chain 
+		/// </summary>
+		/// <param name="chain"></param>
+		/// <param name="symMatrix"></param>
+		/// <returns></returns>
+		private AtomInfo[] BuildOneChain (ChainAtoms chain, SymOpMatrix symMatrix)
+		{
+			if (symMatrix.ToFullSymString () == "X,Y,Z")
+			{
+				return chain.CartnAtoms;
+			}
+			AtomInfo[] transformedAtoms = new AtomInfo [chain.CartnAtoms.Length];
+			int i = 0;
+			foreach (AtomInfo atom in chain.CartnAtoms)
+			{
+				AtomInfo transformedAtom = atom.TransformAtom (symMatrix);
+				transformedAtoms[i] = transformedAtom;
+				i ++;
+			}
+			return transformedAtoms;
+		}
+		#endregion
+
+		#region matrices to generate pisa assembly
+		/// <summary>
+		/// Matrices to generate PISA Assemblies
+		/// </summary>
+		/// <param name="pdbId"></param>
+		/// <returns></returns>
+		public  Hashtable GetPisaBuMatrices (string pdbId)
+		{
+			string queryString = string.Format ("Select * From PisaBuMatrix Where PdbID = '{0}';", pdbId);
+			DataTable pisaBusTable = dbQuery.Query (queryString);
+			Hashtable assemblyComponentHash = new Hashtable ();
+			int assemblySeqId = 0;
+			string asymChain = "";
+			string matrixString = "";
+			SymOpMatrix symOpMatrix = null;
+			foreach (DataRow dRow in pisaBusTable.Rows)
+			{
+				assemblySeqId = Convert.ToInt32 (dRow["AssemblySeqID"].ToString ());
+				asymChain = dRow["AsymChain"].ToString ().Trim ();
+				matrixString = dRow["Matrix"].ToString ().Trim ();
+				symOpMatrix = GetCoordSymOpMatrix (matrixString);
+                symOpMatrix.symmetryString = dRow["SymmetryString"].ToString().TrimEnd();
+
+				if (assemblyComponentHash.ContainsKey (assemblySeqId))
+				{
+					Hashtable chainMatrixHash = (Hashtable)assemblyComponentHash[assemblySeqId];
+					if (chainMatrixHash.ContainsKey (asymChain))
+					{
+						ArrayList matrixList = (ArrayList)chainMatrixHash[asymChain];
+						matrixList.Add (symOpMatrix);
+					}
+					else
+					{
+						ArrayList matrixList = new ArrayList ();
+						matrixList.Add (symOpMatrix);
+						chainMatrixHash.Add (asymChain, matrixList);
+					}
+				}
+				else
+				{
+					Hashtable chainMatrixHash = new Hashtable ();
+					ArrayList matrixList = new ArrayList ();
+					matrixList.Add (symOpMatrix);
+					chainMatrixHash.Add (asymChain, matrixList);
+					assemblyComponentHash.Add (assemblySeqId, chainMatrixHash);
+				}
+			}
+			return assemblyComponentHash;
+		}
+
+		/// <summary>
+		/// Matrices to generate PISA Assembly given an assemblySeqID
+		/// </summary>
+		/// <param name="pdbId"></param>
+		/// <returns></returns>
+		public  Hashtable GetPisaBuMatrices (string pdbId, string assemblySeqId)
+		{
+			string queryString = string.Format ("Select * From PisaBuMatrix " + 
+				" Where PdbID = '{0}' AND AssemblySeqID = {1};", pdbId, assemblySeqId);
+			DataTable pisaBusTable = dbQuery.Query (queryString);
+			Hashtable assemblyMatricesHash = new Hashtable ();
+			
+			string asymChain = "";
+			string matrixString = "";
+			SymOpMatrix symOpMatrix = null;
+			foreach (DataRow dRow in pisaBusTable.Rows)
+			{
+				asymChain = dRow["AsymChain"].ToString ().Trim ();
+				matrixString = dRow["Matrix"].ToString ().Trim ();
+				symOpMatrix = GetCoordSymOpMatrix (matrixString);
+                symOpMatrix.symmetryString = dRow["SymmetryString"].ToString().TrimEnd();
+				
+				if (assemblyMatricesHash.ContainsKey (asymChain))
+				{
+					ArrayList matrixList = (ArrayList)assemblyMatricesHash[asymChain];
+					matrixList.Add (symOpMatrix);
+				}
+				else
+				{
+					ArrayList matrixList = new ArrayList ();
+					matrixList.Add (symOpMatrix);
+					assemblyMatricesHash.Add (asymChain, matrixList);
+				}
+			}
+			return assemblyMatricesHash;
+		}
+
+		/// <summary>
+		/// Matrices to generate PISA Assembly given an assemblySeqID
+		/// </summary>
+		/// <param name="pdbId"></param>
+		/// <returns></returns>
+		public  Hashtable GetPisaBuMatrices (string pdbId, string assemblySeqId, DataTable buMatrixTable)
+		{
+			DataRow[] buMatrixRows = buMatrixTable.Select (string.Format ("PdbID = '{0}' AND AssemblySeqID = '{1}'", 
+				pdbId, assemblySeqId));
+			Hashtable assemblyMatricesHash = new Hashtable ();
+			
+			string asymChain = "";
+			string matrixString = "";
+			SymOpMatrix symOpMatrix = null;
+			foreach (DataRow dRow in buMatrixRows)
+			{
+				asymChain = dRow["AsymChain"].ToString ().Trim ();
+				matrixString = dRow["Matrix"].ToString ().Trim ();
+				symOpMatrix = GetCoordSymOpMatrix (matrixString);
+                symOpMatrix.symmetryString = dRow["SymmetryString"].ToString().TrimEnd();
+				
+				if (assemblyMatricesHash.ContainsKey (asymChain))
+				{
+					ArrayList matrixList = (ArrayList)assemblyMatricesHash[asymChain];
+					matrixList.Add (symOpMatrix);
+				}
+				else
+				{
+					ArrayList matrixList = new ArrayList ();
+					matrixList.Add (symOpMatrix);
+					assemblyMatricesHash.Add (asymChain, matrixList);
+				}
+			}
+			return assemblyMatricesHash;
+		}
+
+		/// <summary>
+		/// the symmetry operator string
+		/// </summary>
+		/// <param name="infoNode"></param>
+		/// <returns></returns>
+		private SymOpMatrix GetCoordSymOpMatrix (string matrixString)
+		{
+			string[] fields = matrixString.Split (',');
+			SymOpMatrix symOpMatrix = new SymOpMatrix ();
+			ArrayList itemList = new ArrayList ();
+			itemList.Add (Convert.ToDouble (fields[0]));
+			itemList.Add (Convert.ToDouble (fields[1]));
+			itemList.Add (Convert.ToDouble (fields[2]));
+			itemList.Add (Convert.ToDouble (fields[3]));
+			symOpMatrix.Add (0, itemList);
+			itemList.Clear ();
+			itemList.Add (Convert.ToDouble (fields[4]));
+			itemList.Add (Convert.ToDouble (fields[5]));
+			itemList.Add (Convert.ToDouble (fields[6]));
+			itemList.Add (Convert.ToDouble (fields[7]));
+			symOpMatrix.Add (1, itemList);
+			itemList.Clear ();
+			itemList.Add (Convert.ToDouble (fields[8]));
+			itemList.Add (Convert.ToDouble (fields[9]));
+			itemList.Add (Convert.ToDouble (fields[10]));
+			itemList.Add (Convert.ToDouble (fields[11]));
+			symOpMatrix.Add (2, itemList);
+			return symOpMatrix;
+		}
+		#endregion
+	}
+}

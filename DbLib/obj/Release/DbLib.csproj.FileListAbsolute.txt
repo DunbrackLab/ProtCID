@@ -1,0 +1,6 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DbLib\bin\Release\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DbLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DbLib\obj\Release\DbLib.dll
+C:\Qifang\Projects\XtalInterfaceProject\DbLib\bin\Release\DbLib.dll
+C:\Qifang\Projects\XtalInterfaceProject\DbLib\obj\Release\DbLib.csprojResolveAssemblyReference.cache
+C:\Qifang\Projects\XtalInterfaceProject\DbLib\obj\Release\DbLib.dll

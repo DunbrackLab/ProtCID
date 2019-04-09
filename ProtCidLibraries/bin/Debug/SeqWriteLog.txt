@@ -1,0 +1,2 @@
+Output cluster fasta files errors: X:\Qifang\ProjectData\DbProjectData\PhylogeneticTree\ChainFasta\Group57014B.fasta Could not find file 'X:\Qifang\ProjectData\DbProjectData\PhylogeneticTree\ChainFasta\Cluster57014B.txt'.
+Output cluster fasta files errors: X:\Qifang\ProjectData\DbProjectData\PhylogeneticTree\ChainFasta\Group60593B.fasta Could not find file 'X:\Qifang\ProjectData\DbProjectData\PhylogeneticTree\ChainFasta\Cluster60593B.txt'.

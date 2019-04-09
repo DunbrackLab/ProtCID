@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectorySettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XML_Path>E:\DbProjectData\PDB\xml</XML_Path>
+  <XmlCoordinate_path>C:\DbProjectData\CoordXml</XmlCoordinate_path>
+  <Interface_path>C:\DbProjectData\InterfaceFiles</Interface_path>
+  <Database_Path>C:\FireBird\xtal\pfam_scop\protbud.fdb</Database_Path>
+  <InterfaceDB_Path>C:\FireBird\xtal\buinterfaces.fdb</InterfaceDB_Path>
+  <AlignmentDB_Path>C:\FireBird\xtal\Alignments\alignments.fdb</AlignmentDB_Path>
+  <PqsBU_path>E:\DbProjectData\PQS\macmol</PqsBU_path>
+  <ScopDomain_path>E:\DbProjectData\SCOP\DomainFiles</ScopDomain_path>
+  <Pfam_Path>E:\DbProjectData\PFAM</Pfam_Path>
+  <Pisa_path>E:\DbProjectData\PISA</Pisa_path>
+  <Pisces_path>E:\DbProjectData\PISA</Pisces_path>
+</DirectorySettings>

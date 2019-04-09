@@ -1,0 +1,9 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\AuxFuncLib\bin\Release\AuxFuncLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\AuxFuncLib\bin\Release\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\AuxFuncLib\bin\Release\DbLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\AuxFuncLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\AuxFuncLib\obj\Release\AuxFuncLib.dll
+C:\Qifang\Projects\XtalInterfaceProject\AuxFuncLib\bin\Release\AuxFuncLib.dll
+C:\Qifang\Projects\XtalInterfaceProject\AuxFuncLib\bin\Release\DbLib.dll
+C:\Qifang\Projects\XtalInterfaceProject\AuxFuncLib\obj\Release\AuxFuncLib.csprojResolveAssemblyReference.cache
+C:\Qifang\Projects\XtalInterfaceProject\AuxFuncLib\obj\Release\AuxFuncLib.dll

@@ -1,0 +1,15 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\obj\Debug\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\BuInterfacesLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\BuInterfacesLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\AuxFuncLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\BuQueryLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\ProgressLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\XtalLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\DbLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\BuQueryLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\AuxFuncLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\ProgressLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\bin\Debug\XtalLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\obj\Debug\BuInterfacesLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuInterfacesLib\obj\Debug\BuInterfacesLib.pdb

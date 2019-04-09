@@ -1,0 +1,14 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\DataCollectorLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\DataCollectorLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\AuxFuncLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\edtFTPnet.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\ProgressLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\XtalLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\BuQueryLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\DbLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\AuxFuncLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\bin\Release\ProgressLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\obj\Release\DataCollectorLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\DataCollectorLib\obj\Release\DataCollectorLib.pdb

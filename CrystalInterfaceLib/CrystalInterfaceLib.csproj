@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4651B2FC-D883-403F-B3C2-0AA87E7DE243}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>CrystalInterfaceLib</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CrystalInterfaceLib</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AuxFuncLib">
+      <HintPath>..\AuxFuncLib\bin\Debug\AuxFuncLib.dll</HintPath>
+    </Reference>
+    <Reference Include="BuQueryLib">
+      <HintPath>..\BuQueryLib\bin\Debug\BuQueryLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLib">
+      <HintPath>..\DbLib\bin\Debug\DbLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ProgressLib">
+      <Name>ProgressLib</Name>
+      <HintPath>..\ProgressLib\bin\Debug\ProgressLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtCidSettingsLib">
+      <HintPath>..\ProtCidSettingsLib\bin\Debug\ProtCidSettingsLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BuIO\AtomReader.cs" />
+    <Compile Include="BuIO\BuWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BuIO\InterfaceReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BuIO\InterfaceWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contacts\AtomPair.cs" />
+    <Compile Include="Crystal\BuAssemblyGenerator.cs" />
+    <Compile Include="Contacts\ChainContact.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contacts\ChainContactInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contacts\ContactInCrystal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contacts\InterfaceChains.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contacts\InterfaceInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\AsymUnitBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\AtomInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\BuGenerator.cs" />
+    <Compile Include="Crystal\BuGenStruct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\BuStatusInfo.cs" />
+    <Compile Include="Crystal\ChainAtoms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\Coordinate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\CrystalBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\CrystalInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\EntityInfo.cs" />
+    <Compile Include="Crystal\EntryCrystal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\Matrix.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\MatrixElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\NcsOperator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\PdbBuGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\PdbDbBuGenerator.cs" />
+    <Compile Include="Crystal\PisaBuGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\PqsBuGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\Residue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\SymOperator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crystal\SymOps.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainInterfaces\DomainInterface.cs" />
+    <Compile Include="DomainInterfaces\DomainInterfaceComp\DomainAlignment.cs" />
+    <Compile Include="DomainInterfaces\DomainInterfaceComp\DomainInterfaceComp.cs" />
+    <Compile Include="DomainInterfaces\DomainInterfaceComp\SuperpositionDomain.cs" />
+    <Compile Include="DomainInterfaces\DomainInterfaceInfo.cs" />
+    <Compile Include="DomainInterfaces\DomainInterfacePairInfo.cs" />
+    <Compile Include="DomainInterfaces\Range.cs" />
+    <Compile Include="FileParser\CrystalXmlBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FileParser\PdbBuFileParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FileParser\SymOpFileParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FileParser\XmlAtomParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="KDops\BoundingBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="KDops\BVTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="KDops\KVector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="KDops\Node.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProtInterfaces\AsaCalculator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contacts\Contact.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProtInterfaces\InterfaceAsa.cs" />
+    <Compile Include="ProtInterfaces\InterfaceFileWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProtInterfaces\InterfaceSymmetryIndex.cs" />
+    <Compile Include="ProtInterfaces\ProtInterface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProtInterfaces\ProtInterfaceInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Settings\ParameterSettings.cs" />
+    <Compile Include="SimMethod\SimScoreFunc.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StructureComp\HomoEntryComp\SuperpositionInterfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StructureComp\HomoEntryComp\SupInterfacesComp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StructureComp\InterfacePairInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StructureComp\InterfacesComp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StructureComp\Rmsd.cs" />
+    <Compile Include="StructureComp\StructAlign.cs" />
+    <Compile Include="StructureComp\StructAlignOutput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,5 @@
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuQueryLib\bin\Release\BuQueryLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuQueryLib\bin\Release\DbLib.dll
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuQueryLib\bin\Release\DbLib.pdb
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuQueryLib\obj\Release\ResolveAssemblyReference.cache
+C:\ProtBuDProject\xtal\XtalInterfaceProject\BuQueryLib\obj\Release\BuQueryLib.dll

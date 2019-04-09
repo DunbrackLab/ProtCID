@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <LastOpenVersion>7.10.3077</LastOpenVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ReferencePath>C:\ProtBuDProject\xtal\XtalProject_ScopDomain\ProgressLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_ScopDomain\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_Scop\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject\BuQueryLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061124\ProgressLib\bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061124\HelperFuncLib\bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061124\DbLib\bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061121\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061118\BuQueryLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061118\DbLib\bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061115\DbLib\bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061115\HelperFuncLib\bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061114\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061114\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061020\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061020\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\ProtBuD_20060816\ProtBuDLib\Bin\Debug\;C:\ProtBuDProject\xtal\ProtBuD_20060816\ProtBuDLib\Bin\Release\;C:\ProtBuDProject\xtal\XtalProject_20061016\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061012\DbLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061012\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061012\XtalLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060928\DbLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060928\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060921\HelperFuncLib\bin\Release\;C:\ProtBuDProject\XtalProject_20060921\DbLib\bin\Release\;C:\ProtBuDProject\XtalProject_20060911\DbLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060911\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060911\XtalLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060908\XtalLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060908\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060902\XtalLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060902\HelperFuncLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060902\XtalLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060828\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060816\HelperFuncLib\bin\Release\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060816\HelperFuncLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060816\DbLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060808\DbLib\bin\Release\;C:\ProtBuDProject\XtalProject_20060717\DbLib\bin\Release\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060706\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\XtalProject_20060627\HelperFuncLib\bin\Release\;C:\ProtBuDProject\XtalProject_20060614\HelperFunc\bin\Release\;C:\ProtBuDProject\XtalProject_20060614\DbLib\bin\Release\;C:\ProtBuDProject\XtalProject_20060614\DbLib\bin\Debug\;C:\ProtBuDProject\ProtBuD_20060530\ProtBuDLib\Bin\Release\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\ProtBuD_20060530\ProtBuDLib\Bin\Release\;C:\ProtBuDProject\XtalProject_20060615\DbLib\bin\Release\;C:\ProtBuDProject\XtalProject_20060615\HelperFuncLib\bin\Debug\;C:\ProtBuDProject\ProtBuD_20060615\ProtBuDLib\Bin\Release\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\XtalProject_20060913\XtalLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\Xtal\XtalProject_20061012\XtalLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061020\BuQueryLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\Xtal\XtalProject_20061108\BuQueryLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061114\BuQueryLib\bin\Debug\;E:\My documents\FcccRDLab_DB\ProtBuD_Project\Xtal\XtalProject_20061114\BuQueryLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_20061115\BuQueryLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_Scop\BuQueryLib\bin\Debug\;C:\ProtBuDProject\xtal\XtalProject_Scop\HelperFuncLib\bin\Debug\</ReferencePath>
+    <CopyProjectDestinationFolder>
+    </CopyProjectDestinationFolder>
+    <CopyProjectUncPath>
+    </CopyProjectUncPath>
+    <CopyProjectOption>0</CopyProjectOption>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectTrust>0</ProjectTrust>
+    <PublishUrlHistory />
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <EnableASPDebugging>false</EnableASPDebugging>
+    <EnableASPXDebugging>false</EnableASPXDebugging>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
+    <StartAction>Project</StartAction>
+    <StartArguments>
+    </StartArguments>
+    <StartPage>
+    </StartPage>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>
+    </StartURL>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartWithIE>true</StartWithIE>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <EnableASPDebugging>false</EnableASPDebugging>
+    <EnableASPXDebugging>false</EnableASPXDebugging>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
+    <StartAction>Project</StartAction>
+    <StartArguments>
+    </StartArguments>
+    <StartPage>
+    </StartPage>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>
+    </StartURL>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartWithIE>true</StartWithIE>
+  </PropertyGroup>
+</Project>

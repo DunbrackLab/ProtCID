@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Xtal_Parameters xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <KDops>
+    <K>3</K>
+    <Methods>Splatter</Methods>
+    <AtomsInLeaf>3</AtomsInLeaf>
+  </KDops>
+  <Contacts>
+    <AtomType>ALL</AtomType>
+    <CutoffResidueDist>12</CutoffResidueDist>
+    <CutoffNumResidueContacts>10</CutoffNumResidueContacts>
+    <CutoffAtomContact>5</CutoffAtomContact>
+    <CutoffNumAtomContact>1</CutoffNumAtomContact>
+    <DomainNumAtomContact>5</DomainNumAtomContact>
+    <Steps>3</Steps>
+    <MinQScore>0.01</MinQScore>
+    <MinNumResidueInChain>15</MinNumResidueInChain>
+  </Contacts>
+  <SimilarityOfInteractions>
+    <Method>Q Score Function</Method>
+    <InterfaceSimilarityCutoff>0.45</InterfaceSimilarityCutoff>
+    <UniqueInterfaceCutOff>0.90</UniqueInterfaceCutOff>
+    <IdentityCutOff>0.10</IdentityCutOff>
+  </SimilarityOfInteractions>
+</Xtal_Parameters>

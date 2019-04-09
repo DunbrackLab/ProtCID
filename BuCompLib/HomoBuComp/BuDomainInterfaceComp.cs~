@@ -1,0 +1,186 @@
+﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Data;
+using XtalLib.Settings;
+using XtalLib.DomainInterfaces;
+using DbLib;
+
+namespace BuCompLib.HomoBuComp
+{
+    public class BuDomainInterfaceComp
+    {
+        #region member variables
+        private DbQuery dbQuery = new DbQuery();
+        private DbInsert dbInsert = new DbInsert();
+        private BuDomainInterfaceRetriever domainInterfaceRetriever = new BuDomainInterfaceRetriever();
+        private DomainInterfaceComp domainInterfaceComp = new DomainInterfaceComp();
+        private DataTable domainInterfaceCompTable = null;
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CompareBuDomainInterfaces(bool isUpdate)
+        {
+            InitializeTable();
+
+            if (!isUpdate)
+            {
+                InitializeDbTable();
+            }
+
+            AppSettings.progressInfo.ResetCurrentProgressInfo();
+            AppSettings.progressInfo.currentOperationLabel = "Compare Domain Interfaces";
+
+            string queryString = string.Format("Select RelSeqID From {0}PfamRelation;", BuInterfaceRetriever.BuType);
+            DataTable relationTable = dbQuery.Query(BuInterfaceRetriever.buCompDbConnect, queryString);
+            int relSeqId = -1;
+            AppSettings.progressInfo.totalOperationNum = relationTable.Rows.Count;
+            AppSettings.progressInfo.totalStepNum = relationTable.Rows.Count;
+            AppSettings.progressInfo.progStrQueue.Enqueue("Compare Domain-domain interfaces in BUs.");
+            foreach (DataRow relRow in relationTable.Rows)
+            {
+                relSeqId = Convert.ToInt32(relRow["RelSeqID"].ToString ());
+                AppSettings.progressInfo.currentFileName = relSeqId.ToString();
+                AppSettings.progressInfo.currentOperationNum++;
+                AppSettings.progressInfo.currentStepNum++;
+
+                CompareBuDomainInterfaces(relSeqId);
+            }
+            AppSettings.progressInfo.progStrQueue.Enqueue("Done");
+            AppSettings.progressInfo.threadFinished = true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="relSeqId"></param>
+        public void CompareBuDomainInterfaces(int relSeqId)
+        {
+            string tableName = "";
+            if (BuInterfaceRetriever.BuType == "asu")
+            {
+                tableName = BuInterfaceRetriever.BuType + "PfamDomainInterfaces";
+            }
+            else
+            {
+                tableName = BuInterfaceRetriever.BuType + "PfamBuDomainInterfaces";
+            }
+            string queryString = string.Format ("Select Distinct PdbID From {0} Where RelSeqID = {1};", 
+                tableName, relSeqId);
+            DataTable relEntryTable = dbQuery.Query (BuInterfaceRetriever.buCompDbConnect, queryString);
+
+            string pdbId = "";
+            Hashtable entryBuDomainInterfaceHash = new Hashtable();
+            foreach (DataRow entryRow in relEntryTable.Rows)
+            {
+                pdbId = entryRow["PdbID"].ToString();
+                AppSettings.progressInfo.currentFileName = pdbId;
+                Hashtable buDomainInterfaceHash = domainInterfaceRetriever.RetrieveDomainInterfaces(relSeqId, pdbId);
+                entryBuDomainInterfaceHash.Add(pdbId, buDomainInterfaceHash);           
+            }
+
+            ArrayList entryList = new ArrayList(entryBuDomainInterfaceHash.Keys);
+            entryList.Sort();
+            for (int i = 0; i < entryList.Count; i++)
+            {
+                Hashtable buDomainInterfacesHash1 = (Hashtable)entryBuDomainInterfaceHash[entryList[i]];
+                for (int j = i + 1; j < entryList.Count; j++)
+                {
+                    AppSettings.progressInfo.currentFileName = entryList[i].ToString () + "_" + entryList[j].ToString();
+                    
+                    Hashtable buDomainInterfacesHash2 = (Hashtable)entryBuDomainInterfaceHash[entryList[j]];
+                    foreach (string buId1 in buDomainInterfacesHash1.Keys)
+                    {
+                        DomainInterface[] domainInterfaces1 = (DomainInterface[])buDomainInterfacesHash1[buId1];
+                        foreach (string buId2 in buDomainInterfacesHash2.Keys)
+                        {
+                            DomainInterface[] domainInterfaces2 = (DomainInterface[])buDomainInterfacesHash2[buId2];
+                            DomainInterfacePairInfo[] compPairInfos = 
+                                domainInterfaceComp.CompareDomainInterfaces(domainInterfaces1, domainInterfaces2);
+                            InsertDataToTable(relSeqId, entryList[i].ToString(), entryList[j].ToString(),
+                                buId1, buId2, compPairInfos);
+                        }
+                    }
+                    dbInsert.InsertDataIntoDBtables(BuInterfaceRetriever.buCompDbConnect, domainInterfaceCompTable);
+                    domainInterfaceCompTable.Clear();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="relSeqId"></param>
+        /// <param name="pdbId1"></param>
+        /// <param name="pdbId2"></param>
+        /// <param name="buId1"></param>
+        /// <param name="buId2"></param>
+        /// <param name="compPairInfos"></param>
+        private void InsertDataToTable(int relSeqId, string pdbId1, string pdbId2, string buId1, string buId2, 
+            DomainInterfacePairInfo[] compPairInfos)
+        {
+            foreach (DomainInterfacePairInfo pairInfo in compPairInfos)
+            {
+                if (pairInfo.qScore >= AppSettings.parameters.contactParams.minQScore)
+                {
+                    DataRow dataRow = domainInterfaceCompTable.NewRow();
+                    dataRow["RelSeqID"] = relSeqId;
+                    dataRow["PdbID1"] = pdbId1;
+                    dataRow["PdbID2"] = pdbId2;
+                    dataRow["BuID1"] = buId1;
+                    dataRow["BuID2"] = buId2;
+                    dataRow["DomainInterfaceID1"] = pairInfo.interfaceInfo1.domainInterfaceId;
+                    dataRow["DomainInterfaceID2"] = pairInfo.interfaceInfo2.domainInterfaceId;
+                    dataRow["Qscore"] = pairInfo.qScore;
+                    domainInterfaceCompTable.Rows.Add(dataRow);
+                }
+            }
+        }
+        #region initialize table
+        /// <summary>
+        /// 
+        /// </summary>
+        private void InitializeTable()
+        {
+            string tableName = "";
+            if (BuInterfaceRetriever.BuType == "asu")
+            {
+                tableName = BuInterfaceRetriever.BuType + "DomainInterfaceComp";
+            }
+            else
+            {
+                tableName = BuInterfaceRetriever.BuType + "BuDomainInterfaceComp";
+            }
+            domainInterfaceCompTable = new DataTable(tableName);
+
+            string[] compColumns = {"RelSeqID", "PdbID1", "PdbID2", "BuID1", "BuID2", "DomainInterfaceID1", 
+                                   "DomainInterfaceID2", "QScore"};
+            foreach (string compCol in compColumns)
+            {
+                domainInterfaceCompTable.Columns.Add(new DataColumn (compCol));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void InitializeDbTable()
+        {
+            DbCreator dbCreator = new DbCreator();
+            string createTableString = "CREATE TABLE " + domainInterfaceCompTable.TableName + " ( " +
+                "RelSeqID INTEGER NOT NULL, " +
+                "PdbID1 VARCHAR(4) NOT NULL, " +
+                "PdbID2 VARCHAR(4) NOT NULL, " +
+                "BuID1 VARCHAR(8) NOT NULL, " +
+                "BuID2 VARCHAR(8) NOT NULL, " +
+                "DomainInterfaceID1 INTEGER NOT NULL, " +
+                "DomainInterfaceID2 INTEGER NOT NULL, " +
+                "Qscore FLOAT NOT NULL);";
+            dbCreator.CreateTableFromString(BuInterfaceRetriever.buCompDbConnect, createTableString, domainInterfaceCompTable.TableName);
+        }
+        #endregion
+    }
+}
